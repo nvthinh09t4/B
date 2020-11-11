@@ -16,6 +16,7 @@ namespace B.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+            _logger.LogInformation("test");
         }
 
         public IActionResult Index()
