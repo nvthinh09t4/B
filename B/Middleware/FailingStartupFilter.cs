@@ -17,11 +17,16 @@ namespace B.Middleware
 
         public Action<IApplicationBuilder> Configure(Action<IApplicationBuilder> next)
         {
-            return app =>
-            {
-                app.UseFailingMiddleware(_options);
-                next(app);
-            };
+            throw new NotImplementedException();
         }
+
+        //public Action<IApplicationBuilder> Configure(Action<IApplicationBuilder> next)
+        //{
+        //    return app =>
+        //    {
+        //        app.UseFailingMiddleware(_options);
+        //        next(app);
+        //    };
+        //}
     }
 }

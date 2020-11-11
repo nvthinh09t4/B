@@ -16,7 +16,7 @@ namespace B
     public class Program
     {
         public static readonly string Namespace = typeof(Program).Namespace;
-        public static readonly string AppName = Namespace.Substring(Namespace.LastIndexOf('.', Namespace.LastIndexOf('.') - 1) + 1);
+        public static readonly string AppName = "B";// Namespace.Substring(Namespace.LastIndexOf('.', Namespace.LastIndexOf('.') - 1) + 1);
 
         public static int Main(string[] args)
         {
@@ -80,16 +80,25 @@ namespace B
             return builder.Build();
         }
 
-        private static IWebHost BuildWebHost(IConfiguration configuration, string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .CaptureStartupErrors(false)
-                .UseFailing(options =>
-                    options.ConfigPath = "/Failing")
-                .UseStartup<Startup>()
-                .UseApplicationInsights()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseConfiguration(configuration)
-                .UseSerilog()
-                .Build();
+        private static IHost BuildWebHost(IConfiguration configuration, string[] args) =>
+            //WebHost.CreateDefaultBuilder(args)
+            //    .CaptureStartupErrors(false)
+            //    //.UseFailing(options => options.ConfigPath = "/Failing")
+            //    .UseStartup<Startup>()
+            //    .UseApplicationInsights()
+            //    .UseContentRoot(Directory.GetCurrentDirectory())
+            //    .UseConfiguration(configuration)
+            //    .UseSerilog()
+            //    .Build();
+            Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webHostBuilder => {
+                webHostBuilder
+                    .UseContentRoot(Directory.GetCurrentDirectory())
+                    .UseIISIntegration()
+                    //.UseApplicationInsights()
+                    .UseSerilog()
+                    .UseStartup<Startup>();
+            })
+            .Build();
     }
 }
