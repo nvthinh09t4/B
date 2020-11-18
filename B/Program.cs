@@ -54,6 +54,10 @@ namespace B
                 .Enrich.WithProperty("ApplicationContext", AppName)
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
+                .WriteTo.RollingFile(
+                    pathFormat: "log/logtest.txt",
+                    outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}"
+                )
                 .WriteTo.Seq(string.IsNullOrWhiteSpace(seqServerUrl) ? "http://seq" : seqServerUrl)
                 .WriteTo.Http(string.IsNullOrWhiteSpace(logstashUrl) ? "http://logstash:8080" : logstashUrl)
                 .ReadFrom.Configuration(configuration)
@@ -95,6 +99,8 @@ namespace B
                 webHostBuilder
                     .UseContentRoot(Directory.GetCurrentDirectory())
                     .UseIISIntegration()
+                    .UseConfiguration(configuration)
+                    //.UseKestrel()
                     //.UseApplicationInsights()
                     .UseSerilog()
                     .UseStartup<Startup>();
