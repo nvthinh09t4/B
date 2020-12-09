@@ -6,6 +6,7 @@ namespace Domain
 {
     public class FileStorage
     {
+        public long Id { get; set; }
         public string OriginalFileName { get; set; }
         public string FilePath { get; set; }
         public string FileName { get; set; }
