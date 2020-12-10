@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\nvthi\\source\\repos\\B\\src\\Domain\\Domain.csproj": {}
+    "D:\\Source\\B\\src\\Domain\\Domain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\nvthi\\source\\repos\\B\\src\\Domain\\Domain.csproj": {
+    "D:\\Source\\B\\src\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\nvthi\\source\\repos\\B\\src\\Domain\\Domain.csproj",
+        "projectUniqueName": "D:\\Source\\B\\src\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\Users\\nvthi\\source\\repos\\B\\src\\Domain\\Domain.csproj",
-        "packagesPath": "C:\\Users\\nvthi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\nvthi\\source\\repos\\B\\src\\Domain\\obj\\",
+        "projectPath": "D:\\Source\\B\\src\\Domain\\Domain.csproj",
+        "packagesPath": "C:\\Users\\l\\.nuget\\packages\\",
+        "outputPath": "D:\\Source\\B\\src\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\nvthi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\l\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
