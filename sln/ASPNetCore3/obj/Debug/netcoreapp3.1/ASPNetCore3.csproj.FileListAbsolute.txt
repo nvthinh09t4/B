@@ -390,3 +390,5 @@ D:\Source\B\sln\ASPNetCore3\obj\Debug\netcoreapp3.1\ASPNetCore3.csproj.CopyCompl
 D:\Source\B\sln\ASPNetCore3\obj\Debug\netcoreapp3.1\ASPNetCore3.dll
 D:\Source\B\sln\ASPNetCore3\obj\Debug\netcoreapp3.1\ASPNetCore3.pdb
 D:\Source\B\sln\ASPNetCore3\obj\Debug\netcoreapp3.1\ASPNetCore3.genruntimeconfig.cache
+D:\Source\B\sln\ASPNetCore3\obj\Debug\netcoreapp3.1\Razor\Views\File\Index.cshtml.g.cs
+D:\Source\B\sln\ASPNetCore3\obj\Debug\netcoreapp3.1\Razor\Views\File\UploadFile.cshtml.g.cs

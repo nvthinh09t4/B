@@ -1,0 +1,29 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="col-md-8 offset-2">
+    <form class="input-group" asp-controller="File" asp-action="UploadFile" method="post">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+        </div>
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="inputGroupFile01"
+                   aria-describedby="inputGroupFileAddon01">
+            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+        </div>
+    </form>
+</div>
+<div class="card col-md-10 offset-1" style="margin-top:20px;">
+    <div class="card-body">
+
+    </div>
+</div>
+@section Scripts {
+    $(document).ready(function (){
+
+    });
+}
+
