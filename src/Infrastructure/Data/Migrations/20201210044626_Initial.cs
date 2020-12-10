@@ -1,10 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
 
-namespace ASPNetCore3.Data.Migrations
+namespace Infrastructure.Data.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -52,7 +51,7 @@ namespace ASPNetCore3.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -73,7 +72,7 @@ namespace ASPNetCore3.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -153,6 +152,30 @@ namespace ASPNetCore3.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "FileStorage",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OriginalFileName = table.Column<string>(nullable: true),
+                    FilePath = table.Column<string>(nullable: true),
+                    FileName = table.Column<string>(maxLength: 256, nullable: false),
+                    IsDisable = table.Column<bool>(nullable: false),
+                    UploadAt = table.Column<DateTime>(nullable: false),
+                    ApplicationUserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FileStorage", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FileStorage_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -191,6 +214,11 @@ namespace ASPNetCore3.Data.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FileStorage_ApplicationUserId",
+                table: "FileStorage",
+                column: "ApplicationUserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -209,6 +237,9 @@ namespace ASPNetCore3.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "FileStorage");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

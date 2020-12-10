@@ -1727,6 +1727,36 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "3.1.8"
+        },
+        "compile": {
+          "bin/placeholder/Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Domain.dll": {}
+        }
+      },
+      "Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "Domain": "1.0.0",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "3.1.8",
+          "Microsoft.EntityFrameworkCore": "3.1.8",
+          "Microsoft.EntityFrameworkCore.Relational": "3.1.8",
+          "Microsoft.EntityFrameworkCore.SqlServer": "3.1.8"
+        },
+        "compile": {
+          "bin/placeholder/Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Infrastructure.dll": {}
+        }
       }
     }
   },
@@ -6137,10 +6167,22 @@
         "system.xml.xmlserializer.4.3.0.nupkg.sha512",
         "system.xml.xmlserializer.nuspec"
       ]
+    },
+    "Domain/1.0.0": {
+      "type": "project",
+      "path": "../../src/Domain/Domain.csproj",
+      "msbuildProject": "../../src/Domain/Domain.csproj"
+    },
+    "Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../../src/Infrastructure/Infrastructure.csproj",
+      "msbuildProject": "../../src/Infrastructure/Infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
+      "Domain >= 1.0.0",
+      "Infrastructure >= 1.0.0",
       "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore >= 3.1.8",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 3.1.8",
       "Microsoft.AspNetCore.Identity.UI >= 3.1.8",
@@ -6179,7 +6221,14 @@
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\Source\\B\\src\\Domain\\Domain.csproj": {
+              "projectPath": "D:\\Source\\B\\src\\Domain\\Domain.csproj"
+            },
+            "D:\\Source\\B\\src\\Infrastructure\\Infrastructure.csproj": {
+              "projectPath": "D:\\Source\\B\\src\\Infrastructure\\Infrastructure.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

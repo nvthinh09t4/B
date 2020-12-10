@@ -356,6 +356,10 @@ D:\Source\B\sln\ASPNetCore3\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.
 D:\Source\B\sln\ASPNetCore3\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 D:\Source\B\sln\ASPNetCore3\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 D:\Source\B\sln\ASPNetCore3\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+D:\Source\B\sln\ASPNetCore3\bin\Debug\netcoreapp3.1\Domain.dll
+D:\Source\B\sln\ASPNetCore3\bin\Debug\netcoreapp3.1\Infrastructure.dll
+D:\Source\B\sln\ASPNetCore3\bin\Debug\netcoreapp3.1\Domain.pdb
+D:\Source\B\sln\ASPNetCore3\bin\Debug\netcoreapp3.1\Infrastructure.pdb
 D:\Source\B\sln\ASPNetCore3\obj\Debug\netcoreapp3.1\ASPNetCore3.csprojAssemblyReference.cache
 D:\Source\B\sln\ASPNetCore3\obj\Debug\netcoreapp3.1\ASPNetCore3.AssemblyInfoInputs.cache
 D:\Source\B\sln\ASPNetCore3\obj\Debug\netcoreapp3.1\ASPNetCore3.AssemblyInfo.cs

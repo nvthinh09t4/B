@@ -386,3 +386,7 @@ D:\Source\B\sln\ASPNetCore3\obj\Release\netcoreapp3.1\ASPNetCore3.csproj.CopyCom
 D:\Source\B\sln\ASPNetCore3\obj\Release\netcoreapp3.1\ASPNetCore3.dll
 D:\Source\B\sln\ASPNetCore3\obj\Release\netcoreapp3.1\ASPNetCore3.pdb
 D:\Source\B\sln\ASPNetCore3\obj\Release\netcoreapp3.1\ASPNetCore3.genruntimeconfig.cache
+D:\Source\B\sln\ASPNetCore3\bin\Release\netcoreapp3.1\Domain.dll
+D:\Source\B\sln\ASPNetCore3\bin\Release\netcoreapp3.1\Infrastructure.dll
+D:\Source\B\sln\ASPNetCore3\bin\Release\netcoreapp3.1\Domain.pdb
+D:\Source\B\sln\ASPNetCore3\bin\Release\netcoreapp3.1\Infrastructure.pdb

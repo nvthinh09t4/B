@@ -126,6 +126,10 @@ D:\Source\B\sln\ASPNetCore3\obj\Release\netcoreapp3.1\PubTmp\Out\runtimes\win-x8
 D:\Source\B\sln\ASPNetCore3\obj\Release\netcoreapp3.1\PubTmp\Out\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 D:\Source\B\sln\ASPNetCore3\obj\Release\netcoreapp3.1\PubTmp\Out\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 D:\Source\B\sln\ASPNetCore3\obj\Release\netcoreapp3.1\PubTmp\Out\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+D:\Source\B\sln\ASPNetCore3\obj\Release\netcoreapp3.1\PubTmp\Out\Domain.dll
+D:\Source\B\sln\ASPNetCore3\obj\Release\netcoreapp3.1\PubTmp\Out\Infrastructure.dll
+D:\Source\B\sln\ASPNetCore3\obj\Release\netcoreapp3.1\PubTmp\Out\Domain.pdb
+D:\Source\B\sln\ASPNetCore3\obj\Release\netcoreapp3.1\PubTmp\Out\Infrastructure.pdb
 D:\Source\B\sln\ASPNetCore3\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\Identity\css\site.css
 D:\Source\B\sln\ASPNetCore3\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\Identity\favicon.ico
 D:\Source\B\sln\ASPNetCore3\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\Identity\js\site.js

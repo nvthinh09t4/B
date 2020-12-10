@@ -45,7 +45,7 @@
           "dependencies": {
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[5.0.1, )"
+              "version": "[3.1.8, )"
             }
           },
           "imports": [
@@ -112,19 +112,19 @@
           "dependencies": {
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[5.0.1, )"
+              "version": "[3.1.8, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[5.0.1, )"
+              "version": "[3.1.8, )"
             },
             "Microsoft.EntityFrameworkCore.Relational": {
               "target": "Package",
-              "version": "[5.0.1, )"
+              "version": "[3.1.8, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[5.0.1, )"
+              "version": "[3.1.8, )"
             }
           },
           "imports": [
