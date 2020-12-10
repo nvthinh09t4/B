@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ASPNetCore3.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,13 @@ namespace ASPNetCore3.Controllers
         public IActionResult UploadFile()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult UploadFile(UploadFileViewModel model)
+        {
+
+            return RedirectToAction("Index");
         }
     }
 }

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Apis" Version="1.49.0" />
+    <PackageReference Include="Google.Apis.Auth" Version="1.49.0" />
+    <PackageReference Include="Google.Apis.Core" Version="1.49.0" />
+    <PackageReference Include="Google.Apis.Drive.v3" Version="1.49.0.2166" />
+  </ItemGroup>
+
+</Project>

@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Source\\B\\sln\\ASPNetCore3\\ASPNetCore3.csproj": {}
+    "C:\\Users\\nvthi\\source\\repos\\B\\sln\\ASPNetCore3\\ASPNetCore3.csproj": {}
   },
   "projects": {
-    "D:\\Source\\B\\sln\\ASPNetCore3\\ASPNetCore3.csproj": {
+    "C:\\Users\\nvthi\\source\\repos\\B\\sln\\ASPNetCore3\\ASPNetCore3.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Source\\B\\sln\\ASPNetCore3\\ASPNetCore3.csproj",
+        "projectUniqueName": "C:\\Users\\nvthi\\source\\repos\\B\\sln\\ASPNetCore3\\ASPNetCore3.csproj",
         "projectName": "ASPNetCore3",
-        "projectPath": "D:\\Source\\B\\sln\\ASPNetCore3\\ASPNetCore3.csproj",
-        "packagesPath": "C:\\Users\\l\\.nuget\\packages\\",
-        "outputPath": "D:\\Source\\B\\sln\\ASPNetCore3\\obj\\",
+        "projectPath": "C:\\Users\\nvthi\\source\\repos\\B\\sln\\ASPNetCore3\\ASPNetCore3.csproj",
+        "packagesPath": "C:\\Users\\nvthi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\nvthi\\source\\repos\\B\\sln\\ASPNetCore3\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\l\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\nvthi\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -31,11 +31,11 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "D:\\Source\\B\\src\\Domain\\Domain.csproj": {
-                "projectPath": "D:\\Source\\B\\src\\Domain\\Domain.csproj"
+              "C:\\Users\\nvthi\\source\\repos\\B\\src\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\nvthi\\source\\repos\\B\\src\\Domain\\Domain.csproj"
               },
-              "D:\\Source\\B\\src\\Infrastructure\\Infrastructure.csproj": {
-                "projectPath": "D:\\Source\\B\\src\\Infrastructure\\Infrastructure.csproj"
+              "C:\\Users\\nvthi\\source\\repos\\B\\src\\Infrastructure\\Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\nvthi\\source\\repos\\B\\src\\Infrastructure\\Infrastructure.csproj"
               }
             }
           }
@@ -97,20 +97,20 @@
         }
       }
     },
-    "D:\\Source\\B\\src\\Domain\\Domain.csproj": {
+    "C:\\Users\\nvthi\\source\\repos\\B\\src\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Source\\B\\src\\Domain\\Domain.csproj",
+        "projectUniqueName": "C:\\Users\\nvthi\\source\\repos\\B\\src\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "D:\\Source\\B\\src\\Domain\\Domain.csproj",
-        "packagesPath": "C:\\Users\\l\\.nuget\\packages\\",
-        "outputPath": "D:\\Source\\B\\src\\Domain\\obj\\",
+        "projectPath": "C:\\Users\\nvthi\\source\\repos\\B\\src\\Domain\\Domain.csproj",
+        "packagesPath": "C:\\Users\\nvthi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\nvthi\\source\\repos\\B\\src\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\l\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\nvthi\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -160,20 +160,20 @@
         }
       }
     },
-    "D:\\Source\\B\\src\\Infrastructure\\Infrastructure.csproj": {
+    "C:\\Users\\nvthi\\source\\repos\\B\\src\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Source\\B\\src\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\nvthi\\source\\repos\\B\\src\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "D:\\Source\\B\\src\\Infrastructure\\Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\l\\.nuget\\packages\\",
-        "outputPath": "D:\\Source\\B\\src\\Infrastructure\\obj\\",
+        "projectPath": "C:\\Users\\nvthi\\source\\repos\\B\\src\\Infrastructure\\Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\nvthi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\nvthi\\source\\repos\\B\\src\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\l\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\nvthi\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -187,8 +187,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "D:\\Source\\B\\src\\Domain\\Domain.csproj": {
-                "projectPath": "D:\\Source\\B\\src\\Domain\\Domain.csproj"
+              "C:\\Users\\nvthi\\source\\repos\\B\\src\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\nvthi\\source\\repos\\B\\src\\Domain\\Domain.csproj"
               }
             }
           }

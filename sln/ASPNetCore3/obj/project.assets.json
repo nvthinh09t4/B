@@ -3337,12 +3337,11 @@
       ]
     },
     "System.ComponentModel.Primitives/4.3.0": {
-      "sha512": "j8GUkCpM8V4d4vhLIIoBLGey2Z5bCkMVNjEZseyAlm4n5arcsJOeI3zkUP+zvZgzsbLTYh4lYeP/ZD/gdIAPrw==",
+      "sha512": "KMVuoQ+8bMQ/Z59M3s64num5AD74X5YSqVc7ibwGkPTfmmkl2W8VuSxLRJtpw4KzQrSKUgR0BLbF0adPfcTSGQ==",
       "type": "package",
       "path": "system.componentmodel.primitives/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -3376,12 +3375,11 @@
       ]
     },
     "System.ComponentModel.TypeConverter/4.3.0": {
-      "sha512": "16pQ6P+EdhcXzPiEK4kbA953Fu0MNG2ovxTZU81/qsCd1zPRsKc3uif5NgvllCY598k6bI0KUyKW8fanlfaDQg==",
+      "sha512": "HZiP0DwTHJ+C+rdFqP47nBYUh5283kcwXIGY2zOVVhsJmVI/2tYiX2zNRdjRQRHsTox58Ydkec6h0pWSh8wAsw==",
       "type": "package",
       "path": "system.componentmodel.typeconverter/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -4788,7 +4786,7 @@
       ]
     },
     "System.Runtime.CompilerServices.Unsafe/4.5.2": {
-      "sha512": "wprSFgext8cwqymChhrBLu62LMg/1u92bU+VOwyfBimSPVFXtsNqEWC92Pf9ofzJFlk4IHmJA75EDJn1b2goAQ==",
+      "sha512": "hMkdWxksypQlFXB7JamQegDscxEAQO4FHd/lw/zlSZU9dZgAij65xjCrXer183wvoNAzJic5zzjj2oc9/dloWg==",
       "type": "package",
       "path": "system.runtime.compilerservices.unsafe/4.5.2",
       "files": [
@@ -6098,12 +6096,11 @@
       ]
     },
     "System.Xml.XmlSerializer/4.3.0": {
-      "sha512": "MYoTCP7EZ98RrANESW05J5ZwskKDoN0AuZ06ZflnowE50LTpbR5yRg3tHckTVm5j/m47stuGgCrCHWePyHS70Q==",
+      "sha512": "VShQJhOxgD/5M2Z1IWm1vMaSqlbjo1zdFf8H7Ahte6bTvSUhUko/gDpAVVhGgGgTDeue4QyNg1fu1Zz2GKSEuQ==",
       "type": "package",
       "path": "system.xml.xmlserializer/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -6192,23 +6189,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\l\\.nuget\\packages\\": {},
+    "C:\\Users\\nvthi\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Source\\B\\sln\\ASPNetCore3\\ASPNetCore3.csproj",
+      "projectUniqueName": "C:\\Users\\nvthi\\source\\repos\\B\\sln\\ASPNetCore3\\ASPNetCore3.csproj",
       "projectName": "ASPNetCore3",
-      "projectPath": "D:\\Source\\B\\sln\\ASPNetCore3\\ASPNetCore3.csproj",
-      "packagesPath": "C:\\Users\\l\\.nuget\\packages\\",
-      "outputPath": "D:\\Source\\B\\sln\\ASPNetCore3\\obj\\",
+      "projectPath": "C:\\Users\\nvthi\\source\\repos\\B\\sln\\ASPNetCore3\\ASPNetCore3.csproj",
+      "packagesPath": "C:\\Users\\nvthi\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\nvthi\\source\\repos\\B\\sln\\ASPNetCore3\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\l\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\nvthi\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6222,11 +6219,11 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "D:\\Source\\B\\src\\Domain\\Domain.csproj": {
-              "projectPath": "D:\\Source\\B\\src\\Domain\\Domain.csproj"
+            "C:\\Users\\nvthi\\source\\repos\\B\\src\\Domain\\Domain.csproj": {
+              "projectPath": "C:\\Users\\nvthi\\source\\repos\\B\\src\\Domain\\Domain.csproj"
             },
-            "D:\\Source\\B\\src\\Infrastructure\\Infrastructure.csproj": {
-              "projectPath": "D:\\Source\\B\\src\\Infrastructure\\Infrastructure.csproj"
+            "C:\\Users\\nvthi\\source\\repos\\B\\src\\Infrastructure\\Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\nvthi\\source\\repos\\B\\src\\Infrastructure\\Infrastructure.csproj"
             }
           }
         }
