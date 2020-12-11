@@ -1,9 +1,0 @@
-D:\Source\B\src\Domain\bin\Release\netcoreapp3.1\Domain.deps.json
-D:\Source\B\src\Domain\bin\Release\netcoreapp3.1\Domain.dll
-D:\Source\B\src\Domain\bin\Release\netcoreapp3.1\Domain.pdb
-D:\Source\B\src\Domain\obj\Release\netcoreapp3.1\Domain.csprojAssemblyReference.cache
-D:\Source\B\src\Domain\obj\Release\netcoreapp3.1\Domain.AssemblyInfoInputs.cache
-D:\Source\B\src\Domain\obj\Release\netcoreapp3.1\Domain.AssemblyInfo.cs
-D:\Source\B\src\Domain\obj\Release\netcoreapp3.1\Domain.csproj.CoreCompileInputs.cache
-D:\Source\B\src\Domain\obj\Release\netcoreapp3.1\Domain.dll
-D:\Source\B\src\Domain\obj\Release\netcoreapp3.1\Domain.pdb

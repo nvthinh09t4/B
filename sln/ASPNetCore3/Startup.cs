@@ -1,4 +1,6 @@
 using Domain;
+using ExternalAPIs.Contracts;
+using ExternalAPIs.GoogleDriveAPI;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,6 +36,7 @@ namespace ASPNetCore3
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+            services.AddScoped<IGoogleDriveAPI, GoogleDriveAPI>();
             services.AddRazorPages();
         }
 
