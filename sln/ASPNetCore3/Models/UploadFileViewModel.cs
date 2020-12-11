@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Domain;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,6 @@ namespace ASPNetCore3.Models
     public class UploadFileViewModel
     {
         public IFormFile FileUpload { get; set; }
+        public List<FileStorage> Files { get; set; }
     }
 }

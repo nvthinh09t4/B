@@ -1,6 +1,7 @@
 using Domain;
 using ExternalAPIs.Contracts;
 using ExternalAPIs.GoogleDriveAPI;
+using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,7 +38,10 @@ namespace ASPNetCore3
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddScoped<IGoogleDriveAPI, GoogleDriveAPI>();
+            services.AddInfrastructureServices();
+
             services.AddRazorPages();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

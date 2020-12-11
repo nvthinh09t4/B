@@ -19,9 +19,29 @@
         <input type="submit" class="btn btn-warning" style="margin-left:20px;"/>
     </form>
 </div>
-<div class="card col-md-10 offset-1" style="margin-top:20px;">
+<div class="card col-md-12" style="margin-top:20px;">
     <div class="card-body">
-
+        <table class="table table-responsive table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th style="width:5%;" class="text-center">STT</th>
+                    <th style="width:50%" class="text-center">File</th>
+                    <th style="width:30%" class="text-center">Upload At</th>
+                    <th style="width:15%" class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (FileStorage file in Model.Files)
+	            {
+		        <tr>
+                    <td class="text-center">@(Model.Files.IndexOf(file) + 1)</td>
+                    <td>@file.OriginFileName</td>
+                    <td>@file.CreatedOn.ToString("HH:mm:ss dd/MM/yyyyy")</td>
+                    <td></td>
+                </tr>
+	            }
+            </tbody>
+        </table>
     </div>
 </div>
 @section Scripts {

@@ -30,12 +30,17 @@ namespace ExternalAPIs.GoogleDriveAPI
             UserCredential credential;
             //Root Folder of project
             var CSPath = _env.ContentRootPath;
-            credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
+            using (var stream = new FileStream(Path.Combine(CSPath, "googleDriveCredential.json"), FileMode.Open, FileAccess.Read))
+            {
+                String FolderPath = _env.ContentRootPath;
+                String FilePath = Path.Combine(FolderPath, "DriveServiceCredentials.json");
+                credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
                     Scopes,
                     "user",
                     CancellationToken.None,
                     new FileDataStore(FilePath, true)).Result;
+            }
             //create Drive API service.
             DriveService service = new Google.Apis.Drive.v3.DriveService(new BaseClientService.Initializer() {
                 HttpClientInitializer = credential,
