@@ -24,6 +24,8 @@ namespace Infrastructure.Data
             return true;
         }
 
+        public DbSet<FileStorage> FileStorage { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

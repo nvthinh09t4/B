@@ -36,8 +36,15 @@
 		        <tr>
                     <td class="text-center">@(Model.Files.IndexOf(file) + 1)</td>
                     <td>@file.OriginFileName</td>
-                    <td>@file.CreatedOn.ToString("HH:mm:ss dd/MM/yyyyy")</td>
-                    <td></td>
+                    <td>@file.CreatedOn.ToString("HH:mm:ss dd/MM/yyyy")</td>
+                    <td>
+                        <a class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Sửa" >
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        <a class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Xóa">
+                            <i class="fa fa-trash "></i>
+                        </a>
+                    </td>
                 </tr>
 	            }
             </tbody>

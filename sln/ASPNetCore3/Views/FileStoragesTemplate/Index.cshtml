@@ -1,0 +1,120 @@
+﻿@model IEnumerable<Domain.FileStorage>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OriginFullPath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OriginFileName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OriginFileExtension)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StorageFullPath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StorageFileName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StorageFileExtension)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FilePath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FileName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDisable)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UploadAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedOn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastModifiedOn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastModifiedBy)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OriginFullPath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OriginFileName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OriginFileExtension)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StorageFullPath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StorageFileName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StorageFileExtension)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FilePath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FileName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDisable)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UploadAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedOn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastModifiedOn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastModifiedBy)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
