@@ -102,5 +102,27 @@ namespace ASPNetCore3.Controllers
             
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> View(long Id)
+        {
+            //var file = await _fileStorageRepository.GetById(Id);
+            //var bytes = ReadAllBytes(file.OriginFullPath);
+            //var base64 = Convert.ToBase64String(bytes);
+            return View(new PDFViewerModel {
+                //FileName = file.OriginFileName,
+                //Base64String = base64
+            });
+        }
+
+        public byte[] ReadAllBytes(string fileName)
+        {
+            byte[] buffer = null;
+            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+            {
+                buffer = new byte[fs.Length];
+                fs.Read(buffer, 0, (int)fs.Length);
+            }
+            return buffer;
+        }
     }
 }
