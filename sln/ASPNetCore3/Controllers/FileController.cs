@@ -63,7 +63,7 @@ namespace ASPNetCore3.Controllers
 
                 var currentUser = await _userManager.GetUserAsync(HttpContext.User);
                 var relativePath = Path.Combine("FileUpload", currentUser!=null ? currentUser.UserName : "", DateTime.Now.ToString("ddMMyyyy"), newFileName);
-                string storagePath = Path.Combine(_hostingEnvironment.ContentRootPath, relativePath);
+                string storagePath = Path.Combine(_hostingEnvironment.WebRootPath, relativePath);
                 if (!string.IsNullOrEmpty(storagePath))
                 {
                     var directory = Path.GetDirectoryName(storagePath);
@@ -105,10 +105,11 @@ namespace ASPNetCore3.Controllers
 
         public async Task<IActionResult> View(long Id)
         {
-            //var file = await _fileStorageRepository.GetById(Id);
+            var file = await _fileStorageRepository.GetById(Id);
             //var bytes = ReadAllBytes(file.OriginFullPath);
             //var base64 = Convert.ToBase64String(bytes);
             return View(new PDFViewerModel {
+                Path = file.StorageFullPath
                 //FileName = file.OriginFileName,
                 //Base64String = base64
             });
