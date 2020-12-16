@@ -24,6 +24,12 @@ namespace Infrastructure.Repository
             _dbContext = dbContext;
         }
 
+        public async Task<FileStorage> GetFileByAlternativeName(string name)
+        {
+            await using var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            return db.Query<FileStorage>("Select * from FileStorage where StorageFileName = @name", new { name }).FirstOrDefault();
+        }
+
         public async Task<List<FileStorage>> GetFilesByUserId(string userId)
         {
             await using var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));

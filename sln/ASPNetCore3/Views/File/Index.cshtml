@@ -35,7 +35,7 @@
 	            {
 		        <tr>
                     <td class="text-center">@(Model.Files.IndexOf(file) + 1)</td>
-                    <td><a asp-action="View" asp-route-id="@file.Id" asp-controller="File">@file.OriginFileName</a> </td>
+                    <td><a asp-action="View" asp-route-name="@file.StorageFileName" asp-controller="File">@file.OriginFileName</a> </td>
                     <td>@file.CreatedOn.ToString("HH:mm:ss dd/MM/yyyy")</td>
                     <td>
                         <a class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Sửa" >

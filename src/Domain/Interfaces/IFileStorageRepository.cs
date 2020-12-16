@@ -8,5 +8,6 @@ namespace Domain.Interfaces
     public interface IFileStorageRepository : IBaseRepository<FileStorage>
     {
         Task<List<FileStorage>> GetFilesByUserId(string userId);
+        Task<FileStorage> GetFileByAlternativeName(string name);
     }
 }

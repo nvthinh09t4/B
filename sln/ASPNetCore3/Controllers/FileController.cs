@@ -103,15 +103,28 @@ namespace ASPNetCore3.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> View(long Id)
+        public async Task<IActionResult> View(string name)
         {
-            //var file = await _fileStorageRepository.GetById(Id);
+            var file = await _fileStorageRepository.GetFileByAlternativeName(name);
             //var bytes = ReadAllBytes(file.OriginFullPath);
             //var base64 = Convert.ToBase64String(bytes);
             return View(new PDFViewerModel {
-                //FileName = file.OriginFileName,
+                FilePath = file.StorageFullPath,
+                FileName = file.OriginFileName,
                 //Base64String = base64
             });
+        }
+        //C:\inetpub\wwwroot
+        //The.Fellowship.of.the.Ring.2001.mp4
+
+        public IActionResult Video()
+        {
+            return View();
+        }
+
+        public async Task<PhysicalFileResult> StreamVideo()
+        {
+            return PhysicalFile(@"C:\inetpub\wwwroot\The.Fellowship.of.the.Ring.2001.mkv", "application/octet-stream", enableRangeProcessing: true);
         }
 
         public byte[] ReadAllBytes(string fileName)

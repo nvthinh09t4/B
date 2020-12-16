@@ -9,5 +9,6 @@ namespace ASPNetCore3.Models
     {
         public string FileName { get; set; }
         public string Base64String { get; set; }
+        public string FilePath { get; set; }
     }
 }
