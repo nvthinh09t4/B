@@ -5,6 +5,16 @@
 @{
 }
 
+<style>
+    .custom-file-label {
+        text-overflow: ellipsis;
+        width: 300px;
+        white-space: nowrap;
+        overflow: hidden !important;
+        text-overflow: ellipsis;
+    }
+</style>
+
 <div class="col-md-8 offset-2">
     <form class="input-group" asp-controller="File" asp-action="UploadFile" method="post" enctype="multipart/form-data">
         <div class="input-group-prepend">
@@ -35,7 +45,7 @@
 	            {
 		        <tr>
                     <td class="text-center">@(Model.Files.IndexOf(file) + 1)</td>
-                    <td><a asp-action="View" asp-route-name="@file.StorageFileName" asp-controller="File">@file.OriginFileName</a> </td>
+                    <td><a asp-action="View" asp-route-name="@file.StorageFileName" asp-controller="File" target="_blank">@file.OriginFileName</a> </td>
                     <td>@file.CreatedOn.ToString("HH:mm:ss dd/MM/yyyy")</td>
                     <td>
                         <a class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Sửa" >
@@ -80,6 +90,7 @@
         $('#file-upload').change(function () {
             var i = $(this).prev('label').clone();
             var file = $('#file-upload')[0].files[0].name;
+            console.log(file);
             $(this).prev('label').text(file);
         });
 
