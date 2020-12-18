@@ -6,7 +6,9 @@
     <title>@ViewData["Title"] - ASPNetCore3</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/lib/fontawesome-free-5.15.1-web/css/all.css"/>
+    <link rel="stylesheet" href="~/lib/fontawesome-free-5.15.1-web/css/all.css" />
+    <link href="~/lib/select2/css/select2.css" rel="stylesheet" />
+    <link href="~/lib/select2/css/select2-bootstrap.css" rel="stylesheet" />
 </head>
 <body>
     <header>
@@ -29,6 +31,12 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="File" asp-action="Index">File Management</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="CategoryTypes" asp-action="Index">Category Type</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index">Category</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -49,6 +57,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/lib/fontawesome-free-5.15.1-web/js/all.js"></script>
+    <script src="~/lib/select2/js/select2.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sln", "sln", "{3BAA8CBD-9C8
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASPNetCore3", "sln\ASPNetCore3\ASPNetCore3.csproj", "{F4A5AB01-C58B-439A-9ED7-80EB76FBA773}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalAPIs", "src\ExternalAPIs\ExternalAPIs.csproj", "{DAA564B9-6B22-43CD-8DC4-D41972357352}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExternalAPIs", "src\ExternalAPIs\ExternalAPIs.csproj", "{DAA564B9-6B22-43CD-8DC4-D41972357352}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

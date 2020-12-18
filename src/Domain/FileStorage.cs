@@ -28,5 +28,6 @@ namespace Domain
         public string UserId { get; set; }
         [ForeignKey("UserId")]
         public ApplicationUser User { get; set; }
+        public IList<FileCategory> Categories { get; set; }
     }
 }

@@ -50,7 +50,7 @@ namespace ASPNetCore3.Controllers
         }
 
         [HttpPost]
-        [RequestSizeLimit(100_000_000)]
+        [RequestSizeLimit(500_000_000)]
         public async Task< IActionResult> UploadFile(UploadFileViewModel model)
         {
             if (model.FileUpload != null && model.FileUpload.Length > 0)

@@ -25,12 +25,15 @@ namespace Infrastructure.Data
         }
 
         public DbSet<FileStorage> FileStorage { get; set; }
+        public DbSet<CategoryType> CategoryType { get; set; }
+        public DbSet<Category> Category { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new FileStorageConfiguration());
             builder.ApplyConfiguration(new ApplicationUserConfiguration());
+            builder.ApplyConfiguration(new FileCategoryConfiguration());
         }
     }
 }
