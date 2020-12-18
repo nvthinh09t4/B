@@ -6,27 +6,27 @@
 }
 
 <style>
-    .custom-file-label {
+    #file-upload {
         text-overflow: ellipsis;
-        width: 300px;
         white-space: nowrap;
-        overflow: hidden !important;
-        text-overflow: ellipsis;
+        overflow: hidden;
+        width:400px;
     }
 </style>
 
 <div class="col-md-8 offset-2">
     <form class="input-group" asp-controller="File" asp-action="UploadFile" method="post" enctype="multipart/form-data">
-        <div class="input-group-prepend">
+        @*<div class="input-group-prepend">
             <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-        </div>
+        </div>*@
         <div class="custom-file">
-            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+            @*<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
             <input type="file" class="custom-file-input" id="file-upload" asp-for="FileUpload" accept=".pdf"
+                   aria-describedby="inputGroupFileAddon01">*@
+             <input type="file" id="file-upload" asp-for="FileUpload" accept=".pdf"
                    aria-describedby="inputGroupFileAddon01">
-
         </div>
-        <input type="submit" class="btn btn-warning" style="margin-left:20px;" />
+        <input type="submit" class="btn btn-warning" />
     </form>
 </div>
 <div class="card col-md-12" style="margin-top:20px;">
