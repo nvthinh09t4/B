@@ -7,5 +7,6 @@ namespace Domain.Interfaces
 {
     public interface ICategoryRepository : IBaseRepository<Category>
     {
+        Task<List<Category>> GetCategoryOfUser(string userId);
     }
 }

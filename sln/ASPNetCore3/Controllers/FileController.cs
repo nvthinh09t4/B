@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,12 +21,16 @@ namespace ASPNetCore3.Controllers
         public FileController(IGoogleDriveAPI driveAPI, 
             IHostingEnvironment hostingEnvironment, 
             UserManager<ApplicationUser> userManager,
-            IFileStorageRepository fileStorageRepository)
+            IFileStorageRepository fileStorageRepository,
+            ICategoryRepository categoryRepository,
+            IFileCategoryRepository fileCategoryRepository)
         {
             _driveAPI = driveAPI;
             _hostingEnvironment = hostingEnvironment;
             _userManager = userManager;
             _fileStorageRepository = fileStorageRepository;
+            _categoryRepository = categoryRepository;
+            _fileCategoryRepository = fileCategoryRepository;
         }
 
         public IGoogleDriveAPI _driveAPI { get; }
@@ -33,11 +38,18 @@ namespace ASPNetCore3.Controllers
         private IHostingEnvironment _hostingEnvironment;
         private UserManager<ApplicationUser> _userManager;
         private IFileStorageRepository _fileStorageRepository;
+        private ICategoryRepository _categoryRepository;
+        private IFileCategoryRepository _fileCategoryRepository;
 
         public async Task<IActionResult> Index()
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             var fileStorages = await _fileStorageRepository.GetFilesByUserId(currentUser.Id);
+            var categories = await _categoryRepository.GetCategoryOfUser(currentUser.Id);
+            ViewBag.CategoryList = categories.Select(x => new SelectListItem {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            });
             var model = new UploadFileViewModel { 
                 Files = fileStorages
             };
@@ -81,7 +93,7 @@ namespace ASPNetCore3.Controllers
                 
                 if (currentUser != null)
                 {
-                    await _fileStorageRepository.CreateAsync(new FileStorage {
+                    var fileStorage = new FileStorage {
                         OriginFileExtension = fileExtension,
                         OriginFileName = fileName,
                         OriginFullPath = storagePath,
@@ -89,8 +101,20 @@ namespace ASPNetCore3.Controllers
                         StorageFileName = newFileName,
                         StorageFullPath = relativePath,
                         FileName = fileName,
-                        UserId = currentUser.Id
-                    });
+                        UserId = currentUser.Id,
+                    };
+                    foreach (var item in model.CategoriesID)
+                    {
+                        fileStorage.Categories.Add(new FileCategory {
+                            File = fileStorage,
+                            Category = await _categoryRepository.GetById(item)
+                        }) ;
+                    }
+
+                    await _fileStorageRepository.CreateAsync(fileStorage);
+                    
+
+                    //await _fileCategoryRepository.Create(fileCategories);
                 }
 
             }
@@ -136,6 +160,14 @@ namespace ASPNetCore3.Controllers
                 fs.Read(buffer, 0, (int)fs.Length);
             }
             return buffer;
+        }
+
+        public async Task<IActionResult> Delete(string filename)
+        {
+            var file = await _fileStorageRepository.GetFileByAlternativeName(filename);
+            System.IO.File.Delete(file.OriginFullPath);
+            await _fileStorageRepository.DeleteAsync(file);
+            return RedirectToAction("Index");
         }
     }
 }

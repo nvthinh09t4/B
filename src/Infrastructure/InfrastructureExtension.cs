@@ -11,6 +11,9 @@ namespace Infrastructure
     {
         public static void AddInfrastructureServices(this IServiceCollection services) {
             services.AddScoped<IFileStorageRepository, FileStorageRepository>();
+            services.AddScoped<IFileCategoryRepository, FileCategoryRepository>();
+            services.AddScoped<ICategoryTypeRepository, CategoryTypeRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
         }
     }
 }

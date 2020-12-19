@@ -23,5 +23,11 @@ namespace Infrastructure.Repository
             _configuration = configuration;
             _dbContext = dbContext;
         }
+
+        public async Task<List<Category>> GetCategoryOfUser(string userId)
+        {
+            await using var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            return db.Query<Category>("select * from Category").ToList();
+        }
     }
 }
