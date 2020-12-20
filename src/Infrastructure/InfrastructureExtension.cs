@@ -14,6 +14,7 @@ namespace Infrastructure
             services.AddScoped<IFileCategoryRepository, FileCategoryRepository>();
             services.AddScoped<ICategoryTypeRepository, CategoryTypeRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IViewConfigurationRepository, ViewConfigurationRepository>();
         }
     }
 }

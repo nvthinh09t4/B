@@ -13,5 +13,9 @@ namespace ASPNetCore3.Models
         public IFormFile FileUpload { get; set; }
         public List<long> CategoriesID { get; set; } = new List<long>();
         public List<FileStorage> Files { get; set; }
+        public long CategoryID { get; set; }
+        public int PageSize { get; set; }
+        public int PageIndex { get; set; }
+        public string Search { get; set; }
     }
 }
