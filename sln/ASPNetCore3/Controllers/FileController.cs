@@ -41,17 +41,19 @@ namespace ASPNetCore3.Controllers
         private ICategoryRepository _categoryRepository;
         private IFileCategoryRepository _fileCategoryRepository;
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(long? categoryId)
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             var fileStorages = await _fileStorageRepository.GetFilesByUserId(currentUser.Id);
+            if (categoryId.HasValue)
+                fileStorages = fileStorages.Where(x => x.Categories != null && x.Categories.Select(x => x.CategoryId).Contains(categoryId.Value));
             var categories = await _categoryRepository.GetCategoryOfUser(currentUser.Id);
             ViewBag.CategoryList = categories.Select(x => new SelectListItem {
                 Text = x.Name,
                 Value = x.Id.ToString()
             });
             var model = new UploadFileViewModel { 
-                Files = fileStorages
+                Files = fileStorages.ToList()
             };
             return View(model);
         }

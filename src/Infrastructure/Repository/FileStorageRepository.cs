@@ -37,12 +37,12 @@ namespace Infrastructure.Repository
         //    return db.Query<FileStorage>("Select * from FileStorage where UserId = @UserId", new { userId }).ToList();
         //}
 
-        public async Task<List<FileStorage>> GetFilesByUserId(string userId)
+        public async Task<IQueryable<FileStorage>> GetFilesByUserId(string userId)
         {
             var fileStorages = GetDBSet()
                 .Include(x => x.Categories)
                 .ThenInclude(x => x.Category)
-                .Where(x => x.UserId == userId).ToList();
+                .Where(x => x.UserId == userId);
             return fileStorages;
         }
     }
