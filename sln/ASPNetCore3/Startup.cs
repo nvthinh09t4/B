@@ -1,3 +1,4 @@
+using ASPNetCore3.Middleware;
 using Domain;
 using ExternalAPIs.Contracts;
 using ExternalAPIs.GoogleDriveAPI;
@@ -49,6 +50,9 @@ namespace ASPNetCore3
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext dbContext)
         {
             dbContext.Database.Migrate();
+
+            app.UseMiddleware(typeof(VisitorCounterMiddleware));
+
             if (true || env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

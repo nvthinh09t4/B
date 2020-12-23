@@ -53,7 +53,8 @@ namespace ASPNetCore3.Controllers
                 Value = x.Id.ToString()
             });
             var model = new UploadFileViewModel { 
-                Files = fileStorages.ToList()
+                Files = fileStorages.ToList(),
+                Categories = categories
             };
             return View(model);
         }

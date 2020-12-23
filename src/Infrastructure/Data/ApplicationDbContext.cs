@@ -27,6 +27,7 @@ namespace Infrastructure.Data
         public DbSet<FileStorage> FileStorage { get; set; }
         public DbSet<CategoryType> CategoryType { get; set; }
         public DbSet<Category> Category { get; set; }
+        public DbSet<Visitor> Visitor { get; set; }
         //public DbSet<ViewConfiguration> ViewConfiguration { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

@@ -11,7 +11,16 @@
 </div>
 <div class="form-group">
     <label asp-for="Display" class="control-label"></label>
-    <input asp-for="Display" class="form-control" />
+    <select asp-for="Display" class="form-control">
+        <option value='badge badge-primary' class="badge-primary"><span class="badge badge-primary">Primary</span></option>
+        <option value='badge badge-secondary' class="badge-secondary"><span class="badge badge-secondary">Secondary</span></option>
+        <option value='badge badge-success' class="badge-success"><span class="badge badge-success">Success</span></option>
+        <option value='badge badge-danger' class="badge-danger"><span class="badge badge-danger">Danger</span></option>
+        <option value='badge badge-warning' class="badge-warning"><span class="badge badge-warning">Warning</span></option>
+        <option value='badge badge-info' class="badge-info"><span class="badge badge-info">Info</span></option>
+        <option value='badge badge-light' class="badge-light"><span class="badge badge-light">Light</span></option>
+        <option value='badge badge-dark' class="badge-dark"><span class="badge badge-dark">Dark</span></option>
+    </select>
     <span asp-validation-for="Display" class="text-danger"></span>
 </div>
 <div class="form-group">

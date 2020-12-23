@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Domain.Visitor>
+
+@{
+    Layout = "_Layout2";
+    ViewData["Title"] = "Index";
+}
+
+<table class="table table-bordered table-striped" style="margin:40px;">
+    <thead>
+        <tr>
+            <th style="width:10%;">
+                @Html.DisplayNameFor(model => model.Username)
+            </th>
+            <th style="width:10%;">
+                @Html.DisplayNameFor(model => model.VisitorId)
+            </th>
+            <th style="width:10%;">
+                @Html.DisplayNameFor(model => model.IPAddress)
+            </th>
+            <th style="width:10%;">
+                @Html.DisplayNameFor(model => model.Url)
+            </th>
+            <th style="width:30%;">
+                @Html.DisplayNameFor(model => model.Cookie)
+            </th>
+            <th style="width:10%;">
+                @Html.DisplayNameFor(model => model.QueryString)
+            </th>
+            <th style="width:10%;">
+                @Html.DisplayNameFor(model => model.Query)
+            </th>
+            <th style="width:10%;">
+                @Html.DisplayNameFor(model => model.RouteValue)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+        <tr>
+            <td style="width:10%;">
+                @Html.DisplayFor(modelItem => item.Username)
+            </td>
+            <td style="width:10%;">
+                @Html.DisplayFor(modelItem => item.VisitorId)
+            </td>
+            <td style="width:10%;">
+                @Html.DisplayFor(modelItem => item.IPAddress)
+            </td>
+            <td style="width:10%;">
+                @Html.DisplayFor(modelItem => item.Url)
+            </td>
+            <td style="width:30%;word-break:break-all;">
+                @Html.DisplayFor(modelItem => item.Cookie)
+            </td>
+            <td style="width:10%;word-break:break-all;">
+                @Html.DisplayFor(modelItem => item.QueryString)
+            </td>
+            <td style="width:10%;word-break:break-all;">
+                @Html.DisplayFor(modelItem => item.Query)
+            </td>
+            <td style="width:10%;word-break:break-all;">
+                @Html.DisplayFor(modelItem => item.RouteValue)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

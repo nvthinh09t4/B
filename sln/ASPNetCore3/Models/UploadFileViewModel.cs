@@ -17,5 +17,6 @@ namespace ASPNetCore3.Models
         public int PageSize { get; set; }
         public int PageIndex { get; set; }
         public string Search { get; set; }
+        public List<Category> Categories { get; set; }
     }
 }

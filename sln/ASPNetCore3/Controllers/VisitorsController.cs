@@ -10,23 +10,22 @@ using Infrastructure.Data;
 
 namespace ASPNetCore3.Controllers
 {
-    public class CategoriesController : Controller
+    public class VisitorsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CategoriesController(ApplicationDbContext context)
+        public VisitorsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Categories
+        // GET: Visitors
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Category.Include(c => c.Type);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.Visitor.ToListAsync());
         }
 
-        // GET: Categories/Details/5
+        // GET: Visitors/Details/5
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null)
@@ -34,42 +33,39 @@ namespace ASPNetCore3.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Category
-                .Include(c => c.Type)
+            var visitor = await _context.Visitor
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
+            if (visitor == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(visitor);
         }
 
-        // GET: Categories/Create
+        // GET: Visitors/Create
         public IActionResult Create()
         {
-            ViewData["CategoryTypeId"] = new SelectList(_context.CategoryType, "Id", "Id");
             return View();
         }
 
-        // POST: Categories/Create
+        // POST: Visitors/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Note,CategoryTypeId,Id,CreatedOn,LastModifiedOn,CreatedBy,LastModifiedBy,Display")] Category category)
+        public async Task<IActionResult> Create([Bind("VisitorId,IPAddress,Url,Cookie,QueryString,Query,RouteValue,Id,CreatedOn,LastModifiedOn,CreatedBy,LastModifiedBy")] Visitor visitor)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(category);
+                _context.Add(visitor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryTypeId"] = new SelectList(_context.CategoryType, "Id", "Name", category.CategoryTypeId);
-            return View(category);
+            return View(visitor);
         }
 
-        // GET: Categories/Edit/5
+        // GET: Visitors/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -77,23 +73,22 @@ namespace ASPNetCore3.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Category.FindAsync(id);
-            if (category == null)
+            var visitor = await _context.Visitor.FindAsync(id);
+            if (visitor == null)
             {
                 return NotFound();
             }
-            ViewData["CategoryTypeId"] = new SelectList(_context.CategoryType, "Id", "Name", category.CategoryTypeId);
-            return View(category);
+            return View(visitor);
         }
 
-        // POST: Categories/Edit/5
+        // POST: Visitors/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Name,Note,CategoryTypeId,Id,CreatedOn,LastModifiedOn,CreatedBy,LastModifiedBy,Display")] Category category)
+        public async Task<IActionResult> Edit(long id, [Bind("VisitorId,IPAddress,Url,Cookie,QueryString,Query,RouteValue,Id,CreatedOn,LastModifiedOn,CreatedBy,LastModifiedBy")] Visitor visitor)
         {
-            if (id != category.Id)
+            if (id != visitor.Id)
             {
                 return NotFound();
             }
@@ -102,12 +97,12 @@ namespace ASPNetCore3.Controllers
             {
                 try
                 {
-                    _context.Update(category);
+                    _context.Update(visitor);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoryExists(category.Id))
+                    if (!VisitorExists(visitor.Id))
                     {
                         return NotFound();
                     }
@@ -118,11 +113,10 @@ namespace ASPNetCore3.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryTypeId"] = new SelectList(_context.CategoryType, "Id", "Id", category.CategoryTypeId);
-            return View(category);
+            return View(visitor);
         }
 
-        // GET: Categories/Delete/5
+        // GET: Visitors/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -130,31 +124,30 @@ namespace ASPNetCore3.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Category
-                .Include(c => c.Type)
+            var visitor = await _context.Visitor
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
+            if (visitor == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(visitor);
         }
 
-        // POST: Categories/Delete/5
+        // POST: Visitors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            var category = await _context.Category.FindAsync(id);
-            _context.Category.Remove(category);
+            var visitor = await _context.Visitor.FindAsync(id);
+            _context.Visitor.Remove(visitor);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategoryExists(long id)
+        private bool VisitorExists(long id)
         {
-            return _context.Category.Any(e => e.Id == id);
+            return _context.Visitor.Any(e => e.Id == id);
         }
     }
 }
