@@ -1,4 +1,7 @@
+using ASPNetCore3.IServices;
 using ASPNetCore3.Middleware;
+using ASPNetCore3.Models;
+using ASPNetCore3.ServiceImpl;
 using Domain;
 using ExternalAPIs.Contracts;
 using ExternalAPIs.GoogleDriveAPI;
@@ -9,6 +12,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -44,6 +48,10 @@ namespace ASPNetCore3
 
             services.AddRazorPages();
             services.AddSwaggerGen();
+
+            services.Configure<MailConfigModel>(Configuration.GetSection("MailConfig"));
+
+            services.AddTransient<IEmailSender, MailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
