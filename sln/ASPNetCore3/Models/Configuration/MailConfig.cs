@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ASPNetCore3.Models
 {
-    public class MailConfigModel
+    public class MailConfig
     {
         public string Domain { get; set; }
         public int Port { get; set; }

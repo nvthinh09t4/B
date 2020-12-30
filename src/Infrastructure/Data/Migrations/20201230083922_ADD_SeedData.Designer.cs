@@ -4,14 +4,16 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201230083922_ADD_SeedData")]
+    partial class ADD_SeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,19 +88,17 @@ namespace Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "477d94cd-137b-4a9b-8722-2d0a74d0019e",
+                            Id = "a4688614-ca06-4284-acd9-fc780c4945a6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "18cb5342-0bf0-4b73-a320-77fbc19b602d",
+                            ConcurrencyStamp = "27fe24b8-5f7b-4bf8-8d58-6ef714b5645e",
                             Email = "nvthinh09t4@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
-                            NormalizedEmail = "nvthinh09t4@gmail.com",
-                            NormalizedUserName = "nvthinh09t4@gmail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAENRDuZCoBpTrKrvPwSZJbxkiPfnORdfg9O3VJcJUZZ8aZfCKxi5CqF45BxKvR8kSRg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHObDGuQKx6tzmWofp4jZCleXeUf9AxSt+sqttsEp2vVo9a/l8y18DPe4+Vm+ZPh1g==",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "4d63126c-c725-495b-bbb5-53e83f110693",
+                            SecurityStamp = "f8336b6b-fe4a-42e0-a308-f7034f9cb8bd",
                             TwoFactorEnabled = false,
-                            UserName = "nvthinh09t4@gmail.com"
+                            UserName = "nvthinh09t4"
                         });
                 });
 

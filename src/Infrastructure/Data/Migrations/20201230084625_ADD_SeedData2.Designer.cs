@@ -4,14 +4,16 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201230084625_ADD_SeedData2")]
+    partial class ADD_SeedData2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,17 +88,15 @@ namespace Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "477d94cd-137b-4a9b-8722-2d0a74d0019e",
+                            Id = "c02f37a6-b386-4a40-9bde-04ab2948e95a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "18cb5342-0bf0-4b73-a320-77fbc19b602d",
+                            ConcurrencyStamp = "ee1380b1-c827-4384-b603-1cf4d54170c7",
                             Email = "nvthinh09t4@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
-                            NormalizedEmail = "nvthinh09t4@gmail.com",
-                            NormalizedUserName = "nvthinh09t4@gmail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAENRDuZCoBpTrKrvPwSZJbxkiPfnORdfg9O3VJcJUZZ8aZfCKxi5CqF45BxKvR8kSRg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKbmsn8NJmodJ6lrOfQkWlUFlBfxSrB1N+ycMflgcH3QMN0SNPt4Dc3K6sv/I1oKqw==",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "4d63126c-c725-495b-bbb5-53e83f110693",
+                            SecurityStamp = "c91edefd-201d-4d5b-add9-75cb4bcf2050",
                             TwoFactorEnabled = false,
                             UserName = "nvthinh09t4@gmail.com"
                         });

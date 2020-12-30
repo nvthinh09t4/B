@@ -13,9 +13,9 @@ namespace ASPNetCore3.ServiceImpl
 {
     public class MailService : IEmailSender
     {
-        private MailConfigModel _mailConfig;
+        private MailConfig _mailConfig;
 
-        public MailService(IOptions<MailConfigModel> mailConfig)
+        public MailService(IOptions<MailConfig> mailConfig)
         {
             _mailConfig = mailConfig.Value;
         }

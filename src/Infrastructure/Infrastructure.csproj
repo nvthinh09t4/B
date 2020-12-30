@@ -7,6 +7,8 @@
   <ItemGroup>
     <Compile Remove="Data\Migrations\20201218032504_TBL_Add_Category_CategoryType.cs" />
     <Compile Remove="Data\Migrations\20201218032504_TBL_Add_Category_CategoryType.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201230084526_ADD_SeedData2.cs" />
+    <Compile Remove="Data\Migrations\20201230084526_ADD_SeedData2.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

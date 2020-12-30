@@ -1,6 +1,7 @@
 using ASPNetCore3.IServices;
 using ASPNetCore3.Middleware;
 using ASPNetCore3.Models;
+using ASPNetCore3.Models.Configuration;
 using ASPNetCore3.ServiceImpl;
 using Domain;
 using ExternalAPIs.Contracts;
@@ -41,6 +42,21 @@ namespace ASPNetCore3
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            var authConfig = Configuration.GetSection("ExternalLogins").Get<List<ExternalLogin>>();
+
+            services.AddAuthentication()
+                .AddGoogle(options => {
+                    var googleAuth = authConfig.FirstOrDefault(x => x.Provider.ToLower() == "google");
+                    options.ClientId = googleAuth.ClientID;
+                    options.ClientSecret = googleAuth.ClientSecret;
+                })
+                .AddFacebook(options => {
+                    var googleAuth = authConfig.FirstOrDefault(x => x.Provider.ToLower() == "facebook");
+                    options.ClientId = googleAuth.ClientID;
+                    options.ClientSecret = googleAuth.ClientSecret;
+                });
+
             services.AddControllersWithViews();
 
             services.AddScoped<IGoogleDriveAPI, GoogleDriveAPI>();
@@ -49,7 +65,8 @@ namespace ASPNetCore3
             services.AddRazorPages();
             services.AddSwaggerGen();
 
-            services.Configure<MailConfigModel>(Configuration.GetSection("MailConfig"));
+            services.Configure<MailConfig>(Configuration.GetSection("MailConfig"));
+            services.Configure<ExternalLogin>(Configuration.GetSection("ExternalLogins"));
 
             services.AddTransient<IEmailSender, MailService>();
         }
