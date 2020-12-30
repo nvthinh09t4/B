@@ -34,6 +34,7 @@ namespace Infrastructure.Data
         {
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new FileStorageConfiguration());
+            builder.ApplyConfiguration(new RoleConfiguration());
             builder.ApplyConfiguration(new ApplicationUserConfiguration());
             builder.ApplyConfiguration(new FileCategoryConfiguration());
         }

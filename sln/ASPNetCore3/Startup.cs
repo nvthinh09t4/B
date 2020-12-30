@@ -41,6 +41,7 @@ namespace ASPNetCore3
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             var authConfig = Configuration.GetSection("ExternalLogins").Get<List<ExternalLogin>>();

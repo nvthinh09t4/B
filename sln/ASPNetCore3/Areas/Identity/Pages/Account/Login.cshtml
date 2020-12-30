@@ -4,7 +4,11 @@
 @{
     ViewData["Title"] = "Log in";
 }
-
+<style>
+[value='Google'] {
+    background: red !important;
+}
+</style>
 <h1>@ViewData["Title"]</h1>
 <div class="row">
     <div class="col-md-4">
@@ -66,7 +70,10 @@
                             <p>
                                 @foreach (var provider in Model.ExternalLogins)
                                 {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                    var iconName = "fa-" + provider.Name.ToLower();
+                                <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">
+                                    <i class="fab @iconName" aria-hidden="true"></i>
+                                </button>
                                 }
                             </p>
                         </div>

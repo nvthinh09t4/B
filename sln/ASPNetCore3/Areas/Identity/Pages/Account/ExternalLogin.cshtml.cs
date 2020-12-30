@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using ASPNetCore3.Helper;
 
 namespace ASPNetCore3.Areas.Identity.Pages.Account
 {
@@ -99,11 +100,12 @@ namespace ASPNetCore3.Areas.Identity.Pages.Account
                         NormalizedEmail = email.Value.ToLower(),
                         
                      };
-                    var resultCreateUser = await _userManager.CreateAsync(newUser, email.Value);
+                    var resultCreateUser = await _userManager.CreateAsync(newUser, StringHelper.GenerateRandomPassword());
                     if (resultCreateUser.Succeeded)
                     {
                         await _userManager.AddClaimsAsync(newUser, info.Principal.Claims);
                     }
+                    user = newUser;
                 }
                 await _signInManager.SignInAsync(user, isPersistent: false);
                 return LocalRedirect(returnUrl);

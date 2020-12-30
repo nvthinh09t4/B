@@ -1,0 +1,8 @@
+﻿@inject RoleManager<IdentityRole> roleManager
+@{
+    ViewData["Title"] = "Index";
+    var roles = roleManager.Roles.ToList();
+    var ttt = 11;
+}
+
+<h1>Role</h1>
