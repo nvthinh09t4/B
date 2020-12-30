@@ -82,32 +82,61 @@ namespace ASPNetCore3.Areas.Identity.Pages.Account
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
-            var test = info.Principal.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email);
-            // Sign in the user with this external login provider if the user already has a login.
-            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor : true);
-            if (result.Succeeded)
+            var email = info.Principal.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email);
+            if (!string.IsNullOrEmpty(email.Value))
             {
-                _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
+                var user = await _userManager.FindByEmailAsync(email.Value);
+                if (user == null)
+                {
+                    IPasswordHasher<ApplicationUser> passwordHasher = new PasswordHasher<ApplicationUser>();
+                    var newUser = new ApplicationUser {
+                        Id = Guid.NewGuid().ToString(),
+                        UserName = email.Value,
+                        NormalizedUserName = email.Value.ToLower(),
+                        EmailConfirmed = true,
+                        PhoneNumberConfirmed = true,
+                        Email = email.Value,
+                        NormalizedEmail = email.Value.ToLower(),
+                        
+                     };
+                    var resultCreateUser = await _userManager.CreateAsync(newUser, email.Value);
+                    if (resultCreateUser.Succeeded)
+                    {
+                        await _userManager.AddClaimsAsync(newUser, info.Principal.Claims);
+                    }
+                }
+                await _signInManager.SignInAsync(user, isPersistent: false);
                 return LocalRedirect(returnUrl);
-            }
-            if (result.IsLockedOut)
-            {
-                return RedirectToPage("./Lockout");
             }
             else
             {
-                // If the user does not have an account, then ask the user to create an account.
-                ReturnUrl = returnUrl;
-                ProviderDisplayName = info.ProviderDisplayName;
-                if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
+
+                // Sign in the user with this external login provider if the user already has a login.
+                var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+                if (result.Succeeded)
                 {
-                    Input = new InputModel
-                    {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
-                    };
+                    _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
+                    return LocalRedirect(returnUrl);
                 }
-                return Page();
+                if (result.IsLockedOut)
+                {
+                    return RedirectToPage("./Lockout");
+                }
+                else
+                {
+                    // If the user does not have an account, then ask the user to create an account.
+                    ReturnUrl = returnUrl;
+                    ProviderDisplayName = info.ProviderDisplayName;
+                    if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
+                    {
+                        Input = new InputModel {
+                            Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                        };
+                    }
+                    return Page();
+                }
             }
+
         }
 
         public async Task<IActionResult> OnPostConfirmationAsync(string returnUrl = null)
