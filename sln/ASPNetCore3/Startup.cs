@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -61,21 +62,27 @@ namespace ASPNetCore3
             services.AddControllersWithViews();
 
             services.AddScoped<IGoogleDriveAPI, GoogleDriveAPI>();
+
             services.AddInfrastructureServices();
 
             services.AddRazorPages();
             services.AddSwaggerGen();
 
+            services.AddTransient<SeedData>();
+
             services.Configure<MailConfig>(Configuration.GetSection("MailConfig"));
             services.Configure<ExternalLogin>(Configuration.GetSection("ExternalLogins"));
 
             services.AddTransient<IEmailSender, MailService>();
+
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext dbContext)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext dbContext, SeedData seeder)
         {
             dbContext.Database.Migrate();
+            
 
             app.UseMiddleware(typeof(VisitorCounterMiddleware));
 
@@ -104,6 +111,8 @@ namespace ASPNetCore3
             app.UseAuthentication();
             app.UseAuthorization();
 
+            seeder.Initialize();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -111,6 +120,60 @@ namespace ASPNetCore3
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+        }
+    }
+
+    public class SeedData
+    {
+        private ApplicationDbContext _dbContext;
+        private UserManager<ApplicationUser> _userManager;
+        private RoleManager<IdentityRole> _roleManager;
+
+        public SeedData(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            _dbContext = dbContext;
+            _userManager = userManager;
+            _roleManager = roleManager;
+        }
+        public async void Initialize()
+        {
+            var context = _dbContext;
+            var roles = new string[] { "Boss", "SuperAdmin", "Admin", "Moderator", "NormalUser"};
+
+            var roleStore = new RoleStore<IdentityRole>(context);
+
+            foreach (string role in roles)
+            {
+                if (!context.Roles.Any(r => r.Name == role))
+                {
+                    await roleStore.CreateAsync(new IdentityRole(role));
+                }
+            }
+
+            var user = new ApplicationUser {
+                Email = "nvthinh09t4@gmail.com",
+                NormalizedEmail = "nvthinh09t4@gmail.com",
+                UserName = "Owner",
+                NormalizedUserName = "OWNER",
+                PhoneNumber = "+84945318379",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                SecurityStamp = Guid.NewGuid().ToString("D")
+            };
+
+            var password = new PasswordHasher<ApplicationUser>();
+            user.PasswordHash = password.HashPassword(user, "Protoss123@"); ;
+
+            var userStore = new UserStore<ApplicationUser>(context);
+            await userStore.CreateAsync(user);
+            await userStore.AddToRoleAsync(user, "boss");
+
+            //await  _userManager.CreateAsync(user);
+
+            //await _userManager.AddToRolesAsync(user, roles);
+
+            await context.SaveChangesAsync();
         }
     }
 }
