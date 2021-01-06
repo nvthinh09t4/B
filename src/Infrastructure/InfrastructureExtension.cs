@@ -15,6 +15,9 @@ namespace Infrastructure
             services.AddScoped<ICategoryTypeRepository, CategoryTypeRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IVisitorRepository, VisitorRepository>();
+            services.AddScoped<INewspaperRepository, NewspaperRepository>();
+            services.AddScoped<INewspaperSubCategoryRepository, NewspaperSubCategoryRepository>();
+            services.AddScoped<INewspaperUserSubcribeRepository, NewspaperUserSubcribeRepository>();
         }
     }
 }

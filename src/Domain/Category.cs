@@ -15,7 +15,8 @@ namespace Domain
         [ForeignKey("CategoryTypeId")]
         public CategoryType Type { get; set; }
         public string Display { get; set; }
-        public IList<FileCategory> Files { get; set; }
+        public virtual List<FileCategory> Files { get; set; }
+        public virtual List<NewspaperSubCategory> Newspapers { get; set; }
         public EStatus Status { get; set; }
     }
 }

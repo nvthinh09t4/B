@@ -28,6 +28,9 @@ namespace Infrastructure.Data
         public DbSet<CategoryType> CategoryType { get; set; }
         public DbSet<Category> Category { get; set; }
         public DbSet<Visitor> Visitor { get; set; }
+        public DbSet<Newspaper> Newspaper { get; set; }
+        public DbSet<NewspaperSubCategory> NewspaperSubCategories { get; set; }
+        public DbSet<NewspaperUserSubcribe> NewspaperUserSubcribes { get; set; }
         //public DbSet<ViewConfiguration> ViewConfiguration { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -37,6 +40,8 @@ namespace Infrastructure.Data
             builder.ApplyConfiguration(new RoleConfiguration());
             builder.ApplyConfiguration(new ApplicationUserConfiguration());
             builder.ApplyConfiguration(new FileCategoryConfiguration());
+            builder.ApplyConfiguration(new NewspaperSubCategoryConfiguration());
+            builder.ApplyConfiguration(new NewspaperUserSubcribeConfiguration());
         }
     }
 }

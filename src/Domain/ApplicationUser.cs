@@ -8,5 +8,6 @@ namespace Domain
     public class ApplicationUser : IdentityUser
     {
         public ICollection<FileStorage> Files { get; set; } = new List<FileStorage>();
+        public virtual List<NewspaperUserSubcribe> NewspaperSubscribes { get; set; }
     }
 }
