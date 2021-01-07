@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ASPNetCore3.Models.DTO
 {
-    public class CategoryDto : BaseDto
+    public class UserDto : BaseDto
     {
     }
 }

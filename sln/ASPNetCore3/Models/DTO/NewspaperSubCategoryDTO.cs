@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace ASPNetCore3.Models.DTO
 {
-    public class NewspaperSubCategoryDTO
+    public class NewspaperSubCategoryDto : BaseDto
     {
         public long NewspaperId { get; set; }
-        public Newspaper Newspaper { get; set; }
+        public NewspaperDto Newspaper { get; set; }
         public long CategoryId { get; set; }
-        public Category Category { get; set; }
+        public CategoryDto Category { get; set; }
 
-        public virtual List<NewspaperSubCategoryUserSubcribe> UserSubcribes { get; set; }
+        public virtual List<NewspaperSubCategoryUserSubcribeDto> UserSubcribes { get; set; }
     }
 }

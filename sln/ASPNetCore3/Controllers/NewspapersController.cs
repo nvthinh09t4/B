@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Domain;
 using Infrastructure.Data;
+using ASPNetCore3.Models;
 
 namespace ASPNetCore3.Controllers
 {
@@ -20,7 +21,7 @@ namespace ASPNetCore3.Controllers
         }
 
         // GET: Newspapers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(NewspaperIndexViewModel model)
         {
             return View(await _context.Newspaper.ToListAsync());
         }

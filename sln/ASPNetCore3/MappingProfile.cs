@@ -12,7 +12,9 @@ namespace ASPNetCore3
     {
         public MappingProfile()
         {
-            CreateMap<Newspaper, NewspaperDTO>().ReverseMap();
+            CreateMap<Newspaper, NewspaperDto>();
+            CreateMap<NewspaperDto, Newspaper>()
+                .ForMember(i => i.SubCategories, o => o.Ignore());
         }
     }
 }
