@@ -4,14 +4,16 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210107044510_add-newspaper")]
+    partial class addnewspaper
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -253,13 +255,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("LogoBase64")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -303,13 +299,32 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Domain.NewspaperSubCategory", b =>
                 {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<long>("CategoryId")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("LastModifiedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<long>("NewspaperId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("CategoryId", "NewspaperId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("NewspaperId");
 
@@ -335,10 +350,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("NewspaperSubCategoryCategoryId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("NewspaperSubCategoryNewspaperId")
+                    b.Property<long>("NewspaperSubCategoryId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("UserId")
@@ -346,9 +358,9 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("NewspaperSubCategoryId");
 
-                    b.HasIndex("NewspaperSubCategoryCategoryId", "NewspaperSubCategoryNewspaperId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("NewspaperSubCategoryUserSubcribes");
                 });
@@ -634,13 +646,15 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Domain.NewspaperSubCategoryUserSubcribe", b =>
                 {
+                    b.HasOne("Domain.NewspaperSubCategory", "NewspaperSubCategory")
+                        .WithMany("UserSubcribes")
+                        .HasForeignKey("NewspaperSubCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Domain.ApplicationUser", "User")
                         .WithMany("NewspaperSubCategorySubscribes")
                         .HasForeignKey("UserId");
-
-                    b.HasOne("Domain.NewspaperSubCategory", "NewspaperSubCategory")
-                        .WithMany("UserSubcribes")
-                        .HasForeignKey("NewspaperSubCategoryCategoryId", "NewspaperSubCategoryNewspaperId");
                 });
 
             modelBuilder.Entity("Domain.NewspaperUserSubcribe", b =>

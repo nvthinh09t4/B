@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace ASPNetCore3
 {
@@ -60,6 +61,8 @@ namespace ASPNetCore3
                 });
 
             services.AddControllersWithViews();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddScoped<IGoogleDriveAPI, GoogleDriveAPI>();
 

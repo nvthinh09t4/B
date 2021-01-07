@@ -6,14 +6,14 @@ using System.Text;
 
 namespace Domain
 {
-    //newspaper follow by user
-    public class NewspaperUserSubcribe : BaseEntity
+    //category of all newspaper follow by user
+    public class NewspaperCategoryUserSubcribe : BaseEntity
     {
         public string UserId { get; set; }
         [ForeignKey("UserId")]
         public ApplicationUser User { get; set; }
-        public long NewspaperId { get; set; }
-        [ForeignKey("NewspaperId")]
-        public virtual Newspaper Newspaper { get; set; }
+        public long CategoryId { get; set; }
+        [ForeignKey("CategoryId")]
+        public virtual Category Category { get; set; }
     }
 }

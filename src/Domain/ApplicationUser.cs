@@ -9,5 +9,7 @@ namespace Domain
     {
         public ICollection<FileStorage> Files { get; set; } = new List<FileStorage>();
         public virtual List<NewspaperUserSubcribe> NewspaperSubscribes { get; set; }
+        public virtual List<NewspaperSubCategoryUserSubcribe> NewspaperSubCategorySubscribes { get; set; }
+        public virtual List<NewspaperCategoryUserSubcribe> NewspaperCategoryUserSubcribes { get; set; }
     }
 }

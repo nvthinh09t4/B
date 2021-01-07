@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Domain
+namespace ASPNetCore3.Models.DTO
 {
-    public class NewspaperSubCategory
+    public class NewspaperSubCategoryDTO
     {
         public long NewspaperId { get; set; }
-        [ForeignKey("NewspaperId")]
         public Newspaper Newspaper { get; set; }
         public long CategoryId { get; set; }
-        [ForeignKey("CategoryId")]
         public Category Category { get; set; }
 
         public virtual List<NewspaperSubCategoryUserSubcribe> UserSubcribes { get; set; }
