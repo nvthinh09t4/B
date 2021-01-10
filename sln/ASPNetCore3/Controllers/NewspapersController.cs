@@ -21,10 +21,10 @@ namespace ASPNetCore3.Controllers
         }
 
         // GET: Newspapers
-        public async Task<IActionResult> Index(NewspaperIndexViewModel model)
-        {
-            return View(await _context.Newspaper.ToListAsync());
-        }
+        //public async Task<IActionResult> Index(NewspaperIndexViewModel model)
+        //{
+        //    return View(await _context.Newspaper.ToListAsync());
+        //}
 
         // GET: Newspapers/Details/5
         public async Task<IActionResult> Details(long? id)
