@@ -4,14 +4,16 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210110174331_add-stockindex")]
+    partial class addstockindex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -394,14 +396,14 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("BVPS")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("BVPS")
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("Beta")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<float>("Beta")
+                        .HasColumnType("real");
 
-                    b.Property<string>("CaoNhat52Tuan")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<float>("CaoNhat52Tuan")
+                        .HasColumnType("real");
 
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
@@ -412,32 +414,32 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("EPS")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("EPS")
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("FreeFloat")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<float>("FreeFloat")
+                        .HasColumnType("real");
 
-                    b.Property<string>("GiaCaoNhat")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<float>("GiaCaoNhat")
+                        .HasColumnType("real");
 
-                    b.Property<string>("GiaMoCua")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<float>("GiaMoCua")
+                        .HasColumnType("real");
 
-                    b.Property<string>("GiaSan")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<float>("GiaSan")
+                        .HasColumnType("real");
 
-                    b.Property<string>("GiaThapNhat")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<float>("GiaThapNhat")
+                        .HasColumnType("real");
 
-                    b.Property<string>("GiaTran")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<float>("GiaTran")
+                        .HasColumnType("real");
 
-                    b.Property<string>("KLGDTrongPhien")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("KLGDTrongPhien")
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("KLGDTrungBinh10Phien")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("KLGDTrungBinh10Phien")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
@@ -460,8 +462,8 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("SoCPLuuHanh")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ThapNhat52Tuan")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<float>("ThapNhat52Tuan")
+                        .HasColumnType("real");
 
                     b.Property<string>("TySuatCoTuc")
                         .HasColumnType("nvarchar(max)");

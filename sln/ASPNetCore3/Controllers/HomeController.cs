@@ -20,7 +20,7 @@ namespace ASPNetCore3.Controllers
 
         public IActionResult Index()
         {
-            return Redirect("Stock/Index");
+            //return Redirect("Stock/Index");
             return View();
         }
 

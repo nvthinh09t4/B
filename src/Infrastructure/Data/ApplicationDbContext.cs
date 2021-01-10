@@ -33,6 +33,7 @@ namespace Infrastructure.Data
         public DbSet<NewspaperUserSubcribe> NewspaperUserSubcribes { get; set; }
         public DbSet<NewspaperCategoryUserSubcribe> NewspaperCategoryUserSubcribes { get; set; }
         public DbSet<NewspaperSubCategoryUserSubcribe> NewspaperSubCategoryUserSubcribes { get; set; }
+        public DbSet<StockIndex> StockIndex { get; set; }
         //public DbSet<ViewConfiguration> ViewConfiguration { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

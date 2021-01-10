@@ -18,6 +18,7 @@ namespace Infrastructure
             services.AddScoped<INewspaperRepository, NewspaperRepository>();
             services.AddScoped<INewspaperSubCategoryRepository, NewspaperSubCategoryRepository>();
             services.AddScoped<INewspaperUserSubcribeRepository, NewspaperUserSubcribeRepository>();
+            services.AddScoped<IStockIndexRepository, StockIndexRepository>();
         }
     }
 }
