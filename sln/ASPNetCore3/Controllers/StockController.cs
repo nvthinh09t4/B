@@ -1,4 +1,5 @@
-﻿using ASPNetCore3.Models;
+﻿using ASPNetCore3.IServices;
+using ASPNetCore3.Models;
 using Crawler;
 using HtmlAgilityPack;
 using Microsoft.AspNetCore.Mvc;
@@ -13,15 +14,16 @@ namespace ASPNetCore3.Controllers
 {
     public class StockController : Controller
     {
-        private IStockCrawler _stockCrawler;
+        private IStockCrawlerService _stockCrawler;
 
-        public StockController(IStockCrawler stockCrawler) 
+        public StockController(IStockCrawlerService stockCrawler) 
         {
             _stockCrawler = stockCrawler;
         }
         public IActionResult Index()
         {
-            _stockCrawler.CrawlerStockInformation();
+            _stockCrawler.CrawlerVNDirectStockInformation();
+            //_stockCrawler.CrawlerStockInformation();
             //var test = StockCrawler.GetStockList();
             //var web = new HtmlWeb();
             //var webDocument = web.Load("http://stockboard.sbsc.com.vn/apps/StockBoard/SBSC/HOSE.html");

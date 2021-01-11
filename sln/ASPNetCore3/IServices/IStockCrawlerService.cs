@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace ASPNetCore3.IServices
 {
-    public interface IWebCrawler
+    public interface IStockCrawlerService : IWebCrawlerService
     {
+        void CrawlerVNDirectStockInformation();
     }
 }

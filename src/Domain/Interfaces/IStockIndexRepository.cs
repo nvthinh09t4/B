@@ -7,5 +7,6 @@ namespace Domain.Interfaces
 {
     public interface IStockIndexRepository : IBaseRepository<StockIndex>
     {
+        StockIndex GetStockInformationByCodeAndDate(string code, string date);
     }
 }

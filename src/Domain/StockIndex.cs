@@ -7,6 +7,7 @@ namespace Domain
 {
     public class StockIndex : BaseEntity
     {
+        public string InforDate { get; set; } = DateTime.Now.ToString("dd/MM/yyyy");
         public string Code { get; set; }
         public string KLGDTrongPhien { get; set; }
         public string GiaTran { get; set; }

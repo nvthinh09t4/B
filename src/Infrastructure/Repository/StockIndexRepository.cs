@@ -23,5 +23,10 @@ namespace Infrastructure.Repository
             _configuration = configuration;
             _dbContext = dbContext;
         }
+
+        public StockIndex GetStockInformationByCodeAndDate(string code, string date)
+        {
+            return GetDBSet().FirstOrDefault(x => x.Code == code && x.InforDate == date);
+        }
     }
 }

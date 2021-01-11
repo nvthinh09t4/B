@@ -73,7 +73,7 @@ namespace ASPNetCore3
             services.AddCrawlerInfrastructureServices();
 
             services.AddRazorPages();
-            //services.AddSwaggerGen();
+            services.AddSwaggerGen();
 
             services.AddTransient<SeedData>();
 
@@ -81,26 +81,27 @@ namespace ASPNetCore3
             services.Configure<ExternalLogin>(Configuration.GetSection("ExternalLogins"));
 
             services.AddTransient<IEmailSender, MailService>();
+            services.AddTransient<IStockCrawlerService, StockCrawlerService>();
 
-            // Add Hangfire services.
-            //services.AddHangfire(configuration => configuration
-            //    .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
-            //    .UseSimpleAssemblyNameTypeSerializer()
-            //    .UseRecommendedSerializerSettings()
-            //    .UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection"), new SqlServerStorageOptions {
-            //        CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
-            //        SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
-            //        QueuePollInterval = TimeSpan.Zero,
-            //        UseRecommendedIsolationLevel = true,
-            //        DisableGlobalLocks = true
-            //    }));
+            //Add Hangfire services.
+            services.AddHangfire(configuration => configuration
+               .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+               .UseSimpleAssemblyNameTypeSerializer()
+               .UseRecommendedSerializerSettings()
+               .UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection"), new SqlServerStorageOptions {
+                   CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+                   SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+                   QueuePollInterval = TimeSpan.Zero,
+                   UseRecommendedIsolationLevel = true,
+                   DisableGlobalLocks = true
+               }));
 
-            //// Add the processing server as IHostedService
-            //services.AddHangfireServer();
+            // Add the processing server as IHostedService
+            services.AddHangfireServer();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IStockCrawler stockCrawler, IWebHostEnvironment env, ApplicationDbContext dbContext, SeedData seeder)
+        public void Configure(IApplicationBuilder app, IStockCrawlerService stockCrawler, IWebHostEnvironment env, ApplicationDbContext dbContext, SeedData seeder)
         {
             app.UseMiddleware(typeof(VisitorCounterMiddleware));
 
@@ -115,14 +116,14 @@ namespace ASPNetCore3
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            //app.UseSwagger();
-            //app.UseSwaggerUI(c =>
-            //{
-            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            //});
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
 
-            //app.UseHangfireDashboard();
-            //RecurringJob.AddOrUpdate(() => stockCrawler.CrawlerStockInformation(), "0 5 * * *"); 
+            app.UseHangfireDashboard("/thf");
+            RecurringJob.AddOrUpdate(() => stockCrawler.CrawlerVNDirectStockInformation(), "0 5 * * *");
 
 
             app.UseHttpsRedirection();
@@ -141,7 +142,7 @@ namespace ASPNetCore3
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
-                //endpoints.MapHangfireDashboard();
+                endpoints.MapHangfireDashboard();
             });
 
         }

@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace ASPNetCore3.IServices
 {
-    public interface IStockService
+    public interface IWebCrawlerService
     {
+       
     }
 }
