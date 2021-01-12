@@ -9,25 +9,25 @@ namespace Domain
     {
         public string InforDate { get; set; } = DateTime.Now.ToString("dd/MM/yyyy");
         public string Code { get; set; }
-        public string KLGDTrongPhien { get; set; }
-        public string GiaTran { get; set; }
-        public string GiaSan { get; set; }
-        public string GiaMoCua { get; set; }
-        public string GiaCaoNhat { get; set; }
-        public string GiaThapNhat { get; set; }
+        public long KLGDTrongPhien { get; set; }
+        public float GiaTran { get; set; }
+        public float GiaSan { get; set; }
+        public float GiaMoCua { get; set; }
+        public float GiaCaoNhat { get; set; }
+        public float GiaThapNhat { get; set; }
         public string VonHoaThiTruong { get; set; }
-        public string KLGDTrungBinh10Phien { get; set; }
-        public string CaoNhat52Tuan { get; set; }
-        public string ThapNhat52Tuan { get; set; }
+        public long KLGDTrungBinh10Phien { get; set; }
+        public float CaoNhat52Tuan { get; set; }
+        public float ThapNhat52Tuan { get; set; }
         public string SoCPLuuHanh { get; set; }
         public string FreeFloat { get; set; }
-        public string Beta { get; set; }
-        public string PE { get; set; }
-        public string PB { get; set; }
-        public string ROAE { get; set; }
-        public string ROAA { get; set; }
+        public float Beta { get; set; }
+        public float PE { get; set; }
+        public float PB { get; set; }
+        public float ROAE { get; set; }
+        public float ROAA { get; set; }
         public string TySuatCoTuc { get; set; }
-        public string EPS { get; set; }
-        public string BVPS { get; set; }
+        public float EPS { get; set; }
+        public float BVPS { get; set; }
     }
 }

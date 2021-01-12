@@ -123,7 +123,7 @@ namespace ASPNetCore3
             });
 
             app.UseHangfireDashboard("/thf");
-            RecurringJob.AddOrUpdate(() => stockCrawler.CrawlerVNDirectStockInformation(), "0 5 * * *");
+            //RecurringJob.AddOrUpdate(() => stockCrawler.CrawlerVNDirectStockInformation(), "0 5 * * *");
 
 
             app.UseHttpsRedirection();

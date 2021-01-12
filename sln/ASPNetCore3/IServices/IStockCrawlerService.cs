@@ -8,5 +8,7 @@ namespace ASPNetCore3.IServices
     public interface IStockCrawlerService : IWebCrawlerService
     {
         void CrawlerVNDirectStockInformation();
+        Task CrawlerStockGroupInformation();
+        Task CrawlerStockInformation();
     }
 }

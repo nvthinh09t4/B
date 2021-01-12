@@ -4,14 +4,16 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210112133546_ChangeDateType")]
+    partial class ChangeDateType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -387,69 +389,6 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("NewspaperUserSubcribes");
                 });
 
-            modelBuilder.Entity("Domain.StockGroup", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<float>("AvgBeta")
-                        .HasColumnType("real");
-
-                    b.Property<float>("AvgEPS")
-                        .HasColumnType("real");
-
-                    b.Property<float>("AvgPB")
-                        .HasColumnType("real");
-
-                    b.Property<float>("AvgPE")
-                        .HasColumnType("real");
-
-                    b.Property<float>("AvgPrice")
-                        .HasColumnType("real");
-
-                    b.Property<float>("AvgROA")
-                        .HasColumnType("real");
-
-                    b.Property<float>("AvgROE")
-                        .HasColumnType("real");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("ComparePrice")
-                        .HasColumnType("real");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("LastModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("NNSoHuu")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("TongKL")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("VonTT")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StockGroup");
-                });
-
             modelBuilder.Entity("Domain.StockIndex", b =>
                 {
                     b.Property<long>("Id")
@@ -538,72 +477,6 @@ namespace Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("StockIndex");
-                });
-
-            modelBuilder.Entity("Domain.StockMainInformation", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<float>("AvgBeta")
-                        .HasColumnType("real");
-
-                    b.Property<float>("AvgEPS")
-                        .HasColumnType("real");
-
-                    b.Property<float>("AvgPB")
-                        .HasColumnType("real");
-
-                    b.Property<float>("AvgPE")
-                        .HasColumnType("real");
-
-                    b.Property<float>("AvgPrice")
-                        .HasColumnType("real");
-
-                    b.Property<float>("AvgROA")
-                        .HasColumnType("real");
-
-                    b.Property<float>("AvgROE")
-                        .HasColumnType("real");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("ComparePrice")
-                        .HasColumnType("real");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Group")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("InforDate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("LastModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("NNSoHuu")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("TongKL")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("VonTT")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StockMainInformation");
                 });
 
             modelBuilder.Entity("Domain.Visitor", b =>
