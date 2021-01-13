@@ -41,9 +41,22 @@ namespace Infrastructure.Repository
 
         public async Task<T> UpdateAsync(T entity)
         {
-            GetDBSet().Update(entity);
+            var entry = _dbContext.Set<T>().First(e => e.Id == entity.Id);
+            _dbContext.Entry(entry).CurrentValues.SetValues(entity);
             await _dbContext.SaveChangesAsync();
+
+            //GetDBSet().Update(entity);
+            //await _dbContext.SaveChangesAsync();
             return entity;
+        }
+
+        public async Task<List<T>> UpdateRange(List<T> entities)
+        {
+            //foreach (var item in collection)
+            //{
+
+            //}
+            return entities;
         }
     }
 }

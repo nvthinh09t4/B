@@ -2,6 +2,7 @@
 using Domain;
 using Domain.Interfaces;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
@@ -138,7 +139,7 @@ namespace ASPNetCore3.ServiceImpl
 
         public async Task CrawlerStockInformation()
         {
-            var stockGroups = _stockGroupRepository.GetDBSet();
+            var stockGroups = _stockGroupRepository.GetDBSet().AsNoTracking().ToList();
             using (var driver = new ChromeDriver())
             {
                 foreach (var stockGroup in stockGroups)
@@ -155,7 +156,8 @@ namespace ASPNetCore3.ServiceImpl
                         {
                             tableCells = row.FindElements(By.TagName("td"));
                             var code = tableCells[1].Text;
-                            var stock = _stockMainInformationRepository.GetDBSet().FirstOrDefault(x => x.Code.ToLower() == code.ToLower());
+                            var stock = _stockMainInformationRepository.GetDBSet().AsNoTracking().FirstOrDefault(x => x.Code.ToLower() == code.ToLower());
+                            var isUpdate = stock != null;
                             if (stock == null)
 
                                 stock = new StockMainInformation();
@@ -174,16 +176,19 @@ namespace ASPNetCore3.ServiceImpl
                             stock.VonTT = long.Parse(tableCells[12].Text.Replace("%", ""), System.Globalization.NumberStyles.AllowThousands);
 
                             listStock.Add(stock);
-
+                            if (isUpdate)
+                                await _stockMainInformationRepository.UpdateAsync(stock);
+                            else
+                                await _stockMainInformationRepository.CreateAsync(stock);
                         }
-                        _stockMainInformationRepository.GetDBSet().UpdateRange(listStock);
-                        await _dbContext.SaveChangesAsync();
+
                     }
                     catch (Exception e)
                     {
 
                     }
                 }
+                driver.Close();
             }
                 
         }
