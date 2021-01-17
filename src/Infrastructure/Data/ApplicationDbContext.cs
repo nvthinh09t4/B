@@ -38,6 +38,17 @@ namespace Infrastructure.Data
         public DbSet<StockMainInformation> StockMainInformation { get; set; }
         //public DbSet<ViewConfiguration> ViewConfiguration { get; set; }
 
+        public DbSet<StockCompanyLeadership> StockCompanyLeadership { get; set; }
+        public DbSet<StockCompany> StockCompany { get; set; }
+        public DbSet<StockCompanyDocument> StockCompanyDocument { get; set; }
+        public DbSet<StockForeignerHolderRate> StockForeignerHolderRate { get; set; }
+        public DbSet<StockNews> StockNews { get; set; }
+        public DbSet<StockReportAccountingBalance> StockReportAccountingBalance { get; set; }
+        public DbSet<StockReportBusiness> StockReportBusiness { get; set; }
+        public DbSet<StockReportCashFlow> StockReportCashFlow { get; set; }
+        public DbSet<StockShareholder> StockShareholder { get; set; }
+        public DbSet<StockTransactionHistory> StockTransactionHistory { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -47,6 +58,7 @@ namespace Infrastructure.Data
             builder.ApplyConfiguration(new FileCategoryConfiguration());
             builder.ApplyConfiguration(new NewspaperSubCategoryConfiguration());
             builder.ApplyConfiguration(new NewspaperUserSubcribeConfiguration());
+            builder.ApplyConfiguration(new StockCompanyConfiguration());
         }
     }
 }

@@ -10,5 +10,6 @@ namespace ASPNetCore3.IServices
         void CrawlerVNDirectStockInformation();
         Task CrawlerStockGroupInformation();
         Task CrawlerStockInformation();
+        Task CrawlerStockCompanyInformation();
     }
 }

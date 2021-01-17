@@ -192,5 +192,54 @@ namespace ASPNetCore3.ServiceImpl
             }
                 
         }
+
+        public async Task CrawlerStockCompanyInformation()
+        {
+            var stockGroups = _stockGroupRepository.GetDBSet().ToList();
+            using (var driver = new ChromeDriver())
+            {
+                foreach (var stockGroup in stockGroups)
+                {
+                    var url = "https://dstock.vndirect.com.vn/ho-so-doanh-nghiep/" + stockGroup.Code;
+                    try
+                    {
+                        driver.Navigate().GoToUrl(url);
+                        var companyName = driver.FindElement(By.XPath(@"//*[@id='sub-menu-content']/div/div/div/div[1]/div/div[2]/table"));
+                        var code = tableCells[1].Text;
+                        var stock = _stockMainInformationRepository.GetDBSet().FirstOrDefault(x => x.Code.ToLower() == code.ToLower());
+                        var isUpdate = stock != null;
+                        if (stock == null)
+
+                            stock = new StockMainInformation();
+                        stock.Code = code;
+                        stock.Group = stockGroup.Code;
+                        stock.AvgEPS = float.Parse(tableCells[3].Text);
+                        stock.AvgPE = float.Parse(tableCells[4].Text.Replace("%", ""));
+                        stock.AvgROA = float.Parse(tableCells[5].Text.Replace("%", ""));
+                        stock.AvgROE = float.Parse(tableCells[6].Text.Replace("%", ""));
+                        //stock.AvgPrice = float.Parse(tableCells[7].Text);
+                        stock.ComparePrice = float.Parse(tableCells[7].Text);
+                        stock.AvgPB = float.Parse(tableCells[8].Text.Replace("%", ""));
+                        stock.AvgBeta = float.Parse(tableCells[9].Text.Replace("%", ""));
+                        stock.TongKL = long.Parse(tableCells[10].Text.Replace("%", ""), System.Globalization.NumberStyles.AllowThousands);
+                        stock.NNSoHuu = long.Parse(tableCells[11].Text.Split("\r")[0].Replace("%", ""), System.Globalization.NumberStyles.AllowThousands);
+                        stock.VonTT = long.Parse(tableCells[12].Text.Replace("%", ""), System.Globalization.NumberStyles.AllowThousands);
+
+                        listStock.Add(stock);
+                        if (isUpdate)
+                            await _stockMainInformationRepository.UpdateAsync(stock);
+                        else
+                            await _stockMainInformationRepository.CreateAsync(stock);
+
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+                }
+                driver.Close();
+            }
+
+        }
     }
 }
