@@ -212,12 +212,22 @@ namespace ASPNetCore3.ServiceImpl
                 var companyNameXPath = configuration.GetValue("groupName")?.Value<string>();
                 var groupNameXPath = configuration.GetValue("companyName")?.Value<string>();
                 var listedAtXPath = configuration.GetValue("listedAt")?.Value<string>();
+                var mainShareholderXPath = configuration.GetValue("mainShareholder")?.Value<string>();
+                var leadershipLinkXPath = configuration.GetValue("leadershipLink")?.Value<string>();
                 foreach (var stock in stocks)
                 {
-                    var url = "https://dstock.vndirect.com.vn/ho-so-doanh-nghiep/" + stock.Code;
+                    var urlHoSoDoanhNghiep = "https://dstock.vndirect.com.vn/ho-so-doanh-nghiep/" + stock.Code;
+                    var urlTongQuan = "https://dstock.vndirect.com.vn/tong-quan/" + stock.Code;
                     try
                     {
-                        driver.Navigate().GoToUrl(url);
+                        driver.Navigate().GoToUrl(urlHoSoDoanhNghiep);
+                        IJavaScriptExecutor js = (IJavaScriptExecutor)driver; ;
+                        js.ExecuteScript("" +
+                            "if (document.getElementById('___reactour') != null)" +
+                            "   return document.getElementById('___reactour').remove();" +
+                            "else" +
+                            "   return;");
+
                         var company = _stockCompanyRepository.GetDBSet().FirstOrDefault(x => x.Code.ToLower() == stock.Code.ToLower());
                         if (company == null)
                             company = new StockCompany();
@@ -225,6 +235,47 @@ namespace ASPNetCore3.ServiceImpl
                         company.GroupName = driver.FindElement(By.XPath(companyNameXPath)).Text;
                         company.Name = driver.FindElement(By.XPath(groupNameXPath)).Text;
                         company.ListedAt = driver.FindElement(By.XPath(listedAtXPath)).Text;
+
+                        driver.Navigate().GoToUrl(urlTongQuan);
+                        js.ExecuteScript("" +
+                            "if (document.getElementById('___reactour') != null)" +
+                            "   return document.getElementById('___reactour').remove();" +
+                            "else" +
+                            "   return;");
+
+                        var mainShareholderTbl = driver.FindElement(By.XPath(mainShareholderXPath)).FindElements(By.TagName("tr"));
+                        List<StockShareholder> mainShareholder = new List<StockShareholder>();
+                        foreach (var mainShareholderRow in mainShareholderTbl.Skip(1))
+                        {
+                            var cells = mainShareholderRow.FindElements(By.TagName("td"));
+                            mainShareholder.Add(new StockShareholder {
+                                Name = cells[0].Text,
+                                SharePercent = float.Parse(cells[1].Text.Replace("%", ""))
+                            });
+                        }
+
+                        driver.Navigate().GoToUrl(urlTongQuan);
+                        js.ExecuteScript("" +
+                            "if (document.getElementById('___reactour') != null)" +
+                            "   return document.getElementById('___reactour').remove();" +
+                            "else" +
+                            "   return;");
+
+                        driver.FindElement(By.XPath(leadershipLinkXPath)).Click();
+
+                        var leadershipTbl = driver.FindElement(By.XPath(mainShareholderXPath)).FindElements(By.TagName("tr"));
+                        List<StockCompanyLeadership> leaderships = new List<StockCompanyLeadership>();
+                        foreach (var leadershipRow in leadershipTbl.Skip(1))
+                        {
+                            var cells = leadershipRow.FindElements(By.TagName("td"));
+                            leaderships.Add(new StockCompanyLeadership {
+                                Name = cells[0].Text,
+                                Position = cells[1].Text
+                            });
+                        }
+
+                        company.Leaderships = leaderships;
+                        company.MainShareholder = mainShareholder;
 
                         await _stockCompanyRepository.SaveAsync(company);
 

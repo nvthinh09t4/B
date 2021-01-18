@@ -1,5 +1,7 @@
 {
   "companyName": "//*[@id='sub-menu-content']/div/div/div/div[1]/div/div[2]/table/tbody/tr[1]/td[2]",
   "groupName": "//*[@id='__next']/div/div[1]/div/div/div/div[2]/div[1]/a[1]",
-  "listedAt": "//*[@id='__next']/div/div[1]/div/div/div/div[2]/div[1]/a[2]"
+  "listedAt": "//*[@id='__next']/div/div[1]/div/div/div/div[2]/div[1]/a[2]",
+  "mainShareholder": "//*[@id='ccsh']/div/div[2]/div[2]/div[1]/table",
+  "leadershipLink": "//*[@id='ccsh']/div/div[2]/div[1]/div[2]/a"
 }
