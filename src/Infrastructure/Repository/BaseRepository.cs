@@ -34,19 +34,35 @@ namespace Infrastructure.Repository
 
         public async Task<T> GetById(long Id)
         {
-            return GetDBSet().AsQueryable().FirstOrDefault(x => x.Id == Id);
+            return await GetDBSet().AsQueryable().FirstOrDefaultAsync(x => x.Id == Id);
         }
 
         public DbSet<T> GetDBSet() => _dbContext.Set<T>();
 
         public async Task<T> UpdateAsync(T entity)
         {
-            var entry = _dbContext.Set<T>().First(e => e.Id == entity.Id);
-            _dbContext.Entry(entry).CurrentValues.SetValues(entity);
-            await _dbContext.SaveChangesAsync();
+            return DoUpdate(entity);
+        }
 
-            //GetDBSet().Update(entity);
-            //await _dbContext.SaveChangesAsync();
+        public async Task<T> SaveAsync(T entity)
+        {
+            var entityInDb = await GetDBSet().FirstOrDefaultAsync(x => x.Id == entity.Id);
+            if (entityInDb == null)
+                return DoAdd(entity);
+            return DoUpdate(entity);
+        }
+
+        public virtual T DoAdd(T entity) 
+        {
+            GetDBSet().Add(entity);
+            _dbContext.SaveChanges();
+            return entity;
+        }
+        public virtual T DoUpdate(T entity)
+        {
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            _dbContext.Entry(entity).CurrentValues.SetValues(entity);
+            _dbContext.SaveChanges();
             return entity;
         }
 

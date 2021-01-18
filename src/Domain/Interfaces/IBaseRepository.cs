@@ -9,6 +9,7 @@ namespace Domain.Interfaces
 {
     public interface IBaseRepository<T> where T : BaseEntity
     {
+        Task<T> SaveAsync(T entity);
         Task<T> CreateAsync(T entity);
         Task<List<T>> UpdateRange(List<T> entities);
         Task<T> UpdateAsync(T entity);

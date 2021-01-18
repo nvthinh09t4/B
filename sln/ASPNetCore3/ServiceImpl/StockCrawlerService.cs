@@ -2,11 +2,14 @@
 using Domain;
 using Domain.Interfaces;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,17 +23,23 @@ namespace ASPNetCore3.ServiceImpl
         private IStockIndexRepository _stockIndexRepository;
         private IStockGroupRepository _stockGroupRepository;
         private IStockMainInformationRepository _stockMainInformationRepository;
+        private IWebHostEnvironment _hostingEnvironment;
         private ApplicationDbContext _dbContext;
+        private IStockCompanyRepository _stockCompanyRepository;
 
         public StockCrawlerService(IStockIndexRepository stockIndexRepository, 
             IStockGroupRepository stockGroupRepository,
             IStockMainInformationRepository stockMainInformationRepository,
+            IWebHostEnvironment hostingEnvironment,
+            IStockCompanyRepository stockCompanyRepository,
             ApplicationDbContext dbContext)
         {
             _stockIndexRepository = stockIndexRepository;
             _stockGroupRepository = stockGroupRepository;
             _stockMainInformationRepository = stockMainInformationRepository;
+            _hostingEnvironment = hostingEnvironment;
             _dbContext = dbContext;
+            _stockCompanyRepository = stockCompanyRepository;
             //var chromeOptions = new ChromeOptions();
             //chromeOptions.AddUserProfilePreference("download.default_directory", @"D:\Workspace\test");
             //chromeOptions.AddUserProfilePreference("intl.accept_languages", "nl");
@@ -139,97 +148,85 @@ namespace ASPNetCore3.ServiceImpl
 
         public async Task CrawlerStockInformation()
         {
-            var stockGroups = _stockGroupRepository.GetDBSet().AsNoTracking().ToList();
-            using (var driver = new ChromeDriver())
-            {
-                foreach (var stockGroup in stockGroups)
-                {
-                    var url = "https://www.cophieu68.vn/categorylist_detail.php?category=" + stockGroup.Code;
-                    try
-                    {
-                        driver.Navigate().GoToUrl(url);
-                        var table = driver.FindElement(By.XPath(@"/html/body/table/tbody/tr/td/table[2]"));
-                        IList<IWebElement> tableRows = table.FindElements(By.TagName("tr"));
-                        IList<IWebElement> tableCells;
-                        var listStock = new List<StockMainInformation>();
-                        foreach (IWebElement row in tableRows.Skip(1))
-                        {
-                            tableCells = row.FindElements(By.TagName("td"));
-                            var code = tableCells[1].Text;
-                            var stock = _stockMainInformationRepository.GetDBSet().AsNoTracking().FirstOrDefault(x => x.Code.ToLower() == code.ToLower());
-                            var isUpdate = stock != null;
-                            if (stock == null)
+            //var stockGroups = _stockGroupRepository.GetDBSet().AsNoTracking().ToList();
+            //using (var driver = new ChromeDriver())
+            //{
+            //    foreach (var stockGroup in stockGroups)
+            //    {
+            //        var url = "https://www.cophieu68.vn/categorylist_detail.php?category=" + stockGroup.Code;
+            //        try
+            //        {
+            //            driver.Navigate().GoToUrl(url);
+            //            var table = driver.FindElement(By.XPath(@"/html/body/table/tbody/tr/td/table[2]"));
+            //            IList<IWebElement> tableRows = table.FindElements(By.TagName("tr"));
+            //            IList<IWebElement> tableCells;
+            //            var listStock = new List<StockMainInformation>();
+            //            foreach (IWebElement row in tableRows.Skip(1))
+            //            {
+            //                tableCells = row.FindElements(By.TagName("td"));
+            //                var code = tableCells[1].Text;
+            //                var stock = _stockMainInformationRepository.GetDBSet().AsNoTracking().FirstOrDefault(x => x.Code.ToLower() == code.ToLower());
+            //                var isUpdate = stock != null;
+            //                if (stock == null)
 
-                                stock = new StockMainInformation();
-                            stock.Code = code;
-                            stock.Group = stockGroup.Code;
-                            stock.AvgEPS = float.Parse(tableCells[3].Text);
-                            stock.AvgPE = float.Parse(tableCells[4].Text.Replace("%", ""));
-                            stock.AvgROA = float.Parse(tableCells[5].Text.Replace("%", ""));
-                            stock.AvgROE = float.Parse(tableCells[6].Text.Replace("%", ""));
-                            //stock.AvgPrice = float.Parse(tableCells[7].Text);
-                            stock.ComparePrice = float.Parse(tableCells[7].Text);
-                            stock.AvgPB = float.Parse(tableCells[8].Text.Replace("%", ""));
-                            stock.AvgBeta = float.Parse(tableCells[9].Text.Replace("%", ""));
-                            stock.TongKL = long.Parse(tableCells[10].Text.Replace("%", ""), System.Globalization.NumberStyles.AllowThousands);
-                            stock.NNSoHuu = long.Parse(tableCells[11].Text.Split("\r")[0].Replace("%", ""), System.Globalization.NumberStyles.AllowThousands);
-                            stock.VonTT = long.Parse(tableCells[12].Text.Replace("%", ""), System.Globalization.NumberStyles.AllowThousands);
+            //                    stock = new StockMainInformation();
+            //                stock.Code = code;
+            //                stock.Group = stockGroup.Code;
+            //                stock.AvgEPS = float.Parse(tableCells[3].Text);
+            //                stock.AvgPE = float.Parse(tableCells[4].Text.Replace("%", ""));
+            //                stock.AvgROA = float.Parse(tableCells[5].Text.Replace("%", ""));
+            //                stock.AvgROE = float.Parse(tableCells[6].Text.Replace("%", ""));
+            //                //stock.AvgPrice = float.Parse(tableCells[7].Text);
+            //                stock.ComparePrice = float.Parse(tableCells[7].Text);
+            //                stock.AvgPB = float.Parse(tableCells[8].Text.Replace("%", ""));
+            //                stock.AvgBeta = float.Parse(tableCells[9].Text.Replace("%", ""));
+            //                stock.TongKL = long.Parse(tableCells[10].Text.Replace("%", ""), System.Globalization.NumberStyles.AllowThousands);
+            //                stock.NNSoHuu = long.Parse(tableCells[11].Text.Split("\r")[0].Replace("%", ""), System.Globalization.NumberStyles.AllowThousands);
+            //                stock.VonTT = long.Parse(tableCells[12].Text.Replace("%", ""), System.Globalization.NumberStyles.AllowThousands);
 
-                            listStock.Add(stock);
-                            if (isUpdate)
-                                await _stockMainInformationRepository.UpdateAsync(stock);
-                            else
-                                await _stockMainInformationRepository.CreateAsync(stock);
-                        }
+            //                listStock.Add(stock);
+            //                if (isUpdate)
+            //                    await _stockMainInformationRepository.UpdateAsync(stock);
+            //                else
+            //                    await _stockMainInformationRepository.CreateAsync(stock);
+            //            }
 
-                    }
-                    catch (Exception e)
-                    {
+            //        }
+            //        catch (Exception e)
+            //        {
 
-                    }
-                }
-                driver.Close();
-            }
-                
+            //        }
+            //    }
+            //    driver.Close();
+            //}
+            await CrawlerStockCompanyInformation();
         }
 
         public async Task CrawlerStockCompanyInformation()
         {
-            var stockGroups = _stockGroupRepository.GetDBSet().ToList();
+            var stocks = _stockMainInformationRepository.GetDBSet().ToList();
             using (var driver = new ChromeDriver())
             {
-                foreach (var stockGroup in stockGroups)
+                var configFilePath = Path.Combine(_hostingEnvironment.WebRootPath, "crawler", "StockCompany.json");
+                var configuration = JObject.Parse(File.ReadAllText(configFilePath));
+                var companyNameXPath = configuration.GetValue("groupName")?.Value<string>();
+                var groupNameXPath = configuration.GetValue("companyName")?.Value<string>();
+                var listedAtXPath = configuration.GetValue("listedAt")?.Value<string>();
+                foreach (var stock in stocks)
                 {
-                    var url = "https://dstock.vndirect.com.vn/ho-so-doanh-nghiep/" + stockGroup.Code;
+                    var url = "https://dstock.vndirect.com.vn/ho-so-doanh-nghiep/" + stock.Code;
                     try
                     {
                         driver.Navigate().GoToUrl(url);
-                        var companyName = driver.FindElement(By.XPath(@"//*[@id='sub-menu-content']/div/div/div/div[1]/div/div[2]/table"));
-                        var code = tableCells[1].Text;
-                        var stock = _stockMainInformationRepository.GetDBSet().FirstOrDefault(x => x.Code.ToLower() == code.ToLower());
-                        var isUpdate = stock != null;
-                        if (stock == null)
+                        var company = _stockCompanyRepository.GetDBSet().FirstOrDefault(x => x.Code.ToLower() == stock.Code.ToLower());
+                        if (company == null)
+                            company = new StockCompany();
+                        company.Code = stock.Code;
+                        company.GroupName = driver.FindElement(By.XPath(companyNameXPath)).Text;
+                        company.Name = driver.FindElement(By.XPath(groupNameXPath)).Text;
+                        company.ListedAt = driver.FindElement(By.XPath(listedAtXPath)).Text;
 
-                            stock = new StockMainInformation();
-                        stock.Code = code;
-                        stock.Group = stockGroup.Code;
-                        stock.AvgEPS = float.Parse(tableCells[3].Text);
-                        stock.AvgPE = float.Parse(tableCells[4].Text.Replace("%", ""));
-                        stock.AvgROA = float.Parse(tableCells[5].Text.Replace("%", ""));
-                        stock.AvgROE = float.Parse(tableCells[6].Text.Replace("%", ""));
-                        //stock.AvgPrice = float.Parse(tableCells[7].Text);
-                        stock.ComparePrice = float.Parse(tableCells[7].Text);
-                        stock.AvgPB = float.Parse(tableCells[8].Text.Replace("%", ""));
-                        stock.AvgBeta = float.Parse(tableCells[9].Text.Replace("%", ""));
-                        stock.TongKL = long.Parse(tableCells[10].Text.Replace("%", ""), System.Globalization.NumberStyles.AllowThousands);
-                        stock.NNSoHuu = long.Parse(tableCells[11].Text.Split("\r")[0].Replace("%", ""), System.Globalization.NumberStyles.AllowThousands);
-                        stock.VonTT = long.Parse(tableCells[12].Text.Replace("%", ""), System.Globalization.NumberStyles.AllowThousands);
-
-                        listStock.Add(stock);
-                        if (isUpdate)
-                            await _stockMainInformationRepository.UpdateAsync(stock);
-                        else
-                            await _stockMainInformationRepository.CreateAsync(stock);
+                        await _stockCompanyRepository.SaveAsync(company);
 
                     }
                     catch (Exception e)
