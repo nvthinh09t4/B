@@ -12,9 +12,9 @@ namespace Infrastructure.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<StockCompany> builder)
         {
-            builder.HasMany(stockCompany => stockCompany.Leaderships).WithOne(stockCompanyLeadership => stockCompanyLeadership.Company);
-            builder.HasMany(stockCompany => stockCompany.MainShareholder).WithOne(mainShareHolder => mainShareHolder.Company);
-            builder.HasMany(stockCompany => stockCompany.ForeignerHolderRates).WithOne(foreignerHolderRates => foreignerHolderRates.Company);
+            builder.HasMany(stockCompany => stockCompany.Leaderships).WithOne(stockCompanyLeadership => stockCompanyLeadership.Company).OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(stockCompany => stockCompany.MainShareholder).WithOne(mainShareHolder => mainShareHolder.Company).OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(stockCompany => stockCompany.ForeignerHolderRates).WithOne(foreignerHolderRates => foreignerHolderRates.Company).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Domain
         public string GroupName { get; set; }
         public string ListedAt { get; set; }
         public string BusinessArea { get; set; }
-        public List<StockCompanyLeadership> Leaderships { get; set; }
+        public List<StockCompanyLeadership> Leaderships { get; set; } = new List<StockCompanyLeadership>();
         public List<StockShareholder> MainShareholder { get; set; } = new List<StockShareholder>();
         public virtual List<StockForeignerHolderRate> ForeignerHolderRates { get; set; }
     }

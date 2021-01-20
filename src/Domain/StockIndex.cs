@@ -15,12 +15,12 @@ namespace Domain
         public float GiaMoCua { get; set; }
         public float GiaCaoNhat { get; set; }
         public float GiaThapNhat { get; set; }
-        public string VonHoaThiTruong { get; set; }
+        public float VonHoaThiTruong { get; set; }
         public long KLGDTrungBinh10Phien { get; set; }
         public float CaoNhat52Tuan { get; set; }
         public float ThapNhat52Tuan { get; set; }
         public string SoCPLuuHanh { get; set; }
-        public string FreeFloat { get; set; }
+        public float FreeFloat { get; set; }
         public float Beta { get; set; }
         public float PE { get; set; }
         public float PB { get; set; }

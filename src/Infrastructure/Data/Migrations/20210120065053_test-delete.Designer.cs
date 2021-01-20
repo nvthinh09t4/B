@@ -4,14 +4,16 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210120065053_test-delete")]
+    partial class testdelete
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -620,8 +622,8 @@ namespace Infrastructure.Data.Migrations
                     b.Property<float>("EPS")
                         .HasColumnType("real");
 
-                    b.Property<float>("FreeFloat")
-                        .HasColumnType("real");
+                    b.Property<string>("FreeFloat")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<float>("GiaCaoNhat")
                         .HasColumnType("real");
@@ -674,8 +676,8 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("TySuatCoTuc")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float>("VonHoaThiTruong")
-                        .HasColumnType("real");
+                    b.Property<string>("VonHoaThiTruong")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

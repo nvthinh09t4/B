@@ -38,44 +38,44 @@ namespace Crawler
 
         public void CrawlerStockInformation()
         {
-            foreach (var code in codes)
-            {
-                try
-                {
-                    driver.Navigate().GoToUrl("https://dstock.vndirect.com.vn/tong-quan/" + code);
-                    var texts = driver.FindElementsByClassName("row-col__text");
-                    var textList = texts.Select(x => x.Text).ToList();
-                    var stockIndex = new StockIndex {
-                        Code = code,
-                        KLGDTrongPhien = long.Parse(textList[0], System.Globalization.NumberStyles.AllowThousands),
-                        GiaTran = textList[1] == "N/A" ? 0 : float.Parse(textList[1]),
-                        GiaSan = textList[2] == "N/A" ? 0 : float.Parse(textList[2]),
-                        GiaMoCua = textList[3] == "N/A" ? 0 : float.Parse(textList[3]),
-                        GiaCaoNhat = textList[4] == "N/A" ? 0 : float.Parse(textList[4]),
-                        GiaThapNhat = textList[5] == "N/A" ? 0 : float.Parse(textList[5]),
-                        VonHoaThiTruong = textList[6],
-                        KLGDTrungBinh10Phien = long.Parse(textList[7], System.Globalization.NumberStyles.AllowThousands),
-                        CaoNhat52Tuan = textList[8] == "N/A" ? 0 : float.Parse(textList[8]),
-                        ThapNhat52Tuan = textList[9] == "N/A" ? 0 : float.Parse(textList[9]),
-                        SoCPLuuHanh = textList[10],
-                        FreeFloat = textList[11],
-                        Beta = textList[12] == "N/A" ? 0 : float.Parse(textList[12]),
-                        PE = textList[13] == "N/A" ? 0 : float.Parse(textList[13]),
-                        PB = textList[14] == "N/A" ? 0 : float.Parse(textList[14]),
-                        ROAE = textList[15] == "N/A" ? 0 : float.Parse(textList[15]),
-                        ROAA = textList[16] == "N/A" ? 0 : float.Parse(textList[16]),
-                        TySuatCoTuc = textList[17],
-                        EPS = textList[18] == "N/A" ? 0 : float.Parse(textList[18]),
-                        BVPS = textList[19] == "N/A" ? 0 : float.Parse(textList[19]),
-                    };
-                    _stockIndexRepository.CreateAsync(stockIndex).ConfigureAwait(false);
-                }
-                catch
-                {
+            //foreach (var code in codes)
+            //{
+            //    try
+            //    {
+            //        driver.Navigate().GoToUrl("https://dstock.vndirect.com.vn/tong-quan/" + code);
+            //        var texts = driver.FindElementsByClassName("row-col__text");
+            //        var textList = texts.Select(x => x.Text).ToList();
+            //        var stockIndex = new StockIndex {
+            //            Code = code,
+            //            KLGDTrongPhien = long.Parse(textList[0], System.Globalization.NumberStyles.AllowThousands),
+            //            GiaTran = textList[1] == "N/A" ? 0 : float.Parse(textList[1]),
+            //            GiaSan = textList[2] == "N/A" ? 0 : float.Parse(textList[2]),
+            //            GiaMoCua = textList[3] == "N/A" ? 0 : float.Parse(textList[3]),
+            //            GiaCaoNhat = textList[4] == "N/A" ? 0 : float.Parse(textList[4]),
+            //            GiaThapNhat = textList[5] == "N/A" ? 0 : float.Parse(textList[5]),
+            //            VonHoaThiTruong = textList[6],
+            //            KLGDTrungBinh10Phien = long.Parse(textList[7], System.Globalization.NumberStyles.AllowThousands),
+            //            CaoNhat52Tuan = textList[8] == "N/A" ? 0 : float.Parse(textList[8]),
+            //            ThapNhat52Tuan = textList[9] == "N/A" ? 0 : float.Parse(textList[9]),
+            //            SoCPLuuHanh = textList[10],
+            //            FreeFloat = textList[11],
+            //            Beta = textList[12] == "N/A" ? 0 : float.Parse(textList[12]),
+            //            PE = textList[13] == "N/A" ? 0 : float.Parse(textList[13]),
+            //            PB = textList[14] == "N/A" ? 0 : float.Parse(textList[14]),
+            //            ROAE = textList[15] == "N/A" ? 0 : float.Parse(textList[15]),
+            //            ROAA = textList[16] == "N/A" ? 0 : float.Parse(textList[16]),
+            //            TySuatCoTuc = textList[17],
+            //            EPS = textList[18] == "N/A" ? 0 : float.Parse(textList[18]),
+            //            BVPS = textList[19] == "N/A" ? 0 : float.Parse(textList[19]),
+            //        };
+            //        _stockIndexRepository.CreateAsync(stockIndex).ConfigureAwait(false);
+            //    }
+            //    catch
+            //    {
 
-                }
+            //    }
               
-            }
+            //}
         }
     }
 }

@@ -25,13 +25,14 @@ namespace ASPNetCore3.ServiceImpl
         private IStockMainInformationRepository _stockMainInformationRepository;
         private IWebHostEnvironment _hostingEnvironment;
         private ApplicationDbContext _dbContext;
-        private IStockCompanyRepository _stockCompanyRepository;
+        private IRepositoryWrapper _repositoryWrapper;
 
         public StockCrawlerService(IStockIndexRepository stockIndexRepository, 
             IStockGroupRepository stockGroupRepository,
             IStockMainInformationRepository stockMainInformationRepository,
             IWebHostEnvironment hostingEnvironment,
             IStockCompanyRepository stockCompanyRepository,
+            IRepositoryWrapper repositoryWrapper,
             ApplicationDbContext dbContext)
         {
             _stockIndexRepository = stockIndexRepository;
@@ -39,7 +40,7 @@ namespace ASPNetCore3.ServiceImpl
             _stockMainInformationRepository = stockMainInformationRepository;
             _hostingEnvironment = hostingEnvironment;
             _dbContext = dbContext;
-            _stockCompanyRepository = stockCompanyRepository;
+            _repositoryWrapper = repositoryWrapper;
             //var chromeOptions = new ChromeOptions();
             //chromeOptions.AddUserProfilePreference("download.default_directory", @"D:\Workspace\test");
             //chromeOptions.AddUserProfilePreference("intl.accept_languages", "nl");
@@ -69,12 +70,12 @@ namespace ASPNetCore3.ServiceImpl
                         Code = code,
                         
                        
-                        VonHoaThiTruong = textList[6],
+                        VonHoaThiTruong = long.Parse(textList[6].Replace(" tỷ", ""), System.Globalization.NumberStyles.AllowThousands),
 
                         SoCPLuuHanh = textList[10],
-                        FreeFloat = textList[11],
+                        FreeFloat = textList[11] == "N/A" ? 0 : float.Parse(textList[11].Replace("%", "")),
 
-                        TySuatCoTuc = textList[17],
+                    TySuatCoTuc = textList[17],
 
                     };
                     stockIndex.KLGDTrongPhien = long.Parse(textList[0], System.Globalization.NumberStyles.AllowThousands);
@@ -96,6 +97,9 @@ namespace ASPNetCore3.ServiceImpl
 
                     if (_stockIndexRepository.GetStockInformationByCodeAndDate(stockIndex.Code, stockIndex.InforDate) == null)
                         _stockIndexRepository.CreateAsync(stockIndex).ConfigureAwait(false);
+
+
+                    _dbContext.SaveChanges();
                 }
                 catch (Exception ex)
                 {
@@ -140,7 +144,6 @@ namespace ASPNetCore3.ServiceImpl
                     stockGroup.VonTT = long.Parse(tableCells[13].Text.Replace("%", ""), System.Globalization.NumberStyles.AllowThousands);
 
                     await _stockGroupRepository.CreateAsync(stockGroup);
-                    
                     //var test = tableCells.Select(x => x.Text).ToList();
                 }
             }
@@ -214,6 +217,7 @@ namespace ASPNetCore3.ServiceImpl
                 var listedAtXPath = configuration.GetValue("listedAt")?.Value<string>();
                 var mainShareholderXPath = configuration.GetValue("mainShareholder")?.Value<string>();
                 var leadershipLinkXPath = configuration.GetValue("leadershipLink")?.Value<string>();
+                var commonInforClass = configuration.GetValue("commonInforClass")?.Value<string>();
                 foreach (var stock in stocks)
                 {
                     var urlHoSoDoanhNghiep = "https://dstock.vndirect.com.vn/ho-so-doanh-nghiep/" + stock.Code;
@@ -228,7 +232,7 @@ namespace ASPNetCore3.ServiceImpl
                             "else" +
                             "   return;");
 
-                        var company = _stockCompanyRepository.GetDBSet().FirstOrDefault(x => x.Code.ToLower() == stock.Code.ToLower());
+                        var company = _repositoryWrapper.StockCompany.GetDBSet().FirstOrDefault(x => x.Code.ToLower() == stock.Code.ToLower());
                         if (company == null)
                             company = new StockCompany();
                         company.Code = stock.Code;
@@ -243,8 +247,41 @@ namespace ASPNetCore3.ServiceImpl
                             "else" +
                             "   return;");
 
-                        var mainShareholderTbl = driver.FindElement(By.XPath(mainShareholderXPath)).FindElements(By.TagName("tr"));
+                        ///Get common information
+                        ///
+                        var commonStockInformation = _stockIndexRepository.GetDBSet().FirstOrDefault(x => x.Code.ToLower() == stock.Code.ToLower());
+                        if (commonStockInformation == null)
+                            commonStockInformation = new StockIndex() { Code = stock.Code};
+                        var texts = driver.FindElementsByClassName("row-col__text").Select(x => x.Text).ToList();
+                        commonStockInformation.VonHoaThiTruong = long.Parse(texts[6].Replace(" tỷ", ""), System.Globalization.NumberStyles.AllowThousands);
+
+                        commonStockInformation.SoCPLuuHanh = texts[10];
+                        commonStockInformation.FreeFloat = texts[11] == "N/A" ? 0 : float.Parse(texts[11].Replace("%", ""));
+
+                        commonStockInformation.TySuatCoTuc = texts[17];
+                        commonStockInformation.KLGDTrongPhien = long.Parse(texts[0], System.Globalization.NumberStyles.AllowThousands);
+                        commonStockInformation.GiaTran = texts[1] == "N/A" ? 0 : float.Parse(texts[1]);
+                        commonStockInformation.GiaSan = texts[2] == "N/A" ? 0 : float.Parse(texts[2]);
+                        commonStockInformation.GiaMoCua = texts[3] == "N/A" ? 0 : float.Parse(texts[3]);
+                        commonStockInformation.GiaCaoNhat = texts[4] == "N/A" ? 0 : float.Parse(texts[4]);
+                        commonStockInformation.GiaThapNhat = texts[5] == "N/A" ? 0 : float.Parse(texts[5]);
+                        commonStockInformation.KLGDTrungBinh10Phien = long.Parse(texts[7], System.Globalization.NumberStyles.AllowThousands);
+                        commonStockInformation.CaoNhat52Tuan = texts[8] == "N/A" ? 0 : float.Parse(texts[8]);
+                        commonStockInformation.ThapNhat52Tuan = texts[9] == "N/A" ? 0 : float.Parse(texts[9]);
+                        commonStockInformation.EPS = texts[18] == "N/A" ? 0 : float.Parse(texts[18], System.Globalization.NumberStyles.AllowThousands);
+                        commonStockInformation.BVPS = texts[19] == "N/A" ? 0 : float.Parse(texts[19], System.Globalization.NumberStyles.AllowThousands);
+                        commonStockInformation.Beta = texts[12] == "N/A" ? 0 : float.Parse(texts[12]);
+                        commonStockInformation.PE = texts[13] == "N/A" ? 0 : float.Parse(texts[13].Replace("x", ""));
+                        commonStockInformation.PB = texts[14] == "N/A" ? 0 : float.Parse(texts[14].Replace("x", ""));
+                        commonStockInformation.ROAE = texts[15] == "N/A" ? 0 : float.Parse(texts[15].Replace("x", "").Replace("%", ""));
+                        commonStockInformation.ROAA = texts[16] == "N/A" ? 0 : float.Parse(texts[16].Replace("x", "").Replace("%", ""));
+
+                        await _stockIndexRepository.UpdateAsync(commonStockInformation);
+
+
+                    var mainShareholderTbl = driver.FindElement(By.XPath(mainShareholderXPath)).FindElements(By.TagName("tr"));
                         List<StockShareholder> mainShareholder = new List<StockShareholder>();
+                        
                         foreach (var mainShareholderRow in mainShareholderTbl.Skip(1))
                         {
                             var cells = mainShareholderRow.FindElements(By.TagName("td"));
@@ -274,11 +311,20 @@ namespace ASPNetCore3.ServiceImpl
                             });
                         }
 
+                        foreach (var item in company.Leaderships)
+                        {
+                            company.Leaderships.Remove(item);
+                        }
+
+                        foreach (var item in company.MainShareholder)
+                        {
+                            company.MainShareholder.Remove(item);
+                        }
+
                         company.Leaderships = leaderships;
                         company.MainShareholder = mainShareholder;
 
-                        await _stockCompanyRepository.SaveAsync(company);
-
+                        await _repositoryWrapper.StockCompany.SaveAsync(company);
                     }
                     catch (Exception e)
                     {
