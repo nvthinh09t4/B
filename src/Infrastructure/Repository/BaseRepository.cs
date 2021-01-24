@@ -22,14 +22,12 @@ namespace Infrastructure.Repository
         public async Task<T> CreateAsync(T entity)
         {
             await GetDBSet().AddAsync(entity);
-            await _dbContext.SaveChangesAsync();
             return entity;
         }
 
         public async Task DeleteAsync(T entity)
         {
             GetDBSet().Remove(entity);
-            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<T> GetById(long Id)
@@ -55,14 +53,13 @@ namespace Infrastructure.Repository
         public virtual T DoAdd(T entity) 
         {
             GetDBSet().Add(entity);
-            _dbContext.SaveChanges();
             return entity;
         }
         public virtual T DoUpdate(T entity)
         {
-            _dbContext.Entry(entity).State = EntityState.Modified;
-            _dbContext.Entry(entity).CurrentValues.SetValues(entity);
-            _dbContext.SaveChanges();
+            GetDBSet().Update(entity);
+            //_dbContext.Entry(entity).State = EntityState.Modified;
+            //_dbContext.Entry(entity).CurrentValues.SetValues(entity);
             return entity;
         }
 
