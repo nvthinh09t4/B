@@ -8,6 +8,7 @@ namespace Domain
     public class StockTransactionHistory : BaseEntity
     {
         public DateTime TransactionDate { get; set; }
+        public string Code { get; set; }
         public float ThayDoiDiem { get; set; }
         public float ThayDoiPhanTram { get; set; }
         public float GiaMoCua { get; set; }

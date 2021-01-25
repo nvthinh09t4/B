@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenQA.Selenium.Chrome;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,5 +12,6 @@ namespace ASPNetCore3.IServices
         Task CrawlerStockGroupInformation();
         Task CrawlerStockInformation();
         Task CrawlerStockCompanyInformation();
+        Task CrawlerTransactionHistory(string code, ChromeDriver driver);
     }
 }

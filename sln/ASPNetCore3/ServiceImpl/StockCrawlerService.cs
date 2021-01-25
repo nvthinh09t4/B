@@ -318,6 +318,9 @@ namespace ASPNetCore3.ServiceImpl
                         company.MainShareholder = mainShareholder;
 
                         await _repositoryWrapper.StockCompany.SaveAsync(company);
+
+                        await CrawlerTransactionHistory(company.Code, driver);
+
                         await _repositoryWrapper.SaveChangeAsync();
                     }
                     catch (Exception e)
@@ -329,6 +332,45 @@ namespace ASPNetCore3.ServiceImpl
                 driver.Quit();
             }
 
+        }
+
+        public async Task CrawlerTransactionHistory(string code, ChromeDriver driver)
+        {
+            var url = "https://dstock.vndirect.com.vn/lich-su-gia/" + code;
+            try
+            {
+                driver.Navigate().GoToUrl(url);
+                var transactionTbl = driver.FindElement(By.XPath("//*[@id='sub-menu-content']/div/div/div[2]/div[3]/div/div[2]/div/table[2]"));
+                var transactionRecord = transactionTbl.FindElement(By.TagName("tbody")).FindElements(By.TagName("tr"));
+                foreach (var transaction in transactionRecord)
+                {
+                    var transactionTexts = transaction.FindElements(By.TagName("td"));
+                    var transactionInDb = _repositoryWrapper.StockTransactionHistory.GetDBSet()
+                                                                    .FirstOrDefault(x => 
+                                                                        x.Code == code 
+                                                                        && x.TransactionDate.ToString("dd/MM/yyyy") == transactionTexts[0].Text.Trim()
+                                                                    );
+                    if (transactionInDb == null)
+                        transactionInDb = new StockTransactionHistory {
+                            TransactionDate = DateTime.Now,
+                            Code = code,
+                        };
+
+                    transactionInDb.GiaMoCua = float.Parse(transactionTexts[2].Text);
+                    transactionInDb.GiaThapNhat = float.Parse(transactionTexts[3].Text);
+                    transactionInDb.GiaCaoNhat = float.Parse(transactionTexts[4].Text);
+                    transactionInDb.GiaDongCua = float.Parse(transactionTexts[5].Text);
+                    transactionInDb.GiaBinhQuan = float.Parse(transactionTexts[6].Text);
+                    transactionInDb.GiaDongCuaDieuChinh = float.Parse(transactionTexts[7].Text);
+                    transactionInDb.KhoiLuongKhopLenh = long.Parse(transactionTexts[8].Text, System.Globalization.NumberStyles.AllowThousands);
+                    transactionInDb.KhoiLuongThoaThuan  = long.Parse(transactionTexts[9].Text, System.Globalization.NumberStyles.AllowThousands);
+                    await _repositoryWrapper.StockTransactionHistory.UpdateAsync(transactionInDb);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"fail on update for stock transaction {code}", ex);
+            }
         }
     }
 }
