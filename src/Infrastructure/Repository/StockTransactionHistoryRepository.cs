@@ -23,5 +23,10 @@ namespace Infrastructure.Repository
             _configuration = configuration;
             _dbContext = dbContext;
         }
+
+        public StockTransactionHistory GetByCodeAndDate(string code, string date)
+        {
+            return _dbContext.StockTransactionHistory.Where(x => x.Code == code).ToList().FirstOrDefault(x => date == x.TransactionDateString);
+        }
     }
 }

@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ASPNetCore3.ServiceImpl
@@ -200,6 +201,7 @@ namespace ASPNetCore3.ServiceImpl
         public async Task CrawlerStockCompanyInformation()
         {
             var stocks = _repositoryWrapper.StockMainInformation.GetDBSet().ToList();
+            var parsingText = "";
             using (var driver = new ChromeDriver())
             {
                 driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(5);
@@ -219,6 +221,7 @@ namespace ASPNetCore3.ServiceImpl
                     try
                     {
                         driver.Navigate().GoToUrl(urlHoSoDoanhNghiep);
+                        Thread.Sleep(3000);
                         IJavaScriptExecutor js = (IJavaScriptExecutor)driver; ;
                         js.ExecuteScript("" +
                             "if (document.getElementById('___reactour') != null)" +
@@ -235,6 +238,7 @@ namespace ASPNetCore3.ServiceImpl
                         company.ListedAt = driver.FindElements(By.ClassName(groupNameClass))[1].Text;
 
                         driver.Navigate().GoToUrl(urlTongQuan);
+                        Thread.Sleep(3000);
                         js.ExecuteScript("" +
                             "if (document.getElementById('___reactour') != null)" +
                             "   return document.getElementById('___reactour').remove();" +
@@ -247,6 +251,7 @@ namespace ASPNetCore3.ServiceImpl
                         if (commonStockInformation == null)
                             commonStockInformation = new StockIndex() { Code = stock.Code};
                         var texts = driver.FindElementsByClassName("row-col__text").Select(x => x.Text).ToList();
+                        parsingText = string.Join(";", texts);
                         commonStockInformation.VonHoaThiTruong = texts[1] == "N/A" ? 0 : long.Parse(texts[6].Replace(" tỷ", ""), System.Globalization.NumberStyles.AllowThousands);
 
                         commonStockInformation.SoCPLuuHanh = texts[10];
@@ -277,16 +282,21 @@ namespace ASPNetCore3.ServiceImpl
                     var mainShareholderTbl = driver.FindElement(By.XPath(mainShareholderXPath)).FindElements(By.TagName("tr"));
                         List<StockShareholder> mainShareholder = new List<StockShareholder>();
                         
-                        foreach (var mainShareholderRow in mainShareholderTbl.Skip(1))
+                        if (mainShareholderTbl != null && mainShareholderTbl.Count > 1)
                         {
-                            var cells = mainShareholderRow.FindElements(By.TagName("td"));
-                            mainShareholder.Add(new StockShareholder {
-                                Name = cells[0].Text,
-                                SharePercent = float.Parse(cells[1].Text.Replace("%", ""))
-                            });
+                            foreach (var mainShareholderRow in mainShareholderTbl.Skip(1))
+                            {
+                                var cells = mainShareholderRow.FindElements(By.TagName("td"));
+                                mainShareholder.Add(new StockShareholder {
+                                    Name = cells[0].Text,
+                                    SharePercent = float.Parse(cells[1].Text.Replace("%", ""))
+                                });
+                            }
                         }
+                      
 
                         driver.Navigate().GoToUrl(urlTongQuan);
+                        Thread.Sleep(3000);
                         js.ExecuteScript("" +
                             "if (document.getElementById('___reactour') != null)" +
                             "   return document.getElementById('___reactour').remove();" +
@@ -297,14 +307,18 @@ namespace ASPNetCore3.ServiceImpl
 
                         var leadershipTbl = driver.FindElement(By.XPath(mainShareholderXPath)).FindElements(By.TagName("tr"));
                         List<StockCompanyLeadership> leaderships = new List<StockCompanyLeadership>();
-                        foreach (var leadershipRow in leadershipTbl.Skip(1))
+                        if (leadershipTbl != null && leadershipTbl.Count > 1)
                         {
-                            var cells = leadershipRow.FindElements(By.TagName("td"));
-                            leaderships.Add(new StockCompanyLeadership {
-                                Name = cells[0].Text,
-                                Position = cells[1].Text
-                            });
+                            foreach (var leadershipRow in leadershipTbl.Skip(1))
+                            {
+                                var cells = leadershipRow.FindElements(By.TagName("td"));
+                                leaderships.Add(new StockCompanyLeadership {
+                                    Name = cells[0].Text,
+                                    Position = cells[1].Text
+                                });
+                            }
                         }
+                        
 
                         foreach (var item in company.Leaderships)
                         {
@@ -320,14 +334,15 @@ namespace ASPNetCore3.ServiceImpl
                         company.MainShareholder = mainShareholder;
 
                         await _repositoryWrapper.StockCompany.SaveAsync(company);
+                        await _repositoryWrapper.SaveChangeAsync();
 
                         await CrawlerTransactionHistory(company.Code, driver);
-
                         await _repositoryWrapper.SaveChangeAsync();
+
                     }
                     catch (Exception e)
                     {
-                        _logger.LogError($"fail on update for stock {stock.Code}", e);
+                        _logger.LogError($"fail on update for stock {stock.Code} ======= {parsingText}", e);
                         _logger.LogError(e.Message);
                         _logger.LogError(e.StackTrace);
                     }
@@ -341,19 +356,18 @@ namespace ASPNetCore3.ServiceImpl
         public async Task CrawlerTransactionHistory(string code, ChromeDriver driver)
         {
             var url = "https://dstock.vndirect.com.vn/lich-su-gia/" + code;
+            var parsingText = "";
             try
             {
                 driver.Navigate().GoToUrl(url);
+                Thread.Sleep(3000);
                 var transactionTbl = driver.FindElement(By.XPath("//*[@id='sub-menu-content']/div/div/div[2]/div[3]/div/div[2]/div/table[2]"));
                 var transactionRecord = transactionTbl.FindElement(By.TagName("tbody")).FindElements(By.TagName("tr"));
                 foreach (var transaction in transactionRecord)
                 {
                     var transactionTexts = transaction.FindElements(By.TagName("td"));
-                    var transactionInDb = _repositoryWrapper.StockTransactionHistory.GetDBSet()
-                                                                    .FirstOrDefault(x => 
-                                                                        x.Code == code 
-                                                                        && x.TransactionDate.ToString("dd/MM/yyyy") == transactionTexts[0].Text.Trim()
-                                                                    );
+                    parsingText = string.Join(";", transactionTexts.Select(x => x.Text).ToList());
+                    var transactionInDb = _repositoryWrapper.StockTransactionHistory.GetByCodeAndDate(code, transactionTexts[1].Text);
                     if (transactionInDb == null)
                         transactionInDb = new StockTransactionHistory {
                             TransactionDate = DateTime.Now,
@@ -373,7 +387,7 @@ namespace ASPNetCore3.ServiceImpl
             }
             catch (Exception ex)
             {
-                _logger.LogError($"fail on update for stock transaction {code}", ex);
+                _logger.LogError($"fail on update for stock transaction {code} ======= {parsingText}", ex);
             }
         }
     }

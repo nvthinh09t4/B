@@ -1,6 +1,7 @@
 ﻿using Domain.Common;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Domain
@@ -8,6 +9,8 @@ namespace Domain
     public class StockTransactionHistory : BaseEntity
     {
         public DateTime TransactionDate { get; set; }
+        [NotMapped]
+        public string TransactionDateString => TransactionDate.ToString("dd/MM/yyyy");
         public string Code { get; set; }
         public float ThayDoiDiem { get; set; }
         public float ThayDoiPhanTram { get; set; }
