@@ -1,0 +1,5 @@
+2021-01-25T00:06:12.1901866+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService) fail on update for stock VCR
+2021-01-25T00:06:32.6997886+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService) fail on update for stock NVT
+2021-01-25T00:06:45.2886777+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService) fail on update for stock DLG
+2021-01-25T00:06:57.7012433+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService) fail on update for stock LEC
+2021-01-25T00:07:05.1052806+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService) fail on update for stock UDC

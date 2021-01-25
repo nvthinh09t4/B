@@ -202,6 +202,7 @@ namespace ASPNetCore3.ServiceImpl
             var stocks = _repositoryWrapper.StockMainInformation.GetDBSet().ToList();
             using (var driver = new ChromeDriver())
             {
+                driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(5);
                 var configFilePath = Path.Combine(_hostingEnvironment.WebRootPath, "crawler", "StockCompany.json");
                 var configuration = JObject.Parse(File.ReadAllText(configFilePath));
                 var companyNameXPath = configuration.GetValue("groupName")?.Value<string>();
@@ -210,6 +211,7 @@ namespace ASPNetCore3.ServiceImpl
                 var mainShareholderXPath = configuration.GetValue("mainShareholder")?.Value<string>();
                 var leadershipLinkXPath = configuration.GetValue("leadershipLink")?.Value<string>();
                 var commonInforClass = configuration.GetValue("commonInforClass")?.Value<string>();
+                var groupNameClass = configuration.GetValue("groupNameClass")?.Value<string>();
                 foreach (var stock in stocks)
                 {
                     var urlHoSoDoanhNghiep = "https://dstock.vndirect.com.vn/ho-so-doanh-nghiep/" + stock.Code;
@@ -228,9 +230,9 @@ namespace ASPNetCore3.ServiceImpl
                         if (company == null)
                             company = new StockCompany();
                         company.Code = stock.Code;
-                        company.GroupName = driver.FindElement(By.XPath(companyNameXPath)).Text;
+                        company.GroupName = driver.FindElements(By.ClassName(groupNameClass))[0].Text;
                         company.Name = driver.FindElement(By.XPath(groupNameXPath)).Text;
-                        company.ListedAt = driver.FindElement(By.XPath(listedAtXPath)).Text;
+                        company.ListedAt = driver.FindElements(By.ClassName(groupNameClass))[1].Text;
 
                         driver.Navigate().GoToUrl(urlTongQuan);
                         js.ExecuteScript("" +
@@ -326,6 +328,8 @@ namespace ASPNetCore3.ServiceImpl
                     catch (Exception e)
                     {
                         _logger.LogError($"fail on update for stock {stock.Code}", e);
+                        _logger.LogError(e.Message);
+                        _logger.LogError(e.StackTrace);
                     }
                 }
                 driver.Close();

@@ -4,5 +4,6 @@
   "listedAt": "//*[@id='__next']/div/div[1]/div/div/div/div[2]/div[1]/a[2]",
   "mainShareholder": "//*[@id='ccsh']/div/div[2]/div[2]/div[1]/table",
   "leadershipLink": "//*[@id='ccsh']/div/div[2]/div[1]/div[2]/a",
-  "commonInforClass": "row-col__text"
+  "commonInforClass": "row-col__text",
+  "groupNameClass": "tag-item"
 }
