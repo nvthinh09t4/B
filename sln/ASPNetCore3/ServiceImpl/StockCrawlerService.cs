@@ -258,7 +258,7 @@ namespace ASPNetCore3.ServiceImpl
                         commonStockInformation.FreeFloat = texts[11] == "N/A" ? 0 : float.Parse(texts[11].Replace("%", ""));
 
                         commonStockInformation.TySuatCoTuc = texts[17];
-                        commonStockInformation.KLGDTrongPhien = texts[1] == "N/A" ? 0 : long.Parse(texts[0], System.Globalization.NumberStyles.AllowThousands);
+                        commonStockInformation.KLGDTrongPhien = texts[0] == "N/A" ? 0 : long.Parse(texts[0], System.Globalization.NumberStyles.AllowThousands);
                         commonStockInformation.GiaTran = texts[1] == "N/A" ? 0 : float.Parse(texts[1]);
                         commonStockInformation.GiaSan = texts[2] == "N/A" ? 0 : float.Parse(texts[2]);
                         commonStockInformation.GiaMoCua = texts[3] == "N/A" ? 0 : float.Parse(texts[3]);
@@ -339,6 +339,9 @@ namespace ASPNetCore3.ServiceImpl
                         await CrawlerTransactionHistory(company.Code, driver);
                         await _repositoryWrapper.SaveChangeAsync();
 
+                        await CrawlerReportAccountingBalance(company.Code, driver);
+                        
+
                     }
                     catch (Exception e)
                     {
@@ -388,6 +391,51 @@ namespace ASPNetCore3.ServiceImpl
             catch (Exception ex)
             {
                 _logger.LogError($"fail on update for stock transaction {code} ======= {parsingText}", ex);
+                _logger.LogError(ex.Message);
+                _logger.LogError(ex.StackTrace);
+            }
+        }
+
+        public async Task CrawlerReportAccountingBalance(string code, ChromeDriver driver)
+        {
+            var url = "https://dstock.vndirect.com.vn/bang-can-doi-ke-toan/" + code;
+            var parsingText = "";
+            try
+            {
+                driver.Navigate().GoToUrl(url);
+                Thread.Sleep(3000);
+
+                var configFilePath = Path.Combine(_hostingEnvironment.WebRootPath, "crawler", "StockReportAccountingBalance.json");
+                var configuration = JObject.Parse(File.ReadAllText(configFilePath));
+                var reportDetailTblXPath = configuration.GetValue("reportFinanceDetailTbl")?.Value<string>();
+                var reportDetailTbl = driver.FindElement(By.XPath(reportDetailTblXPath));
+                var reportDetailTHead = reportDetailTbl.FindElement(By.TagName("thead")).FindElement(By.TagName("tr"));
+                if (reportDetailTHead != null)
+                {
+                    var theadCells = reportDetailTHead.FindElements(By.TagName("th")).ToList();
+                    for (var i = 1; i < theadCells.Count; i++)
+                    {
+                        var time = theadCells[i].Text;
+                        var quarter = time.Substring(1, 1);
+                        var year = time.Substring(3, 4);
+
+                        var record = await _repositoryWrapper.StockReportAccountingBalance.GetByCodeOnTime(code, quarter, year);
+                        if (record == null)
+                            record = new StockReportAccountingBalance { 
+                                Code = code,
+                                Quarter = quarter,
+                                Year = year,
+                            };
+                        await _repositoryWrapper.StockReportAccountingBalance.UpdateAsync(record);
+                        await _repositoryWrapper.SaveChangeAsync();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"CrawlerTransactionHistory - fail on crawler report accounting balance {code} ======= {parsingText}", ex);
+                _logger.LogError(ex.Message);
+                _logger.LogError(ex.StackTrace);
             }
         }
     }

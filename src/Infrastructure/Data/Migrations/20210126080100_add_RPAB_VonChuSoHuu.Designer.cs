@@ -4,14 +4,16 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210126080100_add_RPAB_VonChuSoHuu")]
+    partial class add_RPAB_VonChuSoHuu
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1748,8 +1750,8 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Quarter")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("Quarter")
+                        .HasColumnType("bigint");
 
                     b.Property<float>("TongCongNguonVon")
                         .HasColumnType("real");
@@ -1757,8 +1759,8 @@ namespace Infrastructure.Data.Migrations
                     b.Property<float>("TongCongTaiSan")
                         .HasColumnType("real");
 
-                    b.Property<string>("Year")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("Year")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 

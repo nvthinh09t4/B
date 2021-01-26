@@ -1,6 +1,7 @@
 ﻿using Domain;
 using Domain.Interfaces;
 using Infrastructure.EntityConfiguration;
+using Infrastructure.EntityConfiguration.ReportConfiguration.ReportAccountingBalance;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -59,6 +60,12 @@ namespace Infrastructure.Data
             builder.ApplyConfiguration(new NewspaperSubCategoryConfiguration());
             builder.ApplyConfiguration(new NewspaperUserSubcribeConfiguration());
             builder.ApplyConfiguration(new StockCompanyConfiguration());
+
+            builder.ApplyConfiguration(new StockReportAccountingBalanceConfiguration());
+            builder.ApplyConfiguration(new RPAB_TaiSanNganHanConfiguration());
+            builder.ApplyConfiguration(new RPAB_TaiSanDaiHanConfiguration());
+            builder.ApplyConfiguration(new RPAB_NoPhaiTraConfiguration());
+            builder.ApplyConfiguration(new RPAB_VonChuSoHuuConfiguration());
         }
     }
 }

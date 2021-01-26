@@ -4,14 +4,16 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210126071141_add_RPAB_TaiSanDaiHan")]
+    partial class add_RPAB_TaiSanDaiHan
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -387,72 +389,6 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("NewspaperUserSubcribes");
                 });
 
-            modelBuilder.Entity("Domain.ReportEntity.RPAB_LoiIchCuaCoDongKhongKiemSoatTruoc2015", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("LastModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("StockReportAccountingBalanceId")
-                        .HasColumnType("bigint");
-
-                    b.Property<float>("TongCong")
-                        .HasColumnType("real");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StockReportAccountingBalanceId")
-                        .IsUnique();
-
-                    b.ToTable("RPAB_LoiIchCuaCoDongKhongKiemSoatTruoc2015");
-                });
-
-            modelBuilder.Entity("Domain.ReportEntity.RPAB_NoPhaiTra", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("LastModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("StockReportAccountingBalanceId")
-                        .HasColumnType("bigint");
-
-                    b.Property<float>("TongCong")
-                        .HasColumnType("real");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StockReportAccountingBalanceId")
-                        .IsUnique();
-
-                    b.ToTable("RPAB_NoPhaiTra");
-                });
-
             modelBuilder.Entity("Domain.ReportEntity.RPAB_TaiSanDaiHan", b =>
                 {
                     b.Property<long>("Id")
@@ -474,9 +410,6 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<long>("StockReportAccountingBalanceId")
                         .HasColumnType("bigint");
-
-                    b.Property<float>("TongCong")
-                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
@@ -508,48 +441,12 @@ namespace Infrastructure.Data.Migrations
                     b.Property<long>("StockReportAccountingBalanceId")
                         .HasColumnType("bigint");
 
-                    b.Property<float>("TongCong")
-                        .HasColumnType("real");
-
                     b.HasKey("Id");
 
                     b.HasIndex("StockReportAccountingBalanceId")
                         .IsUnique();
 
                     b.ToTable("RPAB_TaiSanNganHan");
-                });
-
-            modelBuilder.Entity("Domain.ReportEntity.RPAB_VonChuSoHuu", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("LastModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("StockReportAccountingBalanceId")
-                        .HasColumnType("bigint");
-
-                    b.Property<float>("TongCong")
-                        .HasColumnType("real");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StockReportAccountingBalanceId")
-                        .IsUnique();
-
-                    b.ToTable("RPAB_VonChuSoHuu");
                 });
 
             modelBuilder.Entity("Domain.ReportEntity.ReportAccountingBalance.Criteria_BatDongSanDauTu", b =>
@@ -864,189 +761,6 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("Criteria_LoiTheThuongMaiTruoc2015");
                 });
 
-            modelBuilder.Entity("Domain.ReportEntity.ReportAccountingBalance.Criteria_NguonKinhPhiVanQuyKhac", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("LastModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("RPAB_VonChuSoHuuId")
-                        .HasColumnType("bigint");
-
-                    b.Property<float>("TongCong")
-                        .HasColumnType("real");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RPAB_VonChuSoHuuId")
-                        .IsUnique();
-
-                    b.ToTable("Criteria_NguonKinhPhiVanQuyKhac");
-                });
-
-            modelBuilder.Entity("Domain.ReportEntity.ReportAccountingBalance.Criteria_NoDaiHan", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<float>("ChiPhiPhaiTraDaiHan")
-                        .HasColumnType("real");
-
-                    b.Property<float>("CoPhieuUuDai")
-                        .HasColumnType("real");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<float>("DoanhThuChuaThucHienDaiHan")
-                        .HasColumnType("real");
-
-                    b.Property<float>("DuPhongPhaiTraDaiHan")
-                        .HasColumnType("real");
-
-                    b.Property<float>("DuPhongTroCapMatViecLam")
-                        .HasColumnType("real");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("LastModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<float>("NguoiMuaTraTruocDaiHan")
-                        .HasColumnType("real");
-
-                    b.Property<float>("PhaiTraDaiHanKhac")
-                        .HasColumnType("real");
-
-                    b.Property<float>("PhaiTraDaiHanNguoiBan")
-                        .HasColumnType("real");
-
-                    b.Property<float>("PhaiTraDaiHanNoiBo")
-                        .HasColumnType("real");
-
-                    b.Property<float>("PhaiTraNoiBoVeVonKinhDoanh")
-                        .HasColumnType("real");
-
-                    b.Property<float>("QuyPhatTrienKhoaHocVaCongNghe")
-                        .HasColumnType("real");
-
-                    b.Property<long>("RPAB_NoPhaiTraId")
-                        .HasColumnType("bigint");
-
-                    b.Property<float>("ThueThuNhapHoanLaiPhaiTra")
-                        .HasColumnType("real");
-
-                    b.Property<float>("TongCong")
-                        .HasColumnType("real");
-
-                    b.Property<float>("TraiPhieuChuyenDoi")
-                        .HasColumnType("real");
-
-                    b.Property<float>("VayVaNoDaiHan")
-                        .HasColumnType("real");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RPAB_NoPhaiTraId")
-                        .IsUnique();
-
-                    b.ToTable("Criteria_NoDaiHan");
-                });
-
-            modelBuilder.Entity("Domain.ReportEntity.ReportAccountingBalance.Criteria_NoNganHan", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<float>("CacKhoanPhaiTraPhaiNopNganHanKhac")
-                        .HasColumnType("real");
-
-                    b.Property<float>("ChiPhiPhaiTra")
-                        .HasColumnType("real");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<float>("DoanhThuChuaThucHienNganHan")
-                        .HasColumnType("real");
-
-                    b.Property<float>("DuPhongPhaiTraNganHan")
-                        .HasColumnType("real");
-
-                    b.Property<float>("GiaoDichMuaBanLaiTraiPhieuChinhPhu")
-                        .HasColumnType("real");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("LastModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<float>("NguoiMuaTraTienTruoc")
-                        .HasColumnType("real");
-
-                    b.Property<float>("PhaiTraNguoiBan")
-                        .HasColumnType("real");
-
-                    b.Property<float>("PhaiTraNguoiLaoDong")
-                        .HasColumnType("real");
-
-                    b.Property<float>("PhaiTraNoiBo")
-                        .HasColumnType("real");
-
-                    b.Property<float>("PhaiTraTheoTienDoKeHoachHopDongXayDung")
-                        .HasColumnType("real");
-
-                    b.Property<float>("QuyBinhOnGia")
-                        .HasColumnType("real");
-
-                    b.Property<float>("QuyKhenThuongPhucLoi")
-                        .HasColumnType("real");
-
-                    b.Property<long>("RPAB_NoPhaiTraId")
-                        .HasColumnType("bigint");
-
-                    b.Property<float>("ThueVaCacKhoanPhaiNopNhaNuoc")
-                        .HasColumnType("real");
-
-                    b.Property<float>("TongCong")
-                        .HasColumnType("real");
-
-                    b.Property<float>("VayVaNoNganHan")
-                        .HasColumnType("real");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RPAB_NoPhaiTraId")
-                        .IsUnique();
-
-                    b.ToTable("Criteria_NoNganHan");
-                });
-
             modelBuilder.Entity("Domain.ReportEntity.ReportAccountingBalance.Criteria_TaiSanCoDinh", b =>
                 {
                     b.Property<long>("Id")
@@ -1264,81 +978,6 @@ namespace Infrastructure.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Criteria_TienVaCacKhoanTuongDuongTien");
-                });
-
-            modelBuilder.Entity("Domain.ReportEntity.ReportAccountingBalance.Criteria_VonVaCacQuy", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<float>("ChenhLechTyGiaHoiDoai")
-                        .HasColumnType("real");
-
-                    b.Property<float>("ChenhLenhDanhGiaLaiTaiSan")
-                        .HasColumnType("real");
-
-                    b.Property<float>("CoPhieuQuy")
-                        .HasColumnType("real");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("LastModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<float>("LoiIchCoDongKhongKiemSoat")
-                        .HasColumnType("real");
-
-                    b.Property<float>("LoiNhuanSauThueChuaPhanPhoi")
-                        .HasColumnType("real");
-
-                    b.Property<float>("NguonVonDauTuXDCB")
-                        .HasColumnType("real");
-
-                    b.Property<float>("QuyDauTuPhatTrien")
-                        .HasColumnType("real");
-
-                    b.Property<float>("QuyDuPhongTaiChinh")
-                        .HasColumnType("real");
-
-                    b.Property<float>("QuyHoTroSapXepDoanhNghiep")
-                        .HasColumnType("real");
-
-                    b.Property<float>("QuyKhacThuocVonChuSoHuu")
-                        .HasColumnType("real");
-
-                    b.Property<float>("QuyenChonChuyenDoiTraiPhieu")
-                        .HasColumnType("real");
-
-                    b.Property<long>("RPAB_VonChuSoHuuId")
-                        .HasColumnType("bigint");
-
-                    b.Property<float>("ThangDuVonCoPhan")
-                        .HasColumnType("real");
-
-                    b.Property<float>("TongCong")
-                        .HasColumnType("real");
-
-                    b.Property<float>("VonGop")
-                        .HasColumnType("real");
-
-                    b.Property<float>("VonKhacCuaChuSoHuu")
-                        .HasColumnType("real");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RPAB_VonChuSoHuuId")
-                        .IsUnique();
-
-                    b.ToTable("Criteria_VonVaCacQuy");
                 });
 
             modelBuilder.Entity("Domain.StockCompany", b =>
@@ -1748,17 +1387,11 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Quarter")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("Quarter")
+                        .HasColumnType("bigint");
 
-                    b.Property<float>("TongCongNguonVon")
-                        .HasColumnType("real");
-
-                    b.Property<float>("TongCongTaiSan")
-                        .HasColumnType("real");
-
-                    b.Property<string>("Year")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("Year")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -2178,24 +1811,6 @@ namespace Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Domain.ReportEntity.RPAB_LoiIchCuaCoDongKhongKiemSoatTruoc2015", b =>
-                {
-                    b.HasOne("Domain.StockReportAccountingBalance", "StockReportAccountingBalanceReport")
-                        .WithOne("CriteriaLoiIchCuaCoDongKhongKiemSoatTruoc2015")
-                        .HasForeignKey("Domain.ReportEntity.RPAB_LoiIchCuaCoDongKhongKiemSoatTruoc2015", "StockReportAccountingBalanceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.ReportEntity.RPAB_NoPhaiTra", b =>
-                {
-                    b.HasOne("Domain.StockReportAccountingBalance", "StockReportAccountingBalanceReport")
-                        .WithOne("CriteriaNoPhaiTra")
-                        .HasForeignKey("Domain.ReportEntity.RPAB_NoPhaiTra", "StockReportAccountingBalanceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Domain.ReportEntity.RPAB_TaiSanDaiHan", b =>
                 {
                     b.HasOne("Domain.StockReportAccountingBalance", "StockReportAccountingBalanceReport")
@@ -2210,15 +1825,6 @@ namespace Infrastructure.Data.Migrations
                     b.HasOne("Domain.StockReportAccountingBalance", "StockReportAccountingBalanceReport")
                         .WithOne("CriteriaTaiSanNganHan")
                         .HasForeignKey("Domain.ReportEntity.RPAB_TaiSanNganHan", "StockReportAccountingBalanceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.ReportEntity.RPAB_VonChuSoHuu", b =>
-                {
-                    b.HasOne("Domain.StockReportAccountingBalance", "StockReportAccountingBalanceReport")
-                        .WithOne("CriteriaVonChuSuHuu")
-                        .HasForeignKey("Domain.ReportEntity.RPAB_VonChuSoHuu", "StockReportAccountingBalanceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -2286,33 +1892,6 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.ReportEntity.ReportAccountingBalance.Criteria_NguonKinhPhiVanQuyKhac", b =>
-                {
-                    b.HasOne("Domain.ReportEntity.RPAB_VonChuSoHuu", "ParentRecord")
-                        .WithOne("NguonKinhPhiVanQuyKhac")
-                        .HasForeignKey("Domain.ReportEntity.ReportAccountingBalance.Criteria_NguonKinhPhiVanQuyKhac", "RPAB_VonChuSoHuuId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.ReportEntity.ReportAccountingBalance.Criteria_NoDaiHan", b =>
-                {
-                    b.HasOne("Domain.ReportEntity.RPAB_NoPhaiTra", "ParentRecord")
-                        .WithOne("NoDaiHan")
-                        .HasForeignKey("Domain.ReportEntity.ReportAccountingBalance.Criteria_NoDaiHan", "RPAB_NoPhaiTraId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.ReportEntity.ReportAccountingBalance.Criteria_NoNganHan", b =>
-                {
-                    b.HasOne("Domain.ReportEntity.RPAB_NoPhaiTra", "ParentRecord")
-                        .WithOne("NoNganHan")
-                        .HasForeignKey("Domain.ReportEntity.ReportAccountingBalance.Criteria_NoNganHan", "RPAB_NoPhaiTraId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Domain.ReportEntity.ReportAccountingBalance.Criteria_TaiSanCoDinh", b =>
                 {
                     b.HasOne("Domain.ReportEntity.RPAB_TaiSanDaiHan", "ParentRecord")
@@ -2354,15 +1933,6 @@ namespace Infrastructure.Data.Migrations
                     b.HasOne("Domain.ReportEntity.RPAB_TaiSanNganHan", "ParentRecord")
                         .WithOne("TienVaCacKhoanTuongDuongTien")
                         .HasForeignKey("Domain.ReportEntity.ReportAccountingBalance.Criteria_TienVaCacKhoanTuongDuongTien", "RPAB_TaiSanNganHanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.ReportEntity.ReportAccountingBalance.Criteria_VonVaCacQuy", b =>
-                {
-                    b.HasOne("Domain.ReportEntity.RPAB_VonChuSoHuu", "ParentRecord")
-                        .WithOne("VonVaCacQuy")
-                        .HasForeignKey("Domain.ReportEntity.ReportAccountingBalance.Criteria_VonVaCacQuy", "RPAB_VonChuSoHuuId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

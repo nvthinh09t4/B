@@ -14,6 +14,7 @@ namespace Domain.Interfaces
         IStockGroupRepository StockGroup { get; }
         IStockMainInformationRepository StockMainInformation { get; }
         IStockTransactionHistoryRepository StockTransactionHistory { get; }
+        IStockReportAccountingBalanceRepository StockReportAccountingBalance { get; }
 
         void SaveChange();
         Task SaveChangeAsync();

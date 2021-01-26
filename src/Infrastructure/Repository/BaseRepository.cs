@@ -12,7 +12,7 @@ namespace Infrastructure.Repository
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
-        private ApplicationDbContext _dbContext;
+        protected ApplicationDbContext _dbContext;
 
         public BaseRepository(ApplicationDbContext dbContext)
         {

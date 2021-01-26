@@ -12,42 +12,70 @@ namespace Infrastructure.Repository
     {
         public IStockShareholderRepository StockShareholder {
             get {
-                return _stockShareholder ?? new StockShareholderRepository(_dbContext, _configuration);
+                if (_stockShareholder == null)
+                    _stockShareholder = new StockShareholderRepository(_dbContext, _configuration);
+
+                return _stockShareholder;
             }
         }
 
         public IStockCompanyLeadershipRepository StockCompanyLeadership {
             get {
-                return _stockCompanyLeadership ?? new StockCompanyLeadershipRepository(_dbContext, _configuration);
+                if (_stockCompanyLeadership == null)
+                    _stockCompanyLeadership = new StockCompanyLeadershipRepository(_dbContext, _configuration);
+
+                return _stockCompanyLeadership;
             }
         }
         public IStockCompanyRepository StockCompany {
             get {
-                return _stockCompany ?? new StockCompanyRepository(_dbContext, _configuration);
+                if (_stockCompany == null)
+                    _stockCompany = new StockCompanyRepository(_dbContext, _configuration);
+
+                return _stockCompany;
             }
         }
 
         public IStockIndexRepository StockIndex {
             get {
-                return _stockIndex ?? new StockIndexRepository(_dbContext, _configuration);
+                if (_stockIndex == null)
+                    _stockIndex = new StockIndexRepository(_dbContext, _configuration);
+
+                return _stockIndex;
             }
         }
         public IStockGroupRepository StockGroup {
             get {
-                return _stockGroup ?? new StockGroupRepository(_dbContext, _configuration);
+                if (_stockGroup == null)
+                    _stockGroup = new StockGroupRepository(_dbContext, _configuration);
+
+                return _stockGroup;
             }
         }
         public IStockMainInformationRepository StockMainInformation {
             get {
-                return _stockMainInformation ?? new StockMainInformationRepository(_dbContext, _configuration);
+                if (_stockMainInformation == null)
+                    _stockMainInformation = new StockMainInformationRepository(_dbContext, _configuration);
+
+                return _stockMainInformation;
             }
         }
         public IStockTransactionHistoryRepository StockTransactionHistory {
             get {
-                return IStockTransactionHistoryRepository ?? new StockTransactionHistoryRepository(_dbContext, _configuration);
+                if (_stockTransactionHistoryRepository == null)
+                    _stockTransactionHistoryRepository = new StockTransactionHistoryRepository(_dbContext, _configuration);
+
+                return _stockTransactionHistoryRepository;
             }
         }
+        public IStockReportAccountingBalanceRepository StockReportAccountingBalance {
+            get {
+                if (_stockReportAccountingBalanceRepository == null)
+                    _stockReportAccountingBalanceRepository = new StockReportAccountingBalanceRepository(_dbContext, _configuration);
 
+                return _stockReportAccountingBalanceRepository;
+            }
+        }
 
         private IStockShareholderRepository _stockShareholder;
         private IStockCompanyLeadershipRepository _stockCompanyLeadership;
@@ -55,7 +83,8 @@ namespace Infrastructure.Repository
         private IStockIndexRepository _stockIndex;
         private IStockGroupRepository _stockGroup;
         private IStockMainInformationRepository _stockMainInformation;
-        private IStockTransactionHistoryRepository IStockTransactionHistoryRepository;
+        private IStockTransactionHistoryRepository _stockTransactionHistoryRepository;
+        private IStockReportAccountingBalanceRepository _stockReportAccountingBalanceRepository;
         private ApplicationDbContext _dbContext;
 
         private IConfiguration _configuration;
