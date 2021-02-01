@@ -15,6 +15,10 @@
     <Compile Remove="Data\Migrations\20210127031802_add-key.Designer.cs" />
     <Compile Remove="Data\Migrations\20210127040701_add-key.cs" />
     <Compile Remove="Data\Migrations\20210127040701_add-key.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210201152555_zzz1.cs" />
+    <Compile Remove="Data\Migrations\20210201152555_zzz1.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210201153114_zzz3.cs" />
+    <Compile Remove="Data\Migrations\20210201153114_zzz3.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +31,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
 </Project>

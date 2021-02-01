@@ -8,7 +8,7 @@ namespace Domain.ReportEntity
 {
     public class RPAB_LoiIchCuaCoDongKhongKiemSoatTruoc2015 : BaseEntity
     {
-
+        public long StockReportAccountingBalanceId { get; set; }
         public float TongCong { get; set; }
     }
 }

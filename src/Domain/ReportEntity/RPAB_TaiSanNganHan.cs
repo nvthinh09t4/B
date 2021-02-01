@@ -8,6 +8,7 @@ namespace Domain.ReportEntity
 {
     public class RPAB_TaiSanNganHan : BaseEntity
     {
+        public long StockReportAccountingBalanceId { get; set; }
         public Criteria_TienVaCacKhoanTuongDuongTien TienVaCacKhoanTuongDuongTien { get; set; } = new Criteria_TienVaCacKhoanTuongDuongTien();
         public Criteria_CacKhoanDauTuTaiChinhNganHan CacKhoanDauTuTaiChinhNganHan { get; set; } = new Criteria_CacKhoanDauTuTaiChinhNganHan();
         public Criteria_CacKhoanPhaiThuNganHan CacKhoanPhaiThuNganHan { get; set; } = new Criteria_CacKhoanPhaiThuNganHan();

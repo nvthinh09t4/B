@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Infrastructure.Data.Migrations
+namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210126092152_add_RPAB_VonChuSoHuu22")]
-    partial class add_RPAB_VonChuSoHuu22
+    [Migration("20210201153343_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -2182,7 +2182,7 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Domain.ReportEntity.RPAB_LoiIchCuaCoDongKhongKiemSoatTruoc2015", b =>
                 {
-                    b.HasOne("Domain.StockReportAccountingBalance", "StockReportAccountingBalanceReport")
+                    b.HasOne("Domain.StockReportAccountingBalance", null)
                         .WithOne("CriteriaLoiIchCuaCoDongKhongKiemSoatTruoc2015")
                         .HasForeignKey("Domain.ReportEntity.RPAB_LoiIchCuaCoDongKhongKiemSoatTruoc2015", "StockReportAccountingBalanceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2191,7 +2191,7 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Domain.ReportEntity.RPAB_NoPhaiTra", b =>
                 {
-                    b.HasOne("Domain.StockReportAccountingBalance", "StockReportAccountingBalanceReport")
+                    b.HasOne("Domain.StockReportAccountingBalance", null)
                         .WithOne("CriteriaNoPhaiTra")
                         .HasForeignKey("Domain.ReportEntity.RPAB_NoPhaiTra", "StockReportAccountingBalanceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2200,7 +2200,7 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Domain.ReportEntity.RPAB_TaiSanDaiHan", b =>
                 {
-                    b.HasOne("Domain.StockReportAccountingBalance", "StockReportAccountingBalanceReport")
+                    b.HasOne("Domain.StockReportAccountingBalance", null)
                         .WithOne("CriteriaTaiSanDaiHan")
                         .HasForeignKey("Domain.ReportEntity.RPAB_TaiSanDaiHan", "StockReportAccountingBalanceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2209,7 +2209,7 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Domain.ReportEntity.RPAB_TaiSanNganHan", b =>
                 {
-                    b.HasOne("Domain.StockReportAccountingBalance", "StockReportAccountingBalanceReport")
+                    b.HasOne("Domain.StockReportAccountingBalance", null)
                         .WithOne("CriteriaTaiSanNganHan")
                         .HasForeignKey("Domain.ReportEntity.RPAB_TaiSanNganHan", "StockReportAccountingBalanceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2218,7 +2218,7 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Domain.ReportEntity.RPAB_VonChuSoHuu", b =>
                 {
-                    b.HasOne("Domain.StockReportAccountingBalance", "StockReportAccountingBalanceReport")
+                    b.HasOne("Domain.StockReportAccountingBalance", null)
                         .WithOne("CriteriaVonChuSuHuu")
                         .HasForeignKey("Domain.ReportEntity.RPAB_VonChuSoHuu", "StockReportAccountingBalanceId")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -139,6 +139,7 @@ namespace ASPNetCore3.ServiceImpl
                     stockGroup.VonTT = long.Parse(tableCells[13].Text.Replace("%", ""), System.Globalization.NumberStyles.AllowThousands);
 
                     await _repositoryWrapper.StockGroup.CreateAsync(stockGroup);
+                    await _repositoryWrapper.SaveChangeAsync();
                     //var test = tableCells.Select(x => x.Text).ToList();
                 }
             }
@@ -146,7 +147,8 @@ namespace ASPNetCore3.ServiceImpl
 
         public async Task CrawlerStockInformation()
         {
-            //var stockGroups = _stockGroupRepository.GetDBSet().AsNoTracking().ToList();
+            //await CrawlerStockGroupInformation();
+            //var stockGroups = _repositoryWrapper.StockGroup.GetDBSet().AsNoTracking().ToList();
             //using (var driver = new ChromeDriver())
             //{
             //    foreach (var stockGroup in stockGroups)
@@ -163,7 +165,7 @@ namespace ASPNetCore3.ServiceImpl
             //            {
             //                tableCells = row.FindElements(By.TagName("td"));
             //                var code = tableCells[1].Text;
-            //                var stock = _stockMainInformationRepository.GetDBSet().AsNoTracking().FirstOrDefault(x => x.Code.ToLower() == code.ToLower());
+            //                var stock = _repositoryWrapper.StockMainInformation.GetDBSet().AsNoTracking().FirstOrDefault(x => x.Code.ToLower() == code.ToLower());
             //                var isUpdate = stock != null;
             //                if (stock == null)
 
@@ -184,9 +186,9 @@ namespace ASPNetCore3.ServiceImpl
 
             //                listStock.Add(stock);
             //                if (isUpdate)
-            //                    await _stockMainInformationRepository.UpdateAsync(stock);
+            //                    await _repositoryWrapper.StockMainInformation.UpdateAsync(stock);
             //                else
-            //                    await _stockMainInformationRepository.CreateAsync(stock);
+            //                    await _repositoryWrapper.StockMainInformation.CreateAsync(stock);
             //            }
 
             //        }
@@ -197,6 +199,7 @@ namespace ASPNetCore3.ServiceImpl
             //    }
             //    driver.Close();
             //}
+            //await _repositoryWrapper.SaveChangeAsync();
             await CrawlerStockCompanyInformation();
         }
 
@@ -222,124 +225,124 @@ namespace ASPNetCore3.ServiceImpl
                     var urlTongQuan = "https://dstock.vndirect.com.vn/tong-quan/" + stock.Code;
                     try
                     {
-                    //    driver.Navigate().GoToUrl(urlHoSoDoanhNghiep);
-                    //    Thread.Sleep(3000);
-                    //    IJavaScriptExecutor js = (IJavaScriptExecutor)driver; ;
-                    //    js.ExecuteScript("" +
-                    //        "if (document.getElementById('___reactour') != null)" +
-                    //        "   return document.getElementById('___reactour').remove();" +
-                    //        "else" +
-                    //        "   return;");
+                        driver.Navigate().GoToUrl(urlHoSoDoanhNghiep);
+                        Thread.Sleep(3000);
+                        IJavaScriptExecutor js = (IJavaScriptExecutor)driver; ;
+                        js.ExecuteScript("" +
+                            "if (document.getElementById('___reactour') != null)" +
+                            "   return document.getElementById('___reactour').remove();" +
+                            "else" +
+                            "   return;");
 
-                    //    var company = _repositoryWrapper.StockCompany.GetDBSet().FirstOrDefault(x => x.Code.ToLower() == stock.Code.ToLower());
-                    //    if (company == null)
-                    //        company = new StockCompany();
-                    //    company.Code = stock.Code;
-                    //    company.GroupName = driver.FindElements(By.ClassName(groupNameClass))[0].Text;
-                    //    company.Name = driver.FindElement(By.XPath(groupNameXPath)).Text;
-                    //    company.ListedAt = driver.FindElements(By.ClassName(groupNameClass))[1].Text;
+                        var company = _repositoryWrapper.StockCompany.GetDBSet().FirstOrDefault(x => x.Code.ToLower() == stock.Code.ToLower());
+                        if (company == null)
+                            company = new StockCompany();
+                        company.Code = stock.Code;
+                        company.GroupName = driver.FindElements(By.ClassName(groupNameClass))[0].Text;
+                        company.Name = driver.FindElement(By.XPath(groupNameXPath)).Text;
+                        company.ListedAt = driver.FindElements(By.ClassName(groupNameClass))[1].Text;
 
-                    //    driver.Navigate().GoToUrl(urlTongQuan);
-                    //    Thread.Sleep(3000);
-                    //    js.ExecuteScript("" +
-                    //        "if (document.getElementById('___reactour') != null)" +
-                    //        "   return document.getElementById('___reactour').remove();" +
-                    //        "else" +
-                    //        "   return;");
+                        driver.Navigate().GoToUrl(urlTongQuan);
+                        Thread.Sleep(3000);
+                        js.ExecuteScript("" +
+                            "if (document.getElementById('___reactour') != null)" +
+                            "   return document.getElementById('___reactour').remove();" +
+                            "else" +
+                            "   return;");
 
-                    //    ///Get common information
-                    //    ///
-                    //    var commonStockInformation = _repositoryWrapper.StockIndex.GetDBSet().FirstOrDefault(x => x.Code.ToLower() == stock.Code.ToLower());
-                    //    if (commonStockInformation == null)
-                    //        commonStockInformation = new StockIndex() { Code = stock.Code};
-                    //    var texts = driver.FindElementsByClassName("row-col__text").Select(x => x.Text).ToList();
-                    //    parsingText = string.Join(";", texts);
-                    //    commonStockInformation.VonHoaThiTruong = texts[1] == "N/A" ? 0 : long.Parse(texts[6].Replace(" tỷ", ""), System.Globalization.NumberStyles.AllowThousands);
+                        ///Get common information
+                        ///
+                        var commonStockInformation = _repositoryWrapper.StockIndex.GetDBSet().FirstOrDefault(x => x.Code.ToLower() == stock.Code.ToLower());
+                        if (commonStockInformation == null)
+                            commonStockInformation = new StockIndex() { Code = stock.Code };
+                        var texts = driver.FindElementsByClassName("row-col__text").Select(x => x.Text).ToList();
+                        parsingText = string.Join(";", texts);
+                        commonStockInformation.VonHoaThiTruong = texts[1] == "N/A" ? 0 : long.Parse(texts[6].Replace(" tỷ", ""), System.Globalization.NumberStyles.AllowThousands);
 
-                    //    commonStockInformation.SoCPLuuHanh = texts[10];
-                    //    commonStockInformation.FreeFloat = texts[11] == "N/A" ? 0 : float.Parse(texts[11].Replace("%", ""));
+                        commonStockInformation.SoCPLuuHanh = texts[10];
+                        commonStockInformation.FreeFloat = texts[11] == "N/A" ? 0 : float.Parse(texts[11].Replace("%", ""));
 
-                    //    commonStockInformation.TySuatCoTuc = texts[17];
-                    //    commonStockInformation.KLGDTrongPhien = texts[0] == "N/A" ? 0 : long.Parse(texts[0], System.Globalization.NumberStyles.AllowThousands);
-                    //    commonStockInformation.GiaTran = texts[1] == "N/A" ? 0 : float.Parse(texts[1]);
-                    //    commonStockInformation.GiaSan = texts[2] == "N/A" ? 0 : float.Parse(texts[2]);
-                    //    commonStockInformation.GiaMoCua = texts[3] == "N/A" ? 0 : float.Parse(texts[3]);
-                    //    commonStockInformation.GiaCaoNhat = texts[4] == "N/A" ? 0 : float.Parse(texts[4]);
-                    //    commonStockInformation.GiaThapNhat = texts[5] == "N/A" ? 0 : float.Parse(texts[5]);
-                    //    commonStockInformation.KLGDTrungBinh10Phien = texts[1] == "N/A" ? 0 : long.Parse(texts[7], System.Globalization.NumberStyles.AllowThousands);
-                    //    commonStockInformation.CaoNhat52Tuan = texts[8] == "N/A" ? 0 : float.Parse(texts[8]);
-                    //    commonStockInformation.ThapNhat52Tuan = texts[9] == "N/A" ? 0 : float.Parse(texts[9]);
-                    //    commonStockInformation.EPS = texts[18] == "N/A" ? 0 : float.Parse(texts[18], System.Globalization.NumberStyles.AllowThousands);
-                    //    commonStockInformation.BVPS = texts[19] == "N/A" ? 0 : float.Parse(texts[19], System.Globalization.NumberStyles.AllowThousands);
-                    //    commonStockInformation.Beta = texts[12] == "N/A" ? 0 : float.Parse(texts[12]);
-                    //    commonStockInformation.PE = texts[13] == "N/A" ? 0 : float.Parse(texts[13].Replace("x", ""));
-                    //    commonStockInformation.PB = texts[14] == "N/A" ? 0 : float.Parse(texts[14].Replace("x", ""));
-                    //    commonStockInformation.ROAE = texts[15] == "N/A" ? 0 : float.Parse(texts[15].Replace("x", "").Replace("%", ""));
-                    //    commonStockInformation.ROAA = texts[16] == "N/A" ? 0 : float.Parse(texts[16].Replace("x", "").Replace("%", ""));
+                        commonStockInformation.TySuatCoTuc = texts[17];
+                        commonStockInformation.KLGDTrongPhien = texts[0] == "N/A" ? 0 : long.Parse(texts[0], System.Globalization.NumberStyles.AllowThousands);
+                        commonStockInformation.GiaTran = texts[1] == "N/A" ? 0 : float.Parse(texts[1]);
+                        commonStockInformation.GiaSan = texts[2] == "N/A" ? 0 : float.Parse(texts[2]);
+                        commonStockInformation.GiaMoCua = texts[3] == "N/A" ? 0 : float.Parse(texts[3]);
+                        commonStockInformation.GiaCaoNhat = texts[4] == "N/A" ? 0 : float.Parse(texts[4]);
+                        commonStockInformation.GiaThapNhat = texts[5] == "N/A" ? 0 : float.Parse(texts[5]);
+                        commonStockInformation.KLGDTrungBinh10Phien = texts[1] == "N/A" ? 0 : long.Parse(texts[7], System.Globalization.NumberStyles.AllowThousands);
+                        commonStockInformation.CaoNhat52Tuan = texts[8] == "N/A" ? 0 : float.Parse(texts[8]);
+                        commonStockInformation.ThapNhat52Tuan = texts[9] == "N/A" ? 0 : float.Parse(texts[9]);
+                        commonStockInformation.EPS = texts[18] == "N/A" ? 0 : float.Parse(texts[18], System.Globalization.NumberStyles.AllowThousands);
+                        commonStockInformation.BVPS = texts[19] == "N/A" ? 0 : float.Parse(texts[19], System.Globalization.NumberStyles.AllowThousands);
+                        commonStockInformation.Beta = texts[12] == "N/A" ? 0 : float.Parse(texts[12]);
+                        commonStockInformation.PE = texts[13] == "N/A" ? 0 : float.Parse(texts[13].Replace("x", ""));
+                        commonStockInformation.PB = texts[14] == "N/A" ? 0 : float.Parse(texts[14].Replace("x", ""));
+                        commonStockInformation.ROAE = texts[15] == "N/A" ? 0 : float.Parse(texts[15].Replace("x", "").Replace("%", ""));
+                        commonStockInformation.ROAA = texts[16] == "N/A" ? 0 : float.Parse(texts[16].Replace("x", "").Replace("%", ""));
 
-                    //    await _repositoryWrapper.StockIndex.UpdateAsync(commonStockInformation);
-                    //    await _repositoryWrapper.SaveChangeAsync();
+                        await _repositoryWrapper.StockIndex.UpdateAsync(commonStockInformation);
+                        await _repositoryWrapper.SaveChangeAsync();
 
 
-                    //var mainShareholderTbl = driver.FindElement(By.XPath(mainShareholderXPath)).FindElements(By.TagName("tr"));
-                    //    List<StockShareholder> mainShareholder = new List<StockShareholder>();
-                        
-                    //    if (mainShareholderTbl != null && mainShareholderTbl.Count > 1)
-                    //    {
-                    //        foreach (var mainShareholderRow in mainShareholderTbl.Skip(1))
-                    //        {
-                    //            var cells = mainShareholderRow.FindElements(By.TagName("td"));
-                    //            mainShareholder.Add(new StockShareholder {
-                    //                Name = cells[0].Text,
-                    //                SharePercent = float.Parse(cells[1].Text.Replace("%", ""))
-                    //            });
-                    //        }
-                    //    }
-                      
+                        var mainShareholderTbl = driver.FindElement(By.XPath(mainShareholderXPath)).FindElements(By.TagName("tr"));
+                        List<StockShareholder> mainShareholder = new List<StockShareholder>();
 
-                    //    driver.Navigate().GoToUrl(urlTongQuan);
-                    //    Thread.Sleep(3000);
-                    //    js.ExecuteScript("" +
-                    //        "if (document.getElementById('___reactour') != null)" +
-                    //        "   return document.getElementById('___reactour').remove();" +
-                    //        "else" +
-                    //        "   return;");
+                        if (mainShareholderTbl != null && mainShareholderTbl.Count > 1)
+                        {
+                            foreach (var mainShareholderRow in mainShareholderTbl.Skip(1))
+                            {
+                                var cells = mainShareholderRow.FindElements(By.TagName("td"));
+                                mainShareholder.Add(new StockShareholder {
+                                    Name = cells[0].Text,
+                                    SharePercent = float.Parse(cells[1].Text.Replace("%", ""))
+                                });
+                            }
+                        }
 
-                    //    driver.FindElement(By.XPath(leadershipLinkXPath)).Click();
 
-                    //    var leadershipTbl = driver.FindElement(By.XPath(mainShareholderXPath)).FindElements(By.TagName("tr"));
-                    //    List<StockCompanyLeadership> leaderships = new List<StockCompanyLeadership>();
-                    //    if (leadershipTbl != null && leadershipTbl.Count > 1)
-                    //    {
-                    //        foreach (var leadershipRow in leadershipTbl.Skip(1))
-                    //        {
-                    //            var cells = leadershipRow.FindElements(By.TagName("td"));
-                    //            leaderships.Add(new StockCompanyLeadership {
-                    //                Name = cells[0].Text,
-                    //                Position = cells[1].Text
-                    //            });
-                    //        }
-                    //    }
-                        
+                        driver.Navigate().GoToUrl(urlTongQuan);
+                        Thread.Sleep(3000);
+                        js.ExecuteScript("" +
+                            "if (document.getElementById('___reactour') != null)" +
+                            "   return document.getElementById('___reactour').remove();" +
+                            "else" +
+                            "   return;");
 
-                    //    foreach (var item in company.Leaderships)
-                    //    {
-                    //        company.Leaderships.Remove(item);
-                    //    }
+                        driver.FindElement(By.XPath(leadershipLinkXPath)).Click();
 
-                    //    foreach (var item in company.MainShareholder)
-                    //    {
-                    //        company.MainShareholder.Remove(item);
-                    //    }
+                        var leadershipTbl = driver.FindElement(By.XPath(mainShareholderXPath)).FindElements(By.TagName("tr"));
+                        List<StockCompanyLeadership> leaderships = new List<StockCompanyLeadership>();
+                        if (leadershipTbl != null && leadershipTbl.Count > 1)
+                        {
+                            foreach (var leadershipRow in leadershipTbl.Skip(1))
+                            {
+                                var cells = leadershipRow.FindElements(By.TagName("td"));
+                                leaderships.Add(new StockCompanyLeadership {
+                                    Name = cells[0].Text,
+                                    Position = cells[1].Text
+                                });
+                            }
+                        }
 
-                    //    company.Leaderships = leaderships;
-                    //    company.MainShareholder = mainShareholder;
 
-                    //    await _repositoryWrapper.StockCompany.SaveAsync(company);
-                    //    await _repositoryWrapper.SaveChangeAsync();
+                        foreach (var item in company.Leaderships)
+                        {
+                            company.Leaderships.Remove(item);
+                        }
 
-                    //    await CrawlerTransactionHistory(company.Code, driver);
-                    //    await _repositoryWrapper.SaveChangeAsync();
+                        foreach (var item in company.MainShareholder)
+                        {
+                            company.MainShareholder.Remove(item);
+                        }
+
+                        company.Leaderships = leaderships;
+                        company.MainShareholder = mainShareholder;
+
+                        await _repositoryWrapper.StockCompany.SaveAsync(company);
+                        await _repositoryWrapper.SaveChangeAsync();
+
+                        await CrawlerTransactionHistory(company.Code, driver);
+                        await _repositoryWrapper.SaveChangeAsync();
 
                         await CrawlerReportAccountingBalance(stock.Code, driver);
                         
@@ -458,17 +461,21 @@ namespace ASPNetCore3.ServiceImpl
                         }
                         var dataRows = reportDetailTbl.FindElement(By.TagName("tbody")).FindElements(By.TagName("tr"));
 
+                        //+ Tài sản ngắn hạn
                         record.CriteriaTaiSanNganHan.TongCong =  dataRows[0].FindElements(By.TagName("td"))[i].Text.ToFloat();
 
+                        //  - Tiền và các khoản tương đương tiền
                         record.CriteriaTaiSanNganHan.TienVaCacKhoanTuongDuongTien.TongCong = dataRows[1].FindElements(By.TagName("td"))[i].Text.ToFloat();
                         record.CriteriaTaiSanNganHan.TienVaCacKhoanTuongDuongTien.Tien = dataRows[2].FindElements(By.TagName("td"))[i].Text.ToFloat();
                         record.CriteriaTaiSanNganHan.TienVaCacKhoanTuongDuongTien.CacKhoanTuongDuongTien = dataRows[3].FindElements(By.TagName("td"))[i].Text.ToFloat();
 
+                        //  - Các khoản đầu tư tài chính ngắn hạn
                         record.CriteriaTaiSanNganHan.CacKhoanDauTuTaiChinhNganHan.TongCong = dataRows[4].FindElements(By.TagName("td"))[i].Text.ToFloat();
                         record.CriteriaTaiSanNganHan.CacKhoanDauTuTaiChinhNganHan.DauTuNganHan = dataRows[5].FindElements(By.TagName("td"))[i].Text.ToFloat();
                         record.CriteriaTaiSanNganHan.CacKhoanDauTuTaiChinhNganHan.DuPhongGiamGiaDauTuNganHan = dataRows[6].FindElements(By.TagName("td"))[i].Text.ToFloat();
                         record.CriteriaTaiSanNganHan.CacKhoanDauTuTaiChinhNganHan.DauTuGiuDenNgayDaoHan = dataRows[7].FindElements(By.TagName("td"))[i].Text.ToFloat();
 
+                        //  - Các khoản phải thu ngắn hạn
                         record.CriteriaTaiSanNganHan.CacKhoanPhaiThuNganHan.TongCong = dataRows[8].FindElements(By.TagName("td"))[i].Text.ToFloat();
                         record.CriteriaTaiSanNganHan.CacKhoanPhaiThuNganHan.PhaiThuKhachHang = dataRows[9].FindElements(By.TagName("td"))[i].Text.ToFloat();
                         record.CriteriaTaiSanNganHan.CacKhoanPhaiThuNganHan.TraTruocChoNguoiBan = dataRows[10].FindElements(By.TagName("td"))[i].Text.ToFloat();
@@ -479,16 +486,140 @@ namespace ASPNetCore3.ServiceImpl
                         record.CriteriaTaiSanNganHan.CacKhoanPhaiThuNganHan.DuPhongPhaiThuNganHanKhoDoi = dataRows[15].FindElements(By.TagName("td"))[i].Text.ToFloat();
                         record.CriteriaTaiSanNganHan.CacKhoanPhaiThuNganHan.TaiSanThieuChoXuLy = dataRows[16].FindElements(By.TagName("td"))[i].Text.ToFloat();
 
+                        //  - Hàng tồn kho
                         record.CriteriaTaiSanNganHan.HangTonKho.TongCong = dataRows[17].FindElements(By.TagName("td"))[i].Text.ToFloat();
                         record.CriteriaTaiSanNganHan.HangTonKho.HangTonKho = dataRows[18].FindElements(By.TagName("td"))[i].Text.ToFloat();
                         record.CriteriaTaiSanNganHan.HangTonKho.DuPhongGiamGiaHangTonKho = dataRows[19].FindElements(By.TagName("td"))[i].Text.ToFloat();
 
+                        //  - Tài sản ngắn hạn khác
                         record.CriteriaTaiSanNganHan.TaiSanNganHanKhac.TongCong = dataRows[20].FindElements(By.TagName("td"))[i].Text.ToFloat();
                         record.CriteriaTaiSanNganHan.TaiSanNganHanKhac.ChiPhiTraTruocNganHan = dataRows[21].FindElements(By.TagName("td"))[i].Text.ToFloat();
                         record.CriteriaTaiSanNganHan.TaiSanNganHanKhac.ThueGTGTDuocKhauTru = dataRows[22].FindElements(By.TagName("td"))[i].Text.ToFloat();
                         record.CriteriaTaiSanNganHan.TaiSanNganHanKhac.ThueVaCacKhoanKhacPhaiThuNhaNuoc = dataRows[23].FindElements(By.TagName("td"))[i].Text.ToFloat();
                         record.CriteriaTaiSanNganHan.TaiSanNganHanKhac.GiaoDichMuaBanLaiTraiPhieuChinhPhu = dataRows[24].FindElements(By.TagName("td"))[i].Text.ToFloat();
                         record.CriteriaTaiSanNganHan.TaiSanNganHanKhac.TaiSanNganHanKhac = dataRows[25].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+
+                        //+ Tài sản dài hạn
+                        record.CriteriaTaiSanDaiHan.TongCong = dataRows[26].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        //  - Các khoản phải thu dài hạn
+                        record.CriteriaTaiSanDaiHan.CacKhoanPhaiThuDaiHan.TongCong = dataRows[27].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanDaiHan.CacKhoanPhaiThuDaiHan.PhaiThuDaiHanCuaKhachHang = dataRows[28].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanDaiHan.CacKhoanPhaiThuDaiHan.TraTruocDaiHanNguoiBan = dataRows[29].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanDaiHan.CacKhoanPhaiThuDaiHan.VonKinhDoanhODonViTrucThuoc = dataRows[30].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanDaiHan.CacKhoanPhaiThuDaiHan.PhaiThuDaiHanNoiBo = dataRows[31].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanDaiHan.CacKhoanPhaiThuDaiHan.PhaiThuVeChoVayDaiHan = dataRows[32].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanDaiHan.CacKhoanPhaiThuDaiHan.PhaiThuDaiHanKhac = dataRows[33].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanDaiHan.CacKhoanPhaiThuDaiHan.DuPhongPhaiThuDaiHanKhoDoi = dataRows[34].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        //  - Tài sản cố định
+                        record.CriteriaTaiSanDaiHan.TaiSanCoDinh.TongCong = dataRows[35].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanDaiHan.TaiSanCoDinh.TaiSanCoDinhHuuHinh = dataRows[36].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanDaiHan.TaiSanCoDinh.TaiSanCoDinhThueTaiChinh = dataRows[37].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanDaiHan.TaiSanCoDinh.TaiSanCoDinhVoHinh = dataRows[38].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanDaiHan.TaiSanCoDinh.ChiPhiXayDungCoBanDoDang = dataRows[39].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        //  - Bất động sản đầu tư
+                        record.CriteriaTaiSanDaiHan.BatDongSanDauTu.TongCong = dataRows[40].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanDaiHan.BatDongSanDauTu.NguyenGiaBatDongSanDauTu = dataRows[41].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanDaiHan.BatDongSanDauTu.HaoMonBatDongSanDauTu = dataRows[42].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        //  - Tài sản dở dang dài hạn
+                        record.CriteriaTaiSanDaiHan.TaiSanDoDangDaiHan.TongCong = dataRows[43].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanDaiHan.TaiSanDoDangDaiHan.ChiPhiSanXuatKinhDoanhDoDangDaiHan = dataRows[44].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanDaiHan.TaiSanDoDangDaiHan.ChiPhiXayDungCoBanDoDang = dataRows[45].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        //  - Các khoản đầu tư tài chính dài hạn
+                        record.CriteriaTaiSanDaiHan.CacKhoanDauTuTaiChinhDaiHan.TongCong = dataRows[46].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanDaiHan.CacKhoanDauTuTaiChinhDaiHan.DauTuVaoCongTyCon = dataRows[47].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanDaiHan.CacKhoanDauTuTaiChinhDaiHan.DauTuVaoCongTyLienKetLienDoanh = dataRows[48].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanDaiHan.CacKhoanDauTuTaiChinhDaiHan.DauTuDaiHanKhac = dataRows[49].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanDaiHan.CacKhoanDauTuTaiChinhDaiHan.DuPhongGiamGiaDauTuTaiChinhDaiHan = dataRows[50].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanDaiHan.CacKhoanDauTuTaiChinhDaiHan.DauTuDaiHanGiuDenNgayDaoHan = dataRows[51].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        //  - Tài sản dài hạn khác
+                        record.CriteriaTaiSanDaiHan.TaiSanDaiHanKhac.TongCong = dataRows[52].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanDaiHan.TaiSanDaiHanKhac.ChiPhiTraTruocDaiHan = dataRows[53].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanDaiHan.TaiSanDaiHanKhac.TaiSanThueThuNhapHoanLai = dataRows[54].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanDaiHan.TaiSanDaiHanKhac.ThietBiVatTuPhuTungThayTheDaiHan = dataRows[55].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanDaiHan.TaiSanDaiHanKhac.TaiSanDaiHanKhac = dataRows[56].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanDaiHan.TaiSanDaiHanKhac.LoiTheThuongMai = dataRows[57].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        //  - Lợi thế thương mại (trước 2015)
+                        record.CriteriaTaiSanDaiHan.LoiTheThuongMaiTruoc2015.TongCong = dataRows[58].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        //=======================================================
+                        //TỔNG CỘNG TÀI SẢN
+                        record.TongCongTaiSan = dataRows[59].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        //+ Nợ phải trả
+                        record.CriteriaNoPhaiTra.TongCong = dataRows[60].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        //  - Nợ ngắn hạn
+                        record.CriteriaNoPhaiTra.NoNganHan.TongCong = dataRows[61].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoNganHan.VayVaNoNganHan = dataRows[62].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoNganHan.PhaiTraNguoiBan = dataRows[63].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoNganHan.NguoiMuaTraTienTruoc = dataRows[64].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoNganHan.ThueVaCacKhoanPhaiNopNhaNuoc = dataRows[65].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoNganHan.PhaiTraNguoiLaoDong = dataRows[66].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoNganHan.ChiPhiPhaiTra = dataRows[67].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoNganHan.PhaiTraNoiBo = dataRows[68].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoNganHan.PhaiTraTheoTienDoKeHoachHopDongXayDung = dataRows[69].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoNganHan.CacKhoanPhaiTraPhaiNopNganHanKhac = dataRows[70].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoNganHan.QuyKhenThuongPhucLoi = dataRows[71].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoNganHan.DoanhThuChuaThucHienNganHan = dataRows[72].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoNganHan.DuPhongPhaiTraNganHan = dataRows[73].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoNganHan.QuyBinhOnGia = dataRows[74].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoNganHan.GiaoDichMuaBanLaiTraiPhieuChinhPhu = dataRows[75].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        //  - Nợ dài hạn
+                        record.CriteriaNoPhaiTra.NoDaiHan.TongCong = dataRows[76].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoDaiHan.PhaiTraDaiHanNguoiBan = dataRows[77].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoDaiHan.NguoiMuaTraTruocDaiHan = dataRows[78].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoDaiHan.ChiPhiPhaiTraDaiHan = dataRows[79].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoDaiHan.PhaiTraNoiBoVeVonKinhDoanh = dataRows[80].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoDaiHan.PhaiTraDaiHanNoiBo = dataRows[81].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoDaiHan.PhaiTraDaiHanKhac = dataRows[82].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoDaiHan.VayVaNoDaiHan = dataRows[83].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoDaiHan.TraiPhieuChuyenDoi = dataRows[84].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoDaiHan.CoPhieuUuDai = dataRows[85].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoDaiHan.ThueThuNhapHoanLaiPhaiTra = dataRows[86].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoDaiHan.DuPhongTroCapMatViecLam = dataRows[87].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoDaiHan.DoanhThuChuaThucHienDaiHan = dataRows[88].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoDaiHan.QuyPhatTrienKhoaHocVaCongNghe = dataRows[89].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaNoPhaiTra.NoDaiHan.DuPhongPhaiTraDaiHan = dataRows[90].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        //+ Vốn chủ sở hữu
+                        record.CriteriaVonChuSuHuu.TongCong = dataRows[91].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        //  - Vốn và các quỹ
+                        record.CriteriaVonChuSuHuu.VonVaCacQuy.TongCong = dataRows[92].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaVonChuSuHuu.VonVaCacQuy.VonGop = dataRows[93].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaVonChuSuHuu.VonVaCacQuy.ThangDuVonCoPhan = dataRows[94].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaVonChuSuHuu.VonVaCacQuy.QuyenChonChuyenDoiTraiPhieu = dataRows[95].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaVonChuSuHuu.VonVaCacQuy.VonKhacCuaChuSoHuu = dataRows[96].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaVonChuSuHuu.VonVaCacQuy.CoPhieuQuy = dataRows[97].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaVonChuSuHuu.VonVaCacQuy.ChenhLenhDanhGiaLaiTaiSan = dataRows[98].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaVonChuSuHuu.VonVaCacQuy.ChenhLechTyGiaHoiDoai = dataRows[99].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaVonChuSuHuu.VonVaCacQuy.QuyDauTuPhatTrien = dataRows[100].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaVonChuSuHuu.VonVaCacQuy.QuyDuPhongTaiChinh = dataRows[101].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaVonChuSuHuu.VonVaCacQuy.QuyKhacThuocVonChuSoHuu = dataRows[102].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaVonChuSuHuu.VonVaCacQuy.LoiNhuanSauThueChuaPhanPhoi = dataRows[103].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaVonChuSuHuu.VonVaCacQuy.LoiIchCoDongKhongKiemSoat = dataRows[104].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaVonChuSuHuu.VonVaCacQuy.QuyHoTroSapXepDoanhNghiep = dataRows[105].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaVonChuSuHuu.VonVaCacQuy.NguonVonDauTuXDCB = dataRows[106].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        //  - Nguồn kinh phí và quỹ khác
+                        record.CriteriaVonChuSuHuu.NguonKinhPhiVanQuyKhac.TongCong = dataRows[107].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        //+ Lợi ích của cổ đông không kiểm soát (trước 2015)
+                        record.CriteriaLoiIchCuaCoDongKhongKiemSoatTruoc2015.TongCong = dataRows[108].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        //=======================================================
+                        //TỔNG CỘNG NGUỒN VỐN
+                        record.TongCongNguonVon = dataRows[109].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
 
                         // trows2.Select(x => x.FindElements(By.TagName("td"))).Where(x => !string.IsNullOrEmpty(x.Text) && x.Text.Trim() == "Tài sản ngắn hạn").ToList();
 
@@ -507,7 +638,7 @@ namespace ASPNetCore3.ServiceImpl
                         //record.CriteriaTaiSanNganHan.CacKhoanDauTuTaiChinhNganHan.DauTuGiuDenNgayDaoHan = trowLevel3[4].FindElements(By.TagName("td"))[i].Text.ToFloat();
 
 
-                        await _repositoryWrapper.StockReportAccountingBalance.UpdateAsync(record);
+                        await _repositoryWrapper.StockReportAccountingBalance.SaveAsync(record);
                         await _repositoryWrapper.SaveChangeAsync();
                     }
 

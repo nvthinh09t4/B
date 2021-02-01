@@ -42,7 +42,7 @@ namespace Infrastructure.Repository
             return DoUpdate(entity);
         }
 
-        public async Task<T> SaveAsync(T entity)
+        public virtual async Task<T> SaveAsync(T entity)
         {
             var entityInDb = await GetDBSet().FirstOrDefaultAsync(x => x.Id == entity.Id);
             if (entityInDb == null)
@@ -52,14 +52,15 @@ namespace Infrastructure.Repository
 
         public virtual T DoAdd(T entity) 
         {
-            GetDBSet().Add(entity);
+            _dbContext.Entry(entity).State = EntityState.Added;
+            //GetDBSet().Add(entity);
             return entity;
         }
         public virtual T DoUpdate(T entity)
         {
-            GetDBSet().Update(entity);
-            //_dbContext.Entry(entity).State = EntityState.Modified;
-            //_dbContext.Entry(entity).CurrentValues.SetValues(entity);
+            //GetDBSet().Update(entity);
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            _dbContext.Entry(entity).CurrentValues.SetValues(entity);
             return entity;
         }
 

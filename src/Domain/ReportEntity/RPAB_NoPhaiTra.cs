@@ -8,7 +8,7 @@ namespace Domain.ReportEntity
 {
     public class RPAB_NoPhaiTra : BaseEntity
     {
-
+        public long StockReportAccountingBalanceId { get; set; }
         public Criteria_NoDaiHan NoDaiHan { get; set; } 
         public Criteria_NoNganHan NoNganHan { get; set; }
 

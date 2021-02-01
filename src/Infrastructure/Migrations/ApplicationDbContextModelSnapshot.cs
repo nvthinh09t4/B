@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Infrastructure.Data.Migrations
+namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -406,10 +406,16 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<long>("StockReportAccountingBalanceId")
+                        .HasColumnType("bigint");
+
                     b.Property<float>("TongCong")
                         .HasColumnType("real");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("StockReportAccountingBalanceId")
+                        .IsUnique();
 
                     b.ToTable("RPAB_LoiIchCuaCoDongKhongKiemSoatTruoc2015");
                 });
@@ -433,10 +439,16 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<long>("StockReportAccountingBalanceId")
+                        .HasColumnType("bigint");
+
                     b.Property<float>("TongCong")
                         .HasColumnType("real");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("StockReportAccountingBalanceId")
+                        .IsUnique();
 
                     b.ToTable("RPAB_NoPhaiTra");
                 });
@@ -460,10 +472,16 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<long>("StockReportAccountingBalanceId")
+                        .HasColumnType("bigint");
+
                     b.Property<float>("TongCong")
                         .HasColumnType("real");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("StockReportAccountingBalanceId")
+                        .IsUnique();
 
                     b.ToTable("RPAB_TaiSanDaiHan");
                 });
@@ -487,10 +505,16 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<long>("StockReportAccountingBalanceId")
+                        .HasColumnType("bigint");
+
                     b.Property<float>("TongCong")
                         .HasColumnType("real");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("StockReportAccountingBalanceId")
+                        .IsUnique();
 
                     b.ToTable("RPAB_TaiSanNganHan");
                 });
@@ -514,10 +538,16 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<long>("StockReportAccountingBalanceId")
+                        .HasColumnType("bigint");
+
                     b.Property<float>("TongCong")
                         .HasColumnType("real");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("StockReportAccountingBalanceId")
+                        .IsUnique();
 
                     b.ToTable("RPAB_VonChuSoHuu");
                 });
@@ -1712,21 +1742,6 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("CriteriaLoiIchCuaCoDongKhongKiemSoatTruoc2015Id")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("CriteriaNoPhaiTraId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("CriteriaTaiSanDaiHanId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("CriteriaTaiSanNganHanId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("CriteriaVonChuSuHuuId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -1746,16 +1761,6 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CriteriaLoiIchCuaCoDongKhongKiemSoatTruoc2015Id");
-
-                    b.HasIndex("CriteriaNoPhaiTraId");
-
-                    b.HasIndex("CriteriaTaiSanDaiHanId");
-
-                    b.HasIndex("CriteriaTaiSanNganHanId");
-
-                    b.HasIndex("CriteriaVonChuSuHuuId");
 
                     b.ToTable("StockReportAccountingBalance");
                 });
@@ -2173,6 +2178,51 @@ namespace Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Domain.ReportEntity.RPAB_LoiIchCuaCoDongKhongKiemSoatTruoc2015", b =>
+                {
+                    b.HasOne("Domain.StockReportAccountingBalance", null)
+                        .WithOne("CriteriaLoiIchCuaCoDongKhongKiemSoatTruoc2015")
+                        .HasForeignKey("Domain.ReportEntity.RPAB_LoiIchCuaCoDongKhongKiemSoatTruoc2015", "StockReportAccountingBalanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.ReportEntity.RPAB_NoPhaiTra", b =>
+                {
+                    b.HasOne("Domain.StockReportAccountingBalance", null)
+                        .WithOne("CriteriaNoPhaiTra")
+                        .HasForeignKey("Domain.ReportEntity.RPAB_NoPhaiTra", "StockReportAccountingBalanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.ReportEntity.RPAB_TaiSanDaiHan", b =>
+                {
+                    b.HasOne("Domain.StockReportAccountingBalance", null)
+                        .WithOne("CriteriaTaiSanDaiHan")
+                        .HasForeignKey("Domain.ReportEntity.RPAB_TaiSanDaiHan", "StockReportAccountingBalanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.ReportEntity.RPAB_TaiSanNganHan", b =>
+                {
+                    b.HasOne("Domain.StockReportAccountingBalance", null)
+                        .WithOne("CriteriaTaiSanNganHan")
+                        .HasForeignKey("Domain.ReportEntity.RPAB_TaiSanNganHan", "StockReportAccountingBalanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.ReportEntity.RPAB_VonChuSoHuu", b =>
+                {
+                    b.HasOne("Domain.StockReportAccountingBalance", null)
+                        .WithOne("CriteriaVonChuSuHuu")
+                        .HasForeignKey("Domain.ReportEntity.RPAB_VonChuSoHuu", "StockReportAccountingBalanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Domain.ReportEntity.ReportAccountingBalance.Criteria_BatDongSanDauTu", b =>
                 {
                     b.HasOne("Domain.ReportEntity.RPAB_TaiSanDaiHan", "ParentRecord")
@@ -2331,29 +2381,6 @@ namespace Infrastructure.Data.Migrations
                         .WithMany("ForeignerHolderRates")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Domain.StockReportAccountingBalance", b =>
-                {
-                    b.HasOne("Domain.ReportEntity.RPAB_LoiIchCuaCoDongKhongKiemSoatTruoc2015", "CriteriaLoiIchCuaCoDongKhongKiemSoatTruoc2015")
-                        .WithMany()
-                        .HasForeignKey("CriteriaLoiIchCuaCoDongKhongKiemSoatTruoc2015Id");
-
-                    b.HasOne("Domain.ReportEntity.RPAB_NoPhaiTra", "CriteriaNoPhaiTra")
-                        .WithMany()
-                        .HasForeignKey("CriteriaNoPhaiTraId");
-
-                    b.HasOne("Domain.ReportEntity.RPAB_TaiSanDaiHan", "CriteriaTaiSanDaiHan")
-                        .WithMany()
-                        .HasForeignKey("CriteriaTaiSanDaiHanId");
-
-                    b.HasOne("Domain.ReportEntity.RPAB_TaiSanNganHan", "CriteriaTaiSanNganHan")
-                        .WithMany()
-                        .HasForeignKey("CriteriaTaiSanNganHanId");
-
-                    b.HasOne("Domain.ReportEntity.RPAB_VonChuSoHuu", "CriteriaVonChuSuHuu")
-                        .WithMany()
-                        .HasForeignKey("CriteriaVonChuSuHuuId");
                 });
 
             modelBuilder.Entity("Domain.StockShareholder", b =>
