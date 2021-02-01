@@ -14,21 +14,11 @@ namespace Infrastructure.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<StockReportAccountingBalance> builder)
         {
-            builder.HasOne(x => x.CriteriaTaiSanNganHan)
-                .WithOne(y => y.StockReportAccountingBalanceReport)
-                .HasForeignKey<RPAB_TaiSanNganHan>(y => y.StockReportAccountingBalanceId);
-            builder.HasOne(x => x.CriteriaTaiSanDaiHan)
-                .WithOne(y => y.StockReportAccountingBalanceReport)
-                .HasForeignKey<RPAB_TaiSanDaiHan>(y => y.StockReportAccountingBalanceId);
-            builder.HasOne(x => x.CriteriaNoPhaiTra)
-                .WithOne(y => y.StockReportAccountingBalanceReport)
-                .HasForeignKey<RPAB_NoPhaiTra>(y => y.StockReportAccountingBalanceId);
-            builder.HasOne(x => x.CriteriaVonChuSuHuu)
-                .WithOne(y => y.StockReportAccountingBalanceReport)
-                .HasForeignKey<RPAB_VonChuSoHuu>(y => y.StockReportAccountingBalanceId);
-            builder.HasOne(x => x.CriteriaLoiIchCuaCoDongKhongKiemSoatTruoc2015)
-                .WithOne(y => y.StockReportAccountingBalanceReport)
-                .HasForeignKey< RPAB_LoiIchCuaCoDongKhongKiemSoatTruoc2015>(y => y.StockReportAccountingBalanceId);
+            builder.HasOne(x => x.CriteriaTaiSanNganHan);
+            builder.HasOne(x => x.CriteriaTaiSanDaiHan);
+            builder.HasOne(x => x.CriteriaNoPhaiTra);
+            builder.HasOne(x => x.CriteriaVonChuSuHuu);
+            builder.HasOne(x => x.CriteriaLoiIchCuaCoDongKhongKiemSoatTruoc2015);
         }
     }
 }

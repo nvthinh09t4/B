@@ -12,6 +12,7 @@ namespace Infrastructure.EntityConfiguration.ReportConfiguration.ReportAccountin
     {
         public void Configure(EntityTypeBuilder<RPAB_TaiSanDaiHan> builder)
         {
+            builder.HasKey(x => x.Id);
             builder.HasOne(x => x.BatDongSanDauTu)
                 .WithOne(y => y.ParentRecord)
                 .HasForeignKey<Criteria_BatDongSanDauTu>(y => y.RPAB_TaiSanDaiHanId);

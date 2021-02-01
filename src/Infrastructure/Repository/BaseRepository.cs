@@ -30,7 +30,7 @@ namespace Infrastructure.Repository
             GetDBSet().Remove(entity);
         }
 
-        public async Task<T> GetById(long Id)
+        public async virtual Task<T> GetById(long Id)
         {
             return await GetDBSet().AsQueryable().FirstOrDefaultAsync(x => x.Id == Id);
         }

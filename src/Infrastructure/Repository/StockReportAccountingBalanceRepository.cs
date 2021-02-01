@@ -3,6 +3,7 @@ using Domain;
 using Domain.Interfaces;
 using Infrastructure.Data;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,18 @@ namespace Infrastructure.Repository
             _connectionString = _configuration.GetConnectionString("DefaultConnection");
         }
 
+        public override async Task<StockReportAccountingBalance> GetById(long Id)
+        {
+            return await GetDBSet()
+                            .Include(x => x.CriteriaLoiIchCuaCoDongKhongKiemSoatTruoc2015)
+                            .Include(x => x.CriteriaNoPhaiTra)
+                            .Include(x => x.CriteriaTaiSanDaiHan)
+                            .Include(x => x.CriteriaTaiSanNganHan)
+                            .Include(x => x.CriteriaVonChuSuHuu)
+                            .AsQueryable()
+                            .FirstOrDefaultAsync(x => x.Id == Id);
+        }
+            
         public async Task<StockReportAccountingBalance> GetByCodeOnTime(string code, string quarter, string year)
         {
             await using var connection = new SqlConnection(_connectionString);

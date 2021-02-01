@@ -11,6 +11,10 @@
     <Compile Remove="Data\Migrations\20201230084526_ADD_SeedData2.Designer.cs" />
     <Compile Remove="Data\Migrations\20210117162058_add-stock-company-information.cs" />
     <Compile Remove="Data\Migrations\20210117162058_add-stock-company-information.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210127031802_add-key.cs" />
+    <Compile Remove="Data\Migrations\20210127031802_add-key.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210127040701_add-key.cs" />
+    <Compile Remove="Data\Migrations\20210127040701_add-key.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -8,11 +8,9 @@ namespace Domain.ReportEntity
 {
     public class RPAB_VonChuSoHuu : BaseEntity
     {
-        public long StockReportAccountingBalanceId { get; set; }
-        public StockReportAccountingBalance StockReportAccountingBalanceReport { get; set; }
 
-        public Criteria_VonVaCacQuy VonVaCacQuy { get; set; } = new Criteria_VonVaCacQuy();
-        public Criteria_NguonKinhPhiVanQuyKhac NguonKinhPhiVanQuyKhac { get; set; } = new Criteria_NguonKinhPhiVanQuyKhac();
+        public Criteria_VonVaCacQuy VonVaCacQuy { get; set; } 
+        public Criteria_NguonKinhPhiVanQuyKhac NguonKinhPhiVanQuyKhac { get; set; } 
 
         public float TongCong { get; set; }
     }

@@ -1,5 +1,6 @@
 ﻿using Domain;
 using Domain.Interfaces;
+using Domain.ReportEntity.ReportAccountingBalance;
 using Infrastructure.EntityConfiguration;
 using Infrastructure.EntityConfiguration.ReportConfiguration.ReportAccountingBalance;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -66,6 +67,23 @@ namespace Infrastructure.Data
             builder.ApplyConfiguration(new RPAB_TaiSanDaiHanConfiguration());
             builder.ApplyConfiguration(new RPAB_NoPhaiTraConfiguration());
             builder.ApplyConfiguration(new RPAB_VonChuSoHuuConfiguration());
+
+            builder.Entity<Criteria_BatDongSanDauTu>().HasKey(x => x.Id);
+            builder.Entity<Criteria_CacKhoanDauTuTaiChinhDaiHan>().HasKey(x => x.Id);
+            builder.Entity<Criteria_CacKhoanDauTuTaiChinhNganHan>().HasKey(x => x.Id);
+            builder.Entity<Criteria_CacKhoanPhaiThuDaiHan>().HasKey(x => x.Id);
+            builder.Entity<Criteria_CacKhoanPhaiThuNganHan>().HasKey(x => x.Id);
+            builder.Entity<Criteria_HangTonKho>().HasKey(x => x.Id);
+            builder.Entity<Criteria_LoiTheThuongMaiTruoc2015>().HasKey(x => x.Id);
+            builder.Entity<Criteria_NguonKinhPhiVanQuyKhac>().HasKey(x => x.Id);
+            builder.Entity<Criteria_NoDaiHan>().HasKey(x => x.Id);
+            builder.Entity<Criteria_NoNganHan>().HasKey(x => x.Id);
+            builder.Entity<Criteria_TaiSanCoDinh>().HasKey(x => x.Id);
+            builder.Entity<Criteria_TaiSanDaiHanKhac>().HasKey(x => x.Id);
+            builder.Entity<Criteria_TaiSanDoDangDaiHan>().HasKey(x => x.Id);
+            builder.Entity<Criteria_TaiSanNganHanKhac>().HasKey(x => x.Id);
+            builder.Entity<Criteria_TienVaCacKhoanTuongDuongTien>().HasKey(x => x.Id);
+            builder.Entity<Criteria_VonVaCacQuy>().HasKey(x => x.Id);
         }
     }
 }

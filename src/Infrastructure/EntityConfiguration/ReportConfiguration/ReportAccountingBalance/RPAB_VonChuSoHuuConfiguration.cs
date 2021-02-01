@@ -12,6 +12,7 @@ namespace Infrastructure.EntityConfiguration.ReportConfiguration.ReportAccountin
     {
         public void Configure(EntityTypeBuilder<RPAB_VonChuSoHuu> builder)
         {
+            builder.HasKey(x => x.Id);
             builder.HasOne(x => x.VonVaCacQuy)
                 .WithOne(y => y.ParentRecord)
                 .HasForeignKey<Criteria_VonVaCacQuy>(y => y.RPAB_VonChuSoHuuId);

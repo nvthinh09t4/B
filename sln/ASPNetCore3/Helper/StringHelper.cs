@@ -8,6 +8,15 @@ namespace ASPNetCore3.Helper
 {
     public static class StringHelper
     {
+        public static float ToFloat(this string input, float defaultValue = 0f)
+        {
+            if (string.IsNullOrEmpty(input) || input == "-") return defaultValue;
+            var output = defaultValue;
+            if (float.TryParse(input, out output))
+                return output;
+            return defaultValue;
+        }
+
         public static string GenerateRandomPassword(PasswordOptions opts = null)
         {
             if (opts == null) opts = new PasswordOptions() {

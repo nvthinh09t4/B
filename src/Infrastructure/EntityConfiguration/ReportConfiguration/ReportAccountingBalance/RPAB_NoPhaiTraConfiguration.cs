@@ -12,6 +12,7 @@ namespace Infrastructure.EntityConfiguration.ReportConfiguration.ReportAccountin
     {
         public void Configure(EntityTypeBuilder<RPAB_NoPhaiTra> builder)
         {
+            builder.HasKey(x => x.Id);
             builder.HasOne(x => x.NoDaiHan)
                 .WithOne(y => y.ParentRecord)
                 .HasForeignKey<Criteria_NoDaiHan>(y => y.RPAB_NoPhaiTraId);

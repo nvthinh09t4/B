@@ -1,0 +1,72 @@
+2021-01-27T16:24:51.4352379+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService) CrawlerTransactionHistory - fail on crawler report accounting balance NVT ======= 
+2021-01-27T16:24:51.4412386+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService) no such element: Unable to locate element: {"method":"xpath","selector":"/html/body/div[1]/div/div[1]/div/div/div/div[3]/div[2]/div/div/div/div[2]/div/div[2]/div/table"}
+  (Session info: chrome=87.0.4280.141)
+2021-01-27T16:24:51.5356149+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService)    at OpenQA.Selenium.Remote.RemoteWebDriver.UnpackAndThrowOnError(Response errorResponse)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.FindElement(String mechanism, String value)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.FindElementByXPath(String xpath)
+   at OpenQA.Selenium.By.<>c__DisplayClass19_0.<XPath>b__0(ISearchContext context)
+   at OpenQA.Selenium.By.FindElement(ISearchContext context)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.FindElement(By by)
+   at ASPNetCore3.ServiceImpl.StockCrawlerService.CrawlerReportAccountingBalance(String code, ChromeDriver driver) in D:\Source\B\sln\ASPNetCore3\ServiceImpl\StockCrawlerService.cs:line 413
+2021-01-27T16:24:56.6222071+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService) CrawlerTransactionHistory - fail on crawler report accounting balance IDV ======= 
+2021-01-27T16:24:56.6226539+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService) no such element: Unable to locate element: {"method":"xpath","selector":"/html/body/div[1]/div/div[1]/div/div/div/div[3]/div[2]/div/div/div/div[2]/div/div[2]/div/table"}
+  (Session info: chrome=87.0.4280.141)
+2021-01-27T16:24:56.6236404+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService)    at OpenQA.Selenium.Remote.RemoteWebDriver.UnpackAndThrowOnError(Response errorResponse)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.FindElement(String mechanism, String value)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.FindElementByXPath(String xpath)
+   at OpenQA.Selenium.By.<>c__DisplayClass19_0.<XPath>b__0(ISearchContext context)
+   at OpenQA.Selenium.By.FindElement(ISearchContext context)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.FindElement(By by)
+   at ASPNetCore3.ServiceImpl.StockCrawlerService.CrawlerReportAccountingBalance(String code, ChromeDriver driver) in D:\Source\B\sln\ASPNetCore3\ServiceImpl\StockCrawlerService.cs:line 413
+2021-01-27T16:25:01.3556231+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService) CrawlerTransactionHistory - fail on crawler report accounting balance HQC ======= 
+2021-01-27T16:25:01.3558261+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService) no such element: Unable to locate element: {"method":"css selector","selector":".report\-finance__name\-icon"}
+  (Session info: chrome=87.0.4280.141)
+2021-01-27T16:25:01.3562149+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService)    at OpenQA.Selenium.Remote.RemoteWebDriver.UnpackAndThrowOnError(Response errorResponse)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.InternalExecute(String driverCommandToExecute, Dictionary`2 parameters)
+   at OpenQA.Selenium.Remote.RemoteWebElement.Execute(String commandToExecute, Dictionary`2 parameters)
+   at OpenQA.Selenium.Remote.RemoteWebElement.FindElement(String mechanism, String value)
+   at OpenQA.Selenium.Remote.RemoteWebElement.FindElementByClassName(String className)
+   at OpenQA.Selenium.By.<>c__DisplayClass20_0.<ClassName>b__0(ISearchContext context)
+   at OpenQA.Selenium.By.FindElement(ISearchContext context)
+   at OpenQA.Selenium.Remote.RemoteWebElement.FindElement(By by)
+   at ASPNetCore3.ServiceImpl.StockCrawlerService.CrawlerReportAccountingBalance(String code, ChromeDriver driver) in D:\Source\B\sln\ASPNetCore3\ServiceImpl\StockCrawlerService.cs:line 437
+2021-01-27T16:25:06.0532361+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService) CrawlerTransactionHistory - fail on crawler report accounting balance TDH ======= 
+2021-01-27T16:25:06.0534275+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService) no such element: Unable to locate element: {"method":"css selector","selector":".report\-finance__name\-icon"}
+  (Session info: chrome=87.0.4280.141)
+2021-01-27T16:25:06.0537777+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService)    at OpenQA.Selenium.Remote.RemoteWebDriver.UnpackAndThrowOnError(Response errorResponse)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.InternalExecute(String driverCommandToExecute, Dictionary`2 parameters)
+   at OpenQA.Selenium.Remote.RemoteWebElement.Execute(String commandToExecute, Dictionary`2 parameters)
+   at OpenQA.Selenium.Remote.RemoteWebElement.FindElement(String mechanism, String value)
+   at OpenQA.Selenium.Remote.RemoteWebElement.FindElementByClassName(String className)
+   at OpenQA.Selenium.By.<>c__DisplayClass20_0.<ClassName>b__0(ISearchContext context)
+   at OpenQA.Selenium.By.FindElement(ISearchContext context)
+   at OpenQA.Selenium.Remote.RemoteWebElement.FindElement(By by)
+   at ASPNetCore3.ServiceImpl.StockCrawlerService.CrawlerReportAccountingBalance(String code, ChromeDriver driver) in D:\Source\B\sln\ASPNetCore3\ServiceImpl\StockCrawlerService.cs:line 437
+2021-01-27T16:25:10.5778759+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService) CrawlerTransactionHistory - fail on crawler report accounting balance SGR ======= 
+2021-01-27T16:25:10.5780631+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService) no such element: Unable to locate element: {"method":"css selector","selector":".report\-finance__name\-icon"}
+  (Session info: chrome=87.0.4280.141)
+2021-01-27T16:25:10.5783919+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService)    at OpenQA.Selenium.Remote.RemoteWebDriver.UnpackAndThrowOnError(Response errorResponse)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.InternalExecute(String driverCommandToExecute, Dictionary`2 parameters)
+   at OpenQA.Selenium.Remote.RemoteWebElement.Execute(String commandToExecute, Dictionary`2 parameters)
+   at OpenQA.Selenium.Remote.RemoteWebElement.FindElement(String mechanism, String value)
+   at OpenQA.Selenium.Remote.RemoteWebElement.FindElementByClassName(String className)
+   at OpenQA.Selenium.By.<>c__DisplayClass20_0.<ClassName>b__0(ISearchContext context)
+   at OpenQA.Selenium.By.FindElement(ISearchContext context)
+   at OpenQA.Selenium.Remote.RemoteWebElement.FindElement(By by)
+   at ASPNetCore3.ServiceImpl.StockCrawlerService.CrawlerReportAccountingBalance(String code, ChromeDriver driver) in D:\Source\B\sln\ASPNetCore3\ServiceImpl\StockCrawlerService.cs:line 437
+2021-01-27T16:31:21.4082653+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService) CrawlerTransactionHistory - fail on crawler report accounting balance NVT ======= 
+2021-01-27T16:31:21.4153761+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService) no such element: Unable to locate element: {"method":"xpath","selector":"/html/body/div[1]/div/div[1]/div/div/div/div[3]/div[2]/div/div/div/div[2]/div/div[2]/div/table"}
+  (Session info: chrome=87.0.4280.141)
+2021-01-27T16:31:21.4578687+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService)    at OpenQA.Selenium.Remote.RemoteWebDriver.UnpackAndThrowOnError(Response errorResponse)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.FindElement(String mechanism, String value)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.FindElementByXPath(String xpath)
+   at OpenQA.Selenium.By.<>c__DisplayClass19_0.<XPath>b__0(ISearchContext context)
+   at OpenQA.Selenium.By.FindElement(ISearchContext context)
+   at OpenQA.Selenium.Remote.RemoteWebDriver.FindElement(By by)
+   at ASPNetCore3.ServiceImpl.StockCrawlerService.CrawlerReportAccountingBalance(String code, ChromeDriver driver) in D:\Source\B\sln\ASPNetCore3\ServiceImpl\StockCrawlerService.cs:line 425

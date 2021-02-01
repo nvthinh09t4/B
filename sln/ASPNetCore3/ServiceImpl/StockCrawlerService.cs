@@ -1,6 +1,8 @@
-﻿using ASPNetCore3.IServices;
+﻿using ASPNetCore3.Helper;
+using ASPNetCore3.IServices;
 using Domain;
 using Domain.Interfaces;
+using Domain.ReportEntity;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -220,126 +222,126 @@ namespace ASPNetCore3.ServiceImpl
                     var urlTongQuan = "https://dstock.vndirect.com.vn/tong-quan/" + stock.Code;
                     try
                     {
-                        driver.Navigate().GoToUrl(urlHoSoDoanhNghiep);
-                        Thread.Sleep(3000);
-                        IJavaScriptExecutor js = (IJavaScriptExecutor)driver; ;
-                        js.ExecuteScript("" +
-                            "if (document.getElementById('___reactour') != null)" +
-                            "   return document.getElementById('___reactour').remove();" +
-                            "else" +
-                            "   return;");
+                    //    driver.Navigate().GoToUrl(urlHoSoDoanhNghiep);
+                    //    Thread.Sleep(3000);
+                    //    IJavaScriptExecutor js = (IJavaScriptExecutor)driver; ;
+                    //    js.ExecuteScript("" +
+                    //        "if (document.getElementById('___reactour') != null)" +
+                    //        "   return document.getElementById('___reactour').remove();" +
+                    //        "else" +
+                    //        "   return;");
 
-                        var company = _repositoryWrapper.StockCompany.GetDBSet().FirstOrDefault(x => x.Code.ToLower() == stock.Code.ToLower());
-                        if (company == null)
-                            company = new StockCompany();
-                        company.Code = stock.Code;
-                        company.GroupName = driver.FindElements(By.ClassName(groupNameClass))[0].Text;
-                        company.Name = driver.FindElement(By.XPath(groupNameXPath)).Text;
-                        company.ListedAt = driver.FindElements(By.ClassName(groupNameClass))[1].Text;
+                    //    var company = _repositoryWrapper.StockCompany.GetDBSet().FirstOrDefault(x => x.Code.ToLower() == stock.Code.ToLower());
+                    //    if (company == null)
+                    //        company = new StockCompany();
+                    //    company.Code = stock.Code;
+                    //    company.GroupName = driver.FindElements(By.ClassName(groupNameClass))[0].Text;
+                    //    company.Name = driver.FindElement(By.XPath(groupNameXPath)).Text;
+                    //    company.ListedAt = driver.FindElements(By.ClassName(groupNameClass))[1].Text;
 
-                        driver.Navigate().GoToUrl(urlTongQuan);
-                        Thread.Sleep(3000);
-                        js.ExecuteScript("" +
-                            "if (document.getElementById('___reactour') != null)" +
-                            "   return document.getElementById('___reactour').remove();" +
-                            "else" +
-                            "   return;");
+                    //    driver.Navigate().GoToUrl(urlTongQuan);
+                    //    Thread.Sleep(3000);
+                    //    js.ExecuteScript("" +
+                    //        "if (document.getElementById('___reactour') != null)" +
+                    //        "   return document.getElementById('___reactour').remove();" +
+                    //        "else" +
+                    //        "   return;");
 
-                        ///Get common information
-                        ///
-                        var commonStockInformation = _repositoryWrapper.StockIndex.GetDBSet().FirstOrDefault(x => x.Code.ToLower() == stock.Code.ToLower());
-                        if (commonStockInformation == null)
-                            commonStockInformation = new StockIndex() { Code = stock.Code};
-                        var texts = driver.FindElementsByClassName("row-col__text").Select(x => x.Text).ToList();
-                        parsingText = string.Join(";", texts);
-                        commonStockInformation.VonHoaThiTruong = texts[1] == "N/A" ? 0 : long.Parse(texts[6].Replace(" tỷ", ""), System.Globalization.NumberStyles.AllowThousands);
+                    //    ///Get common information
+                    //    ///
+                    //    var commonStockInformation = _repositoryWrapper.StockIndex.GetDBSet().FirstOrDefault(x => x.Code.ToLower() == stock.Code.ToLower());
+                    //    if (commonStockInformation == null)
+                    //        commonStockInformation = new StockIndex() { Code = stock.Code};
+                    //    var texts = driver.FindElementsByClassName("row-col__text").Select(x => x.Text).ToList();
+                    //    parsingText = string.Join(";", texts);
+                    //    commonStockInformation.VonHoaThiTruong = texts[1] == "N/A" ? 0 : long.Parse(texts[6].Replace(" tỷ", ""), System.Globalization.NumberStyles.AllowThousands);
 
-                        commonStockInformation.SoCPLuuHanh = texts[10];
-                        commonStockInformation.FreeFloat = texts[11] == "N/A" ? 0 : float.Parse(texts[11].Replace("%", ""));
+                    //    commonStockInformation.SoCPLuuHanh = texts[10];
+                    //    commonStockInformation.FreeFloat = texts[11] == "N/A" ? 0 : float.Parse(texts[11].Replace("%", ""));
 
-                        commonStockInformation.TySuatCoTuc = texts[17];
-                        commonStockInformation.KLGDTrongPhien = texts[0] == "N/A" ? 0 : long.Parse(texts[0], System.Globalization.NumberStyles.AllowThousands);
-                        commonStockInformation.GiaTran = texts[1] == "N/A" ? 0 : float.Parse(texts[1]);
-                        commonStockInformation.GiaSan = texts[2] == "N/A" ? 0 : float.Parse(texts[2]);
-                        commonStockInformation.GiaMoCua = texts[3] == "N/A" ? 0 : float.Parse(texts[3]);
-                        commonStockInformation.GiaCaoNhat = texts[4] == "N/A" ? 0 : float.Parse(texts[4]);
-                        commonStockInformation.GiaThapNhat = texts[5] == "N/A" ? 0 : float.Parse(texts[5]);
-                        commonStockInformation.KLGDTrungBinh10Phien = texts[1] == "N/A" ? 0 : long.Parse(texts[7], System.Globalization.NumberStyles.AllowThousands);
-                        commonStockInformation.CaoNhat52Tuan = texts[8] == "N/A" ? 0 : float.Parse(texts[8]);
-                        commonStockInformation.ThapNhat52Tuan = texts[9] == "N/A" ? 0 : float.Parse(texts[9]);
-                        commonStockInformation.EPS = texts[18] == "N/A" ? 0 : float.Parse(texts[18], System.Globalization.NumberStyles.AllowThousands);
-                        commonStockInformation.BVPS = texts[19] == "N/A" ? 0 : float.Parse(texts[19], System.Globalization.NumberStyles.AllowThousands);
-                        commonStockInformation.Beta = texts[12] == "N/A" ? 0 : float.Parse(texts[12]);
-                        commonStockInformation.PE = texts[13] == "N/A" ? 0 : float.Parse(texts[13].Replace("x", ""));
-                        commonStockInformation.PB = texts[14] == "N/A" ? 0 : float.Parse(texts[14].Replace("x", ""));
-                        commonStockInformation.ROAE = texts[15] == "N/A" ? 0 : float.Parse(texts[15].Replace("x", "").Replace("%", ""));
-                        commonStockInformation.ROAA = texts[16] == "N/A" ? 0 : float.Parse(texts[16].Replace("x", "").Replace("%", ""));
+                    //    commonStockInformation.TySuatCoTuc = texts[17];
+                    //    commonStockInformation.KLGDTrongPhien = texts[0] == "N/A" ? 0 : long.Parse(texts[0], System.Globalization.NumberStyles.AllowThousands);
+                    //    commonStockInformation.GiaTran = texts[1] == "N/A" ? 0 : float.Parse(texts[1]);
+                    //    commonStockInformation.GiaSan = texts[2] == "N/A" ? 0 : float.Parse(texts[2]);
+                    //    commonStockInformation.GiaMoCua = texts[3] == "N/A" ? 0 : float.Parse(texts[3]);
+                    //    commonStockInformation.GiaCaoNhat = texts[4] == "N/A" ? 0 : float.Parse(texts[4]);
+                    //    commonStockInformation.GiaThapNhat = texts[5] == "N/A" ? 0 : float.Parse(texts[5]);
+                    //    commonStockInformation.KLGDTrungBinh10Phien = texts[1] == "N/A" ? 0 : long.Parse(texts[7], System.Globalization.NumberStyles.AllowThousands);
+                    //    commonStockInformation.CaoNhat52Tuan = texts[8] == "N/A" ? 0 : float.Parse(texts[8]);
+                    //    commonStockInformation.ThapNhat52Tuan = texts[9] == "N/A" ? 0 : float.Parse(texts[9]);
+                    //    commonStockInformation.EPS = texts[18] == "N/A" ? 0 : float.Parse(texts[18], System.Globalization.NumberStyles.AllowThousands);
+                    //    commonStockInformation.BVPS = texts[19] == "N/A" ? 0 : float.Parse(texts[19], System.Globalization.NumberStyles.AllowThousands);
+                    //    commonStockInformation.Beta = texts[12] == "N/A" ? 0 : float.Parse(texts[12]);
+                    //    commonStockInformation.PE = texts[13] == "N/A" ? 0 : float.Parse(texts[13].Replace("x", ""));
+                    //    commonStockInformation.PB = texts[14] == "N/A" ? 0 : float.Parse(texts[14].Replace("x", ""));
+                    //    commonStockInformation.ROAE = texts[15] == "N/A" ? 0 : float.Parse(texts[15].Replace("x", "").Replace("%", ""));
+                    //    commonStockInformation.ROAA = texts[16] == "N/A" ? 0 : float.Parse(texts[16].Replace("x", "").Replace("%", ""));
 
-                        await _repositoryWrapper.StockIndex.UpdateAsync(commonStockInformation);
-                        await _repositoryWrapper.SaveChangeAsync();
+                    //    await _repositoryWrapper.StockIndex.UpdateAsync(commonStockInformation);
+                    //    await _repositoryWrapper.SaveChangeAsync();
 
 
-                    var mainShareholderTbl = driver.FindElement(By.XPath(mainShareholderXPath)).FindElements(By.TagName("tr"));
-                        List<StockShareholder> mainShareholder = new List<StockShareholder>();
+                    //var mainShareholderTbl = driver.FindElement(By.XPath(mainShareholderXPath)).FindElements(By.TagName("tr"));
+                    //    List<StockShareholder> mainShareholder = new List<StockShareholder>();
                         
-                        if (mainShareholderTbl != null && mainShareholderTbl.Count > 1)
-                        {
-                            foreach (var mainShareholderRow in mainShareholderTbl.Skip(1))
-                            {
-                                var cells = mainShareholderRow.FindElements(By.TagName("td"));
-                                mainShareholder.Add(new StockShareholder {
-                                    Name = cells[0].Text,
-                                    SharePercent = float.Parse(cells[1].Text.Replace("%", ""))
-                                });
-                            }
-                        }
+                    //    if (mainShareholderTbl != null && mainShareholderTbl.Count > 1)
+                    //    {
+                    //        foreach (var mainShareholderRow in mainShareholderTbl.Skip(1))
+                    //        {
+                    //            var cells = mainShareholderRow.FindElements(By.TagName("td"));
+                    //            mainShareholder.Add(new StockShareholder {
+                    //                Name = cells[0].Text,
+                    //                SharePercent = float.Parse(cells[1].Text.Replace("%", ""))
+                    //            });
+                    //        }
+                    //    }
                       
 
-                        driver.Navigate().GoToUrl(urlTongQuan);
-                        Thread.Sleep(3000);
-                        js.ExecuteScript("" +
-                            "if (document.getElementById('___reactour') != null)" +
-                            "   return document.getElementById('___reactour').remove();" +
-                            "else" +
-                            "   return;");
+                    //    driver.Navigate().GoToUrl(urlTongQuan);
+                    //    Thread.Sleep(3000);
+                    //    js.ExecuteScript("" +
+                    //        "if (document.getElementById('___reactour') != null)" +
+                    //        "   return document.getElementById('___reactour').remove();" +
+                    //        "else" +
+                    //        "   return;");
 
-                        driver.FindElement(By.XPath(leadershipLinkXPath)).Click();
+                    //    driver.FindElement(By.XPath(leadershipLinkXPath)).Click();
 
-                        var leadershipTbl = driver.FindElement(By.XPath(mainShareholderXPath)).FindElements(By.TagName("tr"));
-                        List<StockCompanyLeadership> leaderships = new List<StockCompanyLeadership>();
-                        if (leadershipTbl != null && leadershipTbl.Count > 1)
-                        {
-                            foreach (var leadershipRow in leadershipTbl.Skip(1))
-                            {
-                                var cells = leadershipRow.FindElements(By.TagName("td"));
-                                leaderships.Add(new StockCompanyLeadership {
-                                    Name = cells[0].Text,
-                                    Position = cells[1].Text
-                                });
-                            }
-                        }
+                    //    var leadershipTbl = driver.FindElement(By.XPath(mainShareholderXPath)).FindElements(By.TagName("tr"));
+                    //    List<StockCompanyLeadership> leaderships = new List<StockCompanyLeadership>();
+                    //    if (leadershipTbl != null && leadershipTbl.Count > 1)
+                    //    {
+                    //        foreach (var leadershipRow in leadershipTbl.Skip(1))
+                    //        {
+                    //            var cells = leadershipRow.FindElements(By.TagName("td"));
+                    //            leaderships.Add(new StockCompanyLeadership {
+                    //                Name = cells[0].Text,
+                    //                Position = cells[1].Text
+                    //            });
+                    //        }
+                    //    }
                         
 
-                        foreach (var item in company.Leaderships)
-                        {
-                            company.Leaderships.Remove(item);
-                        }
+                    //    foreach (var item in company.Leaderships)
+                    //    {
+                    //        company.Leaderships.Remove(item);
+                    //    }
 
-                        foreach (var item in company.MainShareholder)
-                        {
-                            company.MainShareholder.Remove(item);
-                        }
+                    //    foreach (var item in company.MainShareholder)
+                    //    {
+                    //        company.MainShareholder.Remove(item);
+                    //    }
 
-                        company.Leaderships = leaderships;
-                        company.MainShareholder = mainShareholder;
+                    //    company.Leaderships = leaderships;
+                    //    company.MainShareholder = mainShareholder;
 
-                        await _repositoryWrapper.StockCompany.SaveAsync(company);
-                        await _repositoryWrapper.SaveChangeAsync();
+                    //    await _repositoryWrapper.StockCompany.SaveAsync(company);
+                    //    await _repositoryWrapper.SaveChangeAsync();
 
-                        await CrawlerTransactionHistory(company.Code, driver);
-                        await _repositoryWrapper.SaveChangeAsync();
+                    //    await CrawlerTransactionHistory(company.Code, driver);
+                    //    await _repositoryWrapper.SaveChangeAsync();
 
-                        await CrawlerReportAccountingBalance(company.Code, driver);
+                        await CrawlerReportAccountingBalance(stock.Code, driver);
                         
 
                     }
@@ -364,6 +366,12 @@ namespace ASPNetCore3.ServiceImpl
             {
                 driver.Navigate().GoToUrl(url);
                 Thread.Sleep(3000);
+                IJavaScriptExecutor js = (IJavaScriptExecutor)driver; ;
+                js.ExecuteScript("" +
+                    "if (document.getElementById('___reactour') != null)" +
+                    "   return document.getElementById('___reactour').remove();" +
+                    "else" +
+                    "   return;");
                 var transactionTbl = driver.FindElement(By.XPath("//*[@id='sub-menu-content']/div/div/div[2]/div[3]/div/div[2]/div/table[2]"));
                 var transactionRecord = transactionTbl.FindElement(By.TagName("tbody")).FindElements(By.TagName("tr"));
                 foreach (var transaction in transactionRecord)
@@ -396,14 +404,23 @@ namespace ASPNetCore3.ServiceImpl
             }
         }
 
+        
+
         public async Task CrawlerReportAccountingBalance(string code, ChromeDriver driver)
         {
             var url = "https://dstock.vndirect.com.vn/bang-can-doi-ke-toan/" + code;
             var parsingText = "";
+            var index = 0;
             try
             {
                 driver.Navigate().GoToUrl(url);
                 Thread.Sleep(3000);
+                IJavaScriptExecutor js = (IJavaScriptExecutor)driver; ;
+                js.ExecuteScript("" +
+                    "if (document.getElementById('___reactour') != null)" +
+                    "   return document.getElementById('___reactour').remove();" +
+                    "else" +
+                    "   return;");
 
                 var configFilePath = Path.Combine(_hostingEnvironment.WebRootPath, "crawler", "StockReportAccountingBalance.json");
                 var configuration = JObject.Parse(File.ReadAllText(configFilePath));
@@ -413,22 +430,87 @@ namespace ASPNetCore3.ServiceImpl
                 if (reportDetailTHead != null)
                 {
                     var theadCells = reportDetailTHead.FindElements(By.TagName("th")).ToList();
+                    var trow = reportDetailTbl.FindElement(By.TagName("tbody")).FindElements(By.TagName("tr"));
                     for (var i = 1; i < theadCells.Count; i++)
                     {
                         var time = theadCells[i].Text;
                         var quarter = time.Substring(1, 1);
                         var year = time.Substring(3, 4);
 
-                        var record = await _repositoryWrapper.StockReportAccountingBalance.GetByCodeOnTime(code, quarter, year);
+                        StockReportAccountingBalance record = await _repositoryWrapper.StockReportAccountingBalance.GetByCodeOnTime(code, quarter, year);
                         if (record == null)
-                            record = new StockReportAccountingBalance { 
+                            record = new StockReportAccountingBalance {
                                 Code = code,
                                 Quarter = quarter,
                                 Year = year,
                             };
+
+                        var cell = reportDetailTbl.FindElement(By.TagName("tbody")).FindElements(By.TagName("td")); ;
+                        var trows = reportDetailTbl.FindElement(By.TagName("tbody")).FindElements(By.TagName("tr"));
+                        foreach (var row in trows)
+                        {
+                            var span = row.TryFindElement(By.ClassName("report-finance__name-icon"));
+                            if (span == null) continue;
+                            if (span.Text == "+")
+                                row.Click();
+
+                            index++;
+                        }
+                        var dataRows = reportDetailTbl.FindElement(By.TagName("tbody")).FindElements(By.TagName("tr"));
+
+                        record.CriteriaTaiSanNganHan.TongCong =  dataRows[0].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        record.CriteriaTaiSanNganHan.TienVaCacKhoanTuongDuongTien.TongCong = dataRows[1].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanNganHan.TienVaCacKhoanTuongDuongTien.Tien = dataRows[2].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanNganHan.TienVaCacKhoanTuongDuongTien.CacKhoanTuongDuongTien = dataRows[3].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        record.CriteriaTaiSanNganHan.CacKhoanDauTuTaiChinhNganHan.TongCong = dataRows[4].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanNganHan.CacKhoanDauTuTaiChinhNganHan.DauTuNganHan = dataRows[5].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanNganHan.CacKhoanDauTuTaiChinhNganHan.DuPhongGiamGiaDauTuNganHan = dataRows[6].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanNganHan.CacKhoanDauTuTaiChinhNganHan.DauTuGiuDenNgayDaoHan = dataRows[7].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        record.CriteriaTaiSanNganHan.CacKhoanPhaiThuNganHan.TongCong = dataRows[8].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanNganHan.CacKhoanPhaiThuNganHan.PhaiThuKhachHang = dataRows[9].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanNganHan.CacKhoanPhaiThuNganHan.TraTruocChoNguoiBan = dataRows[10].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanNganHan.CacKhoanPhaiThuNganHan.PhaiThuNoiBoNganHan = dataRows[11].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanNganHan.CacKhoanPhaiThuNganHan.PhaiThuTheoTienDoKeHoachHopDongXayDung = dataRows[12].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanNganHan.CacKhoanPhaiThuNganHan.PhaiThuVeChoVayNganHan = dataRows[13].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanNganHan.CacKhoanPhaiThuNganHan.CacKhoanPhaiThuKhac = dataRows[14].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanNganHan.CacKhoanPhaiThuNganHan.DuPhongPhaiThuNganHanKhoDoi = dataRows[15].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanNganHan.CacKhoanPhaiThuNganHan.TaiSanThieuChoXuLy = dataRows[16].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        record.CriteriaTaiSanNganHan.HangTonKho.TongCong = dataRows[17].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanNganHan.HangTonKho.HangTonKho = dataRows[18].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanNganHan.HangTonKho.DuPhongGiamGiaHangTonKho = dataRows[19].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        record.CriteriaTaiSanNganHan.TaiSanNganHanKhac.TongCong = dataRows[20].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanNganHan.TaiSanNganHanKhac.ChiPhiTraTruocNganHan = dataRows[21].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanNganHan.TaiSanNganHanKhac.ThueGTGTDuocKhauTru = dataRows[22].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanNganHan.TaiSanNganHanKhac.ThueVaCacKhoanKhacPhaiThuNhaNuoc = dataRows[23].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanNganHan.TaiSanNganHanKhac.GiaoDichMuaBanLaiTraiPhieuChinhPhu = dataRows[24].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.CriteriaTaiSanNganHan.TaiSanNganHanKhac.TaiSanNganHanKhac = dataRows[25].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        // trows2.Select(x => x.FindElements(By.TagName("td"))).Where(x => !string.IsNullOrEmpty(x.Text) && x.Text.Trim() == "Tài sản ngắn hạn").ToList();
+
+                        //record.TongCongTaiSan = reportDetailTHead.pare
+                        //record.TongCongNguonVon = trowLevel0[1].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        //if (record.CriteriaTaiSanNganHan == null)
+                        //    record.CriteriaTaiSanNganHan = new RPAB_TaiSanNganHan();
+                        //record.CriteriaTaiSanNganHan.TongCong = trowLevel1[0].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        //record.CriteriaTaiSanNganHan.TienVaCacKhoanTuongDuongTien.TongCong = trowLevel2[0].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        //record.CriteriaTaiSanNganHan.TienVaCacKhoanTuongDuongTien.Tien = trowLevel3[0].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        //record.CriteriaTaiSanNganHan.TienVaCacKhoanTuongDuongTien.CacKhoanTuongDuongTien = trowLevel3[1].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        //record.CriteriaTaiSanNganHan.CacKhoanDauTuTaiChinhNganHan.TongCong = trowLevel2[1].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        //record.CriteriaTaiSanNganHan.CacKhoanDauTuTaiChinhNganHan.DauTuNganHan = trowLevel3[2].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        //record.CriteriaTaiSanNganHan.CacKhoanDauTuTaiChinhNganHan.DuPhongGiamGiaDauTuNganHan = trowLevel3[3].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        //record.CriteriaTaiSanNganHan.CacKhoanDauTuTaiChinhNganHan.DauTuGiuDenNgayDaoHan = trowLevel3[4].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+
                         await _repositoryWrapper.StockReportAccountingBalance.UpdateAsync(record);
                         await _repositoryWrapper.SaveChangeAsync();
                     }
+
                 }
             }
             catch (Exception ex)
