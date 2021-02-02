@@ -1,10 +1,12 @@
 ﻿using ASPNetCore3.Helper;
+using ASPNetCore3.Hubs;
 using ASPNetCore3.IServices;
 using Domain;
 using Domain.Interfaces;
 using Domain.ReportEntity;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
@@ -27,15 +29,18 @@ namespace ASPNetCore3.ServiceImpl
         private IWebHostEnvironment _hostingEnvironment;
         private IRepositoryWrapper _repositoryWrapper;
         private ILogger<StockCrawlerService> _logger;
+        private IHubContext<SignalRHub> _hubContext;
 
         public StockCrawlerService(
             IWebHostEnvironment hostingEnvironment,
             IRepositoryWrapper repositoryWrapper,
-            ILogger<StockCrawlerService> logger)
+            ILogger<StockCrawlerService> logger,
+            IHubContext<SignalRHub> hubContext)
         {
             _hostingEnvironment = hostingEnvironment;
             _repositoryWrapper = repositoryWrapper;
             _logger = logger;
+            _hubContext = hubContext;
             //var chromeOptions = new ChromeOptions();
             //chromeOptions.AddUserProfilePreference("download.default_directory", @"D:\Workspace\test");
             //chromeOptions.AddUserProfilePreference("intl.accept_languages", "nl");
@@ -107,7 +112,7 @@ namespace ASPNetCore3.ServiceImpl
             }
         }
 
-        public async Task CrawlerStockGroupInformation()
+        public async Task CrawlerStockGroupInformation(List<string> groups)
         {
             using (var driver = new ChromeDriver())
             {
@@ -120,6 +125,9 @@ namespace ASPNetCore3.ServiceImpl
                     tableCells = row.FindElements(By.TagName("td"));
                     var name = tableCells[1].Text.Split("\r")[0];
                     var code = tableCells[1].Text.Split("\n")[1];
+
+                    if (groups.Count > 0 && !groups.Contains(code)) continue;
+
                     var stockGroup = _repositoryWrapper.StockGroup.GetDBSet().FirstOrDefault(x => x.Code.ToLower() == code.ToLower());
                     if (stockGroup == null)
 
@@ -138,7 +146,7 @@ namespace ASPNetCore3.ServiceImpl
                     stockGroup.NNSoHuu = long.Parse(tableCells[12].Text.Split("\r")[0].Replace("%", ""), System.Globalization.NumberStyles.AllowThousands);
                     stockGroup.VonTT = long.Parse(tableCells[13].Text.Replace("%", ""), System.Globalization.NumberStyles.AllowThousands);
 
-                    await _repositoryWrapper.StockGroup.CreateAsync(stockGroup);
+                    await _repositoryWrapper.StockGroup.SaveAsync(stockGroup);
                     await _repositoryWrapper.SaveChangeAsync();
                     //var test = tableCells.Select(x => x.Text).ToList();
                 }
@@ -200,14 +208,14 @@ namespace ASPNetCore3.ServiceImpl
             //    driver.Close();
             //}
             //await _repositoryWrapper.SaveChangeAsync();
-            await CrawlerStockCompanyInformation();
+            //await CrawlerStockCompanyInformation();
         }
 
-        public async Task CrawlerStockCompanyInformation()
+        public async Task CrawlerStockCompanyInformation(string code, ChromeDriver driver)
         {
             var stocks = _repositoryWrapper.StockMainInformation.GetDBSet().ToList();
             var parsingText = "";
-            using (var driver = new ChromeDriver())
+            //using (var driver = new ChromeDriver())
             {
                 driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(5);
                 var configFilePath = Path.Combine(_hostingEnvironment.WebRootPath, "crawler", "StockCompany.json");
@@ -280,7 +288,7 @@ namespace ASPNetCore3.ServiceImpl
                         commonStockInformation.ROAE = texts[15] == "N/A" ? 0 : float.Parse(texts[15].Replace("x", "").Replace("%", ""));
                         commonStockInformation.ROAA = texts[16] == "N/A" ? 0 : float.Parse(texts[16].Replace("x", "").Replace("%", ""));
 
-                        await _repositoryWrapper.StockIndex.UpdateAsync(commonStockInformation);
+                        await _repositoryWrapper.StockIndex.SaveAsync(commonStockInformation);
                         await _repositoryWrapper.SaveChangeAsync();
 
 
@@ -416,6 +424,7 @@ namespace ASPNetCore3.ServiceImpl
             var index = 0;
             try
             {
+                await _hubContext.Clients.All.SendAsync("ReceiveMessage", $"Start get accounting balance report data for {code}...");
                 driver.Navigate().GoToUrl(url);
                 Thread.Sleep(3000);
                 IJavaScriptExecutor js = (IJavaScriptExecutor)driver; ;
@@ -461,9 +470,15 @@ namespace ASPNetCore3.ServiceImpl
                         }
                         var dataRows = reportDetailTbl.FindElement(By.TagName("tbody")).FindElements(By.TagName("tr"));
 
+                        record.CriteriaTaiSanNganHan.Code = code;
+                        record.CriteriaTaiSanDaiHan.Code = code;
+                        record.CriteriaVonChuSuHuu.Code = code;
+                        record.CriteriaNoPhaiTra.Code = code;
+                        record.CriteriaLoiIchCuaCoDongKhongKiemSoatTruoc2015.Code = code;
+
                         //+ Tài sản ngắn hạn
                         record.CriteriaTaiSanNganHan.TongCong =  dataRows[0].FindElements(By.TagName("td"))[i].Text.ToFloat();
-
+                        
                         //  - Tiền và các khoản tương đương tiền
                         record.CriteriaTaiSanNganHan.TienVaCacKhoanTuongDuongTien.TongCong = dataRows[1].FindElements(By.TagName("td"))[i].Text.ToFloat();
                         record.CriteriaTaiSanNganHan.TienVaCacKhoanTuongDuongTien.Tien = dataRows[2].FindElements(By.TagName("td"))[i].Text.ToFloat();
@@ -646,10 +661,47 @@ namespace ASPNetCore3.ServiceImpl
             }
             catch (Exception ex)
             {
-                _logger.LogError($"CrawlerTransactionHistory - fail on crawler report accounting balance {code} ======= {parsingText}", ex);
+                _logger.LogError($"CrawlerReportAccountingBalance - fail on crawler report accounting balance {code} ======= {parsingText}", ex);
+                await _hubContext.Clients.All.SendAsync("ReceiveMessage", $"CrawlerReportAccountingBalance - fail on crawler report accounting balance {code} ======= {parsingText}");
                 _logger.LogError(ex.Message);
                 _logger.LogError(ex.StackTrace);
             }
+        }
+
+        public Task CrawlerTransactionHistory()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task CrawlerReportAccountingBalance()
+        {
+            var stocks = _repositoryWrapper.StockMainInformation.GetDBSet().AsQueryable().Select(x => x.Code).ToList();
+            using (var driver = new ChromeDriver())
+            {
+                foreach (var stock in stocks)
+                {
+                    await CrawlerReportAccountingBalance(stock, driver);
+                }
+
+                driver.Quit();
+                driver.Close();
+            }
+                
+        }
+
+        public Task CrawlerStockGroupInformation(string code, ChromeDriver driver)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task CrawlerCompanyInfor()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task CrawlerCompanyInfor(string code, ChromeDriver driver)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -19,3 +19,4 @@ bin
 obj
 /sln/ASPNetCore3/FileUpload/
 /sln/ASPNetCore3/wwwroot/FileUpload/
+/sln/ASPNetCore3/Logs/

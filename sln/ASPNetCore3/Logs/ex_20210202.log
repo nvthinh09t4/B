@@ -1478,3 +1478,6 @@
 2021-02-02T00:23:54.3682236+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService)    at System.Number.ThrowOverflowOrFormatException(ParsingStatus status, TypeCode type)
    at System.Single.Parse(String s, NumberStyles style)
    at ASPNetCore3.ServiceImpl.StockCrawlerService.CrawlerStockCompanyInformation() in C:\Users\nvthi\source\repos\B\sln\ASPNetCore3\ServiceImpl\StockCrawlerService.cs:line 275
+2021-02-02T14:48:35.4504369+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService) CrawlerReportAccountingBalance - fail on crawler report accounting balance VHM ======= 
+2021-02-02T14:48:48.0517760+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService) Object reference not set to an instance of an object.
+2021-02-02T14:48:48.2089231+07:00 [ERR] (ASPNetCore3.ServiceImpl.StockCrawlerService)    at ASPNetCore3.ServiceImpl.StockCrawlerService.CrawlerReportAccountingBalance(String code, ChromeDriver driver) in D:\Source\B\sln\ASPNetCore3\ServiceImpl\StockCrawlerService.cs:line 516

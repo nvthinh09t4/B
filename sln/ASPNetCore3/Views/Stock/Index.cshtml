@@ -1,8 +1,61 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model StockIndexViewModel
+@*<a asp-action="UpdateStockGroup" class="btn btn-primary">Update Stock Group</a>
+    <br />
+    <a asp-action="UpdateStockInformation" class="btn btn-success">Update Stock Information</a>
+    <br />
+    <a asp-action="UpdateStockInformation" class="btn btn-success">Update Stock Price Every Day</a>
+    <br />
+    <a asp-action="UpdateStockInformation" class="btn btn-success">Update Report</a>*@
+<div class="card">
+    <div class="card-body">
+        <form asp-action="UpdateStock">
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" asp-for="@Model.IsUpdateStockGroup">
+                <label class="form-check-label" asp-for="@Model.IsUpdateStockGroup"></label>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.SpecificGroup"></label>
+                <select multiple class="select2 form-control" asp-for="@Model.SpecificGroup" asp-items="@ViewBag.StockGroup"></select>
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" asp-for="@Model.IsUpdateCompanyInfor">
+                <label class="form-check-label" asp-for="@Model.IsUpdateCompanyInfor"></label>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.SpecificStock"></label>
+                <select multiple class="select2 form-control" asp-for="@Model.SpecificStock" asp-items="@ViewBag.StockIndex"></select>
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" asp-for="@Model.IsUpdateStockMainInformation">
+                <label class="form-check-label" asp-for="@Model.IsUpdateStockMainInformation"></label>
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" asp-for="@Model.IsUpdateStockTransactionHistory">
+                <label class="form-check-label" asp-for="@Model.IsUpdateStockTransactionHistory"></label>
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" asp-for="@Model.IsUpdateStockReportAccountingBalance">
+                <label class="form-check-label" asp-for="@Model.IsUpdateStockReportAccountingBalance"></label>
+            </div>
+            <input type="submit" class="btn btn-success" value="Submit" />
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <ul id="messagesList"></ul>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/log.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.select2').select2();
+        });
+    </script>
 }
-<a asp-action="UpdateStockGroup" class="btn btn-primary">Update Stock Group</a>
-}
-<a asp-action="UpdateStockInformation" class="btn btn-success">Update Stock Information</a>

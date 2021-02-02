@@ -8,11 +8,19 @@ namespace ASPNetCore3.IServices
 {
     public interface IStockCrawlerService : IWebCrawlerService
     {
+        Task CrawlerStockGroupInformation(List<string> groups);
+
+
         void CrawlerVNDirectStockInformation();
-        Task CrawlerStockGroupInformation();
+        
         Task CrawlerStockInformation();
-        Task CrawlerStockCompanyInformation();
+        Task CrawlerTransactionHistory();
+        Task CrawlerReportAccountingBalance();
+        Task CrawlerStockCompanyInformation(string code, ChromeDriver driver);
         Task CrawlerTransactionHistory(string code, ChromeDriver driver);
         Task CrawlerReportAccountingBalance(string code, ChromeDriver driver);
+        Task CrawlerStockGroupInformation(string code, ChromeDriver driver);
+        Task CrawlerCompanyInfor();
+        Task CrawlerCompanyInfor(string code, ChromeDriver driver);
     }
 }

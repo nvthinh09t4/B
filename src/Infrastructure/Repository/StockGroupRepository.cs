@@ -23,5 +23,10 @@ namespace Infrastructure.Repository
             _configuration = configuration;
             _dbContext = dbContext;
         }
+
+        public override async Task<bool> IsExist(StockGroup entity)
+        {
+            return GetDBSet().AsQueryable().FirstOrDefault(x => x.Code == entity.Code) != null;
+        }
     }
 }

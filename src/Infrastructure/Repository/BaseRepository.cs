@@ -37,15 +37,19 @@ namespace Infrastructure.Repository
 
         public DbSet<T> GetDBSet() => _dbContext.Set<T>();
 
-        public async Task<T> UpdateAsync(T entity)
+        public async virtual Task<bool> IsExist(T entity)
+        {
+            return await GetById(entity.Id) != null;
+        }
+
+        public async virtual Task<T> UpdateAsync(T entity)
         {
             return DoUpdate(entity);
         }
 
         public virtual async Task<T> SaveAsync(T entity)
         {
-            var entityInDb = await GetDBSet().FirstOrDefaultAsync(x => x.Id == entity.Id);
-            if (entityInDb == null)
+            if (!await IsExist(entity))
                 return DoAdd(entity);
             return DoUpdate(entity);
         }

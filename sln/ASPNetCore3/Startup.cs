@@ -27,6 +27,7 @@ using AutoMapper;
 using Hangfire;
 using Crawler;
 using Hangfire.SqlServer;
+using ASPNetCore3.Hubs;
 
 namespace ASPNetCore3
 {
@@ -73,6 +74,8 @@ namespace ASPNetCore3
             services.AddCrawlerInfrastructureServices();
 
             services.AddRazorPages();
+            services.AddSignalR();
+
             services.AddSwaggerGen();
 
             services.AddTransient<SeedData>();
@@ -143,6 +146,7 @@ namespace ASPNetCore3
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
                 endpoints.MapHangfireDashboard();
+                endpoints.MapHub<SignalRHub>("signalrHub");
             });
 
         }
