@@ -19,6 +19,8 @@
     <Compile Remove="Data\Migrations\20210201152555_zzz1.Designer.cs" />
     <Compile Remove="Data\Migrations\20210201153114_zzz3.cs" />
     <Compile Remove="Data\Migrations\20210201153114_zzz3.Designer.cs" />
+    <Compile Remove="Migrations\20210203130840_sasa.cs" />
+    <Compile Remove="Migrations\20210203130840_sasa.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

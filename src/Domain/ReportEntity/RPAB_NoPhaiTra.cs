@@ -11,6 +11,7 @@ namespace Domain.ReportEntity
         public string Code { get; set; }
 
         public long StockReportAccountingBalanceId { get; set; }
+        public virtual StockReportAccountingBalance ParentReport { get; set; }
         public Criteria_NoDaiHan NoDaiHan { get; set; } = new Criteria_NoDaiHan();
         public Criteria_NoNganHan NoNganHan { get; set; } = new Criteria_NoNganHan();
 

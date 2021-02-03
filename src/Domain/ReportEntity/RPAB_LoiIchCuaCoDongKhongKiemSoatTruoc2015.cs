@@ -10,6 +10,7 @@ namespace Domain.ReportEntity
     {
         public string Code { get; set; }
         public long StockReportAccountingBalanceId { get; set; }
+        public virtual StockReportAccountingBalance ParentReport { get; set; }
         public float TongCong { get; set; }
     }
 }
