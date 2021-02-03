@@ -54,7 +54,7 @@ namespace Infrastructure.Repository
 
         public override async Task<StockReportAccountingBalance> SaveAsync(StockReportAccountingBalance entity)
         {
-            var entityInDb = await GetDBSet().AsQueryable().FirstOrDefaultAsync(x => x.Code == entity.Code && x.Quarter == entity.Quarter && x.Year == entity.Year);
+            var entityInDb = await GetDBSet().AsQueryable().AsNoTracking().FirstOrDefaultAsync(x => x.Code == entity.Code && x.Quarter == entity.Quarter && x.Year == entity.Year);
             if (entityInDb != null)
                 DoUpdate(entity);
             else

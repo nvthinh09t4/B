@@ -146,7 +146,7 @@ namespace ASPNetCore3
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
                 endpoints.MapHangfireDashboard();
-                endpoints.MapHub<SignalRHub>("signalrHub");
+                endpoints.MapHub<SignalRHub>("/signalrHub");
             });
 
         }

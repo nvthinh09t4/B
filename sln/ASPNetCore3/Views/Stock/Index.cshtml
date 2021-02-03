@@ -8,7 +8,7 @@
     <a asp-action="UpdateStockInformation" class="btn btn-success">Update Report</a>*@
 <div class="card">
     <div class="card-body">
-        <form asp-action="UpdateStock">
+        <form id="frmUpdateStock" method="get" asp-action="UpdateStock">
             <div class="form-group form-check">
                 <input type="checkbox" class="form-check-input" asp-for="@Model.IsUpdateStockGroup">
                 <label class="form-check-label" asp-for="@Model.IsUpdateStockGroup"></label>
@@ -43,8 +43,8 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-12">
+<div class="row notification">
+    <div class="col-12" style="height:400px;overflow:scroll;" id="divNotice">
         <ul id="messagesList"></ul>
     </div>
 </div>
@@ -57,5 +57,27 @@
         $(document).ready(function () {
             $('.select2').select2();
         });
+
+        $('#frmUpdateStock').on('submit', function (event) {
+            var $this = $(this);
+            var frmValues = $this.serialize();
+            $.ajax({
+                type: $this.attr('method'),
+                url: $this.attr('action'),
+                data: frmValues
+            })
+                .done(function () {
+                    console.log('done');
+                })
+                .fail(function() {
+                    console.log('fail');
+                });
+            event.preventDefault();
+        });
+
+        window.setInterval(function () {
+            var elem = document.getElementById('divNotice');
+            elem.scrollTop = elem.scrollHeight;
+        }, 5000);
     </script>
 }

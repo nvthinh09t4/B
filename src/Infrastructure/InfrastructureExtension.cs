@@ -24,10 +24,11 @@ namespace Infrastructure
 
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 
-            //services.AddScoped<IStockCompanyRepository, StockCompanyRepository>();
-            //services.AddScoped<IStockCompanyLeadershipRepository, StockCompanyLeadershipRepository>();
-            //services.AddScoped<IStockForeignerHolderRateRepository, StockForeignerHolderRateRepository>();
-            //services.AddScoped<IStockShareholderRepository, StockShareholderRepository>();
+            services.AddScoped<IStockCompanyRepository, StockCompanyRepository>();
+            services.AddScoped<IStockCompanyLeadershipRepository, StockCompanyLeadershipRepository>();
+            services.AddScoped<IStockForeignerHolderRateRepository, StockForeignerHolderRateRepository>();
+            services.AddScoped<IStockShareholderRepository, StockShareholderRepository>();
+            services.AddScoped<IStockReportAccountingBalanceRepository, StockReportAccountingBalanceRepository>();
         }
     }
 }

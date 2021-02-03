@@ -14,6 +14,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -30,17 +31,23 @@ namespace ASPNetCore3.ServiceImpl
         private IRepositoryWrapper _repositoryWrapper;
         private ILogger<StockCrawlerService> _logger;
         private IHubContext<SignalRHub> _hubContext;
+        private IStockReportAccountingBalanceRepository _stockReportAccountingBalanceRepository;
+        private ApplicationDbContext _dbContext;
 
         public StockCrawlerService(
+            ApplicationDbContext dbContext,
             IWebHostEnvironment hostingEnvironment,
             IRepositoryWrapper repositoryWrapper,
             ILogger<StockCrawlerService> logger,
-            IHubContext<SignalRHub> hubContext)
+            IHubContext<SignalRHub> hubContext,
+            IStockReportAccountingBalanceRepository stockReportAccountingBalanceRepository)
         {
             _hostingEnvironment = hostingEnvironment;
             _repositoryWrapper = repositoryWrapper;
             _logger = logger;
             _hubContext = hubContext;
+            _stockReportAccountingBalanceRepository = stockReportAccountingBalanceRepository;
+            _dbContext = dbContext;
             //var chromeOptions = new ChromeOptions();
             //chromeOptions.AddUserProfilePreference("download.default_directory", @"D:\Workspace\test");
             //chromeOptions.AddUserProfilePreference("intl.accept_languages", "nl");
@@ -358,7 +365,7 @@ namespace ASPNetCore3.ServiceImpl
                     }
                     catch (Exception e)
                     {
-                        _logger.LogError($"fail on update for stock {stock.Code} ======= {parsingText}", e);
+                        _logger.LogError($"fail on update for stock {stock.Code}              {parsingText}", e);
                         _logger.LogError(e.Message);
                         _logger.LogError(e.StackTrace);
                     }
@@ -409,7 +416,7 @@ namespace ASPNetCore3.ServiceImpl
             }
             catch (Exception ex)
             {
-                _logger.LogError($"fail on update for stock transaction {code} ======= {parsingText}", ex);
+                _logger.LogError($"fail on update for stock transaction {code}              {parsingText}", ex);
                 _logger.LogError(ex.Message);
                 _logger.LogError(ex.StackTrace);
             }
@@ -424,7 +431,7 @@ namespace ASPNetCore3.ServiceImpl
             var index = 0;
             try
             {
-                await _hubContext.Clients.All.SendAsync("ReceiveMessage", $"Start get accounting balance report data for {code}...");
+                await _hubContext.Clients.All.SendAsync("ReceiveMessage", $"==========Lấy dữ liệu bảng cân đối kế toán của mã {code}...");
                 driver.Navigate().GoToUrl(url);
                 Thread.Sleep(3000);
                 IJavaScriptExecutor js = (IJavaScriptExecutor)driver; ;
@@ -433,7 +440,7 @@ namespace ASPNetCore3.ServiceImpl
                     "   return document.getElementById('___reactour').remove();" +
                     "else" +
                     "   return;");
-
+                await _hubContext.Clients.All.SendAsync("ReceiveMessage", $"             Load web...");
                 var configFilePath = Path.Combine(_hostingEnvironment.WebRootPath, "crawler", "StockReportAccountingBalance.json");
                 var configuration = JObject.Parse(File.ReadAllText(configFilePath));
                 var reportDetailTblXPath = configuration.GetValue("reportFinanceDetailTbl")?.Value<string>();
@@ -443,13 +450,14 @@ namespace ASPNetCore3.ServiceImpl
                 {
                     var theadCells = reportDetailTHead.FindElements(By.TagName("th")).ToList();
                     var trow = reportDetailTbl.FindElement(By.TagName("tbody")).FindElements(By.TagName("tr"));
+                    var stopwatch = Stopwatch.StartNew();
                     for (var i = 1; i < theadCells.Count; i++)
                     {
                         var time = theadCells[i].Text;
                         var quarter = time.Substring(1, 1);
                         var year = time.Substring(3, 4);
-
-                        StockReportAccountingBalance record = await _repositoryWrapper.StockReportAccountingBalance.GetByCodeOnTime(code, quarter, year);
+                        await _hubContext.Clients.All.SendAsync("ReceiveMessage", $"             crawl dữ liệu quý {quarter} năm {year}...");
+                        StockReportAccountingBalance record = await _stockReportAccountingBalanceRepository.GetByCodeOnTime(code, quarter, year);
                         if (record == null)
                             record = new StockReportAccountingBalance {
                                 Code = code,
@@ -564,7 +572,7 @@ namespace ASPNetCore3.ServiceImpl
                         //  - Lợi thế thương mại (trước 2015)
                         record.CriteriaTaiSanDaiHan.LoiTheThuongMaiTruoc2015.TongCong = dataRows[58].FindElements(By.TagName("td"))[i].Text.ToFloat();
 
-                        //=======================================================
+                        //                                                                                    ======
                         //TỔNG CỘNG TÀI SẢN
                         record.TongCongTaiSan = dataRows[59].FindElements(By.TagName("td"))[i].Text.ToFloat();
 
@@ -631,7 +639,7 @@ namespace ASPNetCore3.ServiceImpl
                         //+ Lợi ích của cổ đông không kiểm soát (trước 2015)
                         record.CriteriaLoiIchCuaCoDongKhongKiemSoatTruoc2015.TongCong = dataRows[108].FindElements(By.TagName("td"))[i].Text.ToFloat();
 
-                        //=======================================================
+                        //                                                                                    ======
                         //TỔNG CỘNG NGUỒN VỐN
                         record.TongCongNguonVon = dataRows[109].FindElements(By.TagName("td"))[i].Text.ToFloat();
 
@@ -653,16 +661,19 @@ namespace ASPNetCore3.ServiceImpl
                         //record.CriteriaTaiSanNganHan.CacKhoanDauTuTaiChinhNganHan.DauTuGiuDenNgayDaoHan = trowLevel3[4].FindElements(By.TagName("td"))[i].Text.ToFloat();
 
 
-                        await _repositoryWrapper.StockReportAccountingBalance.SaveAsync(record);
-                        await _repositoryWrapper.SaveChangeAsync();
+                        await _stockReportAccountingBalanceRepository.SaveAsync(record);
+                        await _dbContext.SaveChangesAsync();
                     }
-
-                }
+                    stopwatch.Stop();
+                    await _hubContext.Clients.All.SendAsync("ReceiveMessage", $"==========Thời gian thực hiện {stopwatch.Elapsed.TotalSeconds}s");
+                }   
+                            
             }
             catch (Exception ex)
             {
-                _logger.LogError($"CrawlerReportAccountingBalance - fail on crawler report accounting balance {code} ======= {parsingText}", ex);
-                await _hubContext.Clients.All.SendAsync("ReceiveMessage", $"CrawlerReportAccountingBalance - fail on crawler report accounting balance {code} ======= {parsingText}");
+                _logger.LogError($"CrawlerReportAccountingBalance - fail on crawler report accounting balance {code}              {parsingText}", ex);
+                await _hubContext.Clients.All.SendAsync("ReceiveMessage", $"CrawlerReportAccountingBalance - fail on crawler report accounting balance {code}              {parsingText}");
+                await _hubContext.Clients.All.SendAsync("ReceiveMessage", $"             {ex.Message}");
                 _logger.LogError(ex.Message);
                 _logger.LogError(ex.StackTrace);
             }

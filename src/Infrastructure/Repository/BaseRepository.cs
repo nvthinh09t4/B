@@ -39,7 +39,7 @@ namespace Infrastructure.Repository
 
         public async virtual Task<bool> IsExist(T entity)
         {
-            return await GetById(entity.Id) != null;
+            return await GetDBSet().AsQueryable().AsNoTracking().FirstOrDefaultAsync(x => x.Id == entity.Id) != null;
         }
 
         public async virtual Task<T> UpdateAsync(T entity)
