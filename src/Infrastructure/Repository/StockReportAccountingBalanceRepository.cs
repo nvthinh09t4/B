@@ -41,13 +41,54 @@ namespace Infrastructure.Repository
             
         public async Task<StockReportAccountingBalance> GetByCodeOnTime(string code, string quarter, string year)
         {
-            await using var connection = new SqlConnection(_connectionString);
-            connection.Open();
+            var result = _dbContext.StockReportAccountingBalance
+                            .Include(x => x.CriteriaLoiIchCuaCoDongKhongKiemSoatTruoc2015)
 
-            var result = await connection.QueryFirstOrDefaultAsync<StockReportAccountingBalance>(
-                @"SELECT * FROM StockReportAccountingBalance s WHERE s.Code = @code and s.Quarter = @quarter and s.Year = @year",
-                new { code, quarter, year }
-                ); ;
+                            .Include(x => x.CriteriaNoPhaiTra)
+                                .ThenInclude(y => y.NoDaiHan)
+                            .Include(x => x.CriteriaNoPhaiTra)
+                                .ThenInclude(y => y.NoNganHan)
+
+                            .Include(x => x.CriteriaTaiSanDaiHan)
+                                .ThenInclude(y => y.BatDongSanDauTu)
+                             .Include(x => x.CriteriaTaiSanDaiHan)
+                                .ThenInclude(y => y.CacKhoanDauTuTaiChinhDaiHan)
+                             .Include(x => x.CriteriaTaiSanDaiHan)
+                                .ThenInclude(y => y.CacKhoanPhaiThuDaiHan)
+                             .Include(x => x.CriteriaTaiSanDaiHan)
+                                .ThenInclude(y => y.LoiTheThuongMaiTruoc2015)
+                             .Include(x => x.CriteriaTaiSanDaiHan)
+                                .ThenInclude(y => y.TaiSanCoDinh)
+                            .Include(x => x.CriteriaTaiSanDaiHan)
+                                .ThenInclude(y => y.TaiSanDaiHanKhac)
+                            .Include(x => x.CriteriaTaiSanDaiHan)
+                                .ThenInclude(y => y.TaiSanDoDangDaiHan)
+
+                            .Include(x => x.CriteriaTaiSanNganHan)
+                                .ThenInclude(y => y.CacKhoanDauTuTaiChinhNganHan)
+                            .Include(x => x.CriteriaTaiSanNganHan)
+                                .ThenInclude(y => y.CacKhoanPhaiThuNganHan)
+                            .Include(x => x.CriteriaTaiSanNganHan)
+                                .ThenInclude(y => y.HangTonKho)
+                            .Include(x => x.CriteriaTaiSanNganHan)
+                                .ThenInclude(y => y.TaiSanNganHanKhac)
+                            .Include(x => x.CriteriaTaiSanNganHan)
+                                .ThenInclude(y => y.TienVaCacKhoanTuongDuongTien)
+
+                            .Include(x => x.CriteriaVonChuSuHuu)
+                                .ThenInclude(y => y.NguonKinhPhiVanQuyKhac)
+                             .Include(x => x.CriteriaVonChuSuHuu)
+                                .ThenInclude(y => y.VonVaCacQuy)
+
+                            .FirstOrDefault(x => x.Code == code && x.Quarter == quarter && x.Year == year);
+                            
+            //await using var connection = new SqlConnection(_connectionString);
+            //connection.Open();
+
+            //var result = await connection.QueryFirstOrDefaultAsync<StockReportAccountingBalance>(
+            //    @"SELECT * FROM StockReportAccountingBalance s WHERE s.Code = @code and s.Quarter = @quarter and s.Year = @year",
+            //    new { code, quarter, year }
+            //    ); ;
 
             return result;
         }

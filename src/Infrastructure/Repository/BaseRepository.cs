@@ -56,15 +56,15 @@ namespace Infrastructure.Repository
 
         public virtual T DoAdd(T entity) 
         {
-            _dbContext.Entry(entity).State = EntityState.Added;
-            //GetDBSet().Add(entity);
+            //_dbContext.Entry(entity).State = EntityState.Added;
+            GetDBSet().Add(entity);
             return entity;
         }
         public virtual T DoUpdate(T entity)
         {
-            //GetDBSet().Update(entity);
-            _dbContext.Entry(entity).State = EntityState.Modified;
-            _dbContext.Entry(entity).CurrentValues.SetValues(entity);
+            GetDBSet().Update(entity);
+            //_dbContext.Entry(entity).State = EntityState.Modified;
+            //_dbContext.Entry(entity).CurrentValues.SetValues(entity);
             return entity;
         }
 

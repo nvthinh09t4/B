@@ -4,14 +4,16 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210208115526_test3")]
+    partial class test3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1808,12 +1810,6 @@ namespace Infrastructure.Migrations
                     b.Property<float>("ChiPhiThueTNDN")
                         .HasColumnType("real");
 
-                    b.Property<float>("ChiPhiThueTNDN_HienHanh")
-                        .HasColumnType("real");
-
-                    b.Property<float>("ChiPhiThueTNDN_HoanLai")
-                        .HasColumnType("real");
-
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
@@ -1838,9 +1834,6 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<float>("LoiIchCoDongThieuSo")
-                        .HasColumnType("real");
-
                     b.Property<float>("LoiNhuanGop")
                         .HasColumnType("real");
 
@@ -1851,12 +1844,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("real");
 
                     b.Property<float>("LoiNhuanKhac")
-                        .HasColumnType("real");
-
-                    b.Property<float>("LoiNhuanSauThueCuaCongTyMe")
-                        .HasColumnType("real");
-
-                    b.Property<float>("LoiNhuanSauThueTNDN")
                         .HasColumnType("real");
 
                     b.Property<float>("LoiNhuanThuanTuHoatDongKinhDoanh")

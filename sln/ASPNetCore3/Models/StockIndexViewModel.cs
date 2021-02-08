@@ -21,6 +21,8 @@ namespace ASPNetCore3.Models
         public bool IsUpdateCompanyInfor { get; set; }
         [Display(Name = "Cập nhập bảng cân đối kế toán?")]
         public bool IsUpdateStockReportAccountingBalance { get; set; }
+        [Display(Name = "Cập nhập báo cáo kết quả kinh doanh?")]
+        public bool IsUpdateStockReportBusiness { get; set; }
         [Display(Name = "Cập nhập lịch sử giao dịch?")]
         public bool IsUpdateStockTransactionHistory { get; set; }
         [Display(Name = "Cập nhập thông tin chung của cổ phiếu?")]

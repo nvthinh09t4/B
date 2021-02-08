@@ -59,7 +59,8 @@ namespace ASPNetCore3.Controllers
             if (model.IsUpdateStockTransactionHistory)
                 await _stockCrawler.CrawlerTransactionHistory();
 
-           
+            if (model.IsUpdateStockReportBusiness)
+                await _stockCrawler.CrawlerReportBusiness();
 
             return RedirectToAction("Index");
         }

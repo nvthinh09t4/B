@@ -4,14 +4,16 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210208115109_test2")]
+    partial class test2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1793,25 +1795,10 @@ namespace Infrastructure.Migrations
                     b.Property<float>("ChiPhiBanHang")
                         .HasColumnType("real");
 
-                    b.Property<float>("ChiPhiKhac")
-                        .HasColumnType("real");
-
-                    b.Property<float>("ChiPhiQuanLyDoanhNghiep")
-                        .HasColumnType("real");
-
                     b.Property<float>("ChiPhiTaiChinh")
                         .HasColumnType("real");
 
                     b.Property<float>("ChiPhiTaiChinh_ChiPhiLaiVay")
-                        .HasColumnType("real");
-
-                    b.Property<float>("ChiPhiThueTNDN")
-                        .HasColumnType("real");
-
-                    b.Property<float>("ChiPhiThueTNDN_HienHanh")
-                        .HasColumnType("real");
-
-                    b.Property<float>("ChiPhiThueTNDN_HoanLai")
                         .HasColumnType("real");
 
                     b.Property<string>("Code")
@@ -1838,40 +1825,16 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<float>("LoiIchCoDongThieuSo")
-                        .HasColumnType("real");
-
                     b.Property<float>("LoiNhuanGop")
                         .HasColumnType("real");
 
                     b.Property<float>("LoiNhuanHoacLoTrongCongTyLienKet")
                         .HasColumnType("real");
 
-                    b.Property<float>("LoiNhuanHoacLoTrongCongTyLienKetTruoc2015")
-                        .HasColumnType("real");
-
-                    b.Property<float>("LoiNhuanKhac")
-                        .HasColumnType("real");
-
-                    b.Property<float>("LoiNhuanSauThueCuaCongTyMe")
-                        .HasColumnType("real");
-
-                    b.Property<float>("LoiNhuanSauThueTNDN")
-                        .HasColumnType("real");
-
-                    b.Property<float>("LoiNhuanThuanTuHoatDongKinhDoanh")
-                        .HasColumnType("real");
-
                     b.Property<string>("Quarter")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float>("ThuNhapKhac")
-                        .HasColumnType("real");
-
                     b.Property<float>("TongDoanhThuHoatDongKinhDoanh")
-                        .HasColumnType("real");
-
-                    b.Property<float>("TongLoiNhuanKeToanTruocThue")
                         .HasColumnType("real");
 
                     b.Property<string>("Year")

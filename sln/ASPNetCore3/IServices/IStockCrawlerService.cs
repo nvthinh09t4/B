@@ -16,9 +16,11 @@ namespace ASPNetCore3.IServices
         Task CrawlerStockInformation();
         Task CrawlerTransactionHistory();
         Task CrawlerReportAccountingBalance();
+            Task CrawlerReportBusiness();
         Task CrawlerStockCompanyInformation(string code, ChromeDriver driver);
         Task CrawlerTransactionHistory(string code, ChromeDriver driver);
         Task CrawlerReportAccountingBalance(string code, ChromeDriver driver);
+        Task CrawlerReportBusiness(string code, ChromeDriver driver);
         Task CrawlerStockGroupInformation(string code, ChromeDriver driver);
         Task CrawlerCompanyInfor();
         Task CrawlerCompanyInfor(string code, ChromeDriver driver);

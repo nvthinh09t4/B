@@ -7,5 +7,6 @@ namespace Domain.Interfaces
 {
     public interface IStockReportBusinessRepository : IBaseRepository<StockReportBusiness>
     {
+        Task<StockReportBusiness> GetByCodeOnTime(string code, string quarter, string year);
     }
 }

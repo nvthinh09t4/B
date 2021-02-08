@@ -33,6 +33,7 @@ namespace ASPNetCore3.ServiceImpl
         private IHubContext<SignalRHub> _hubContext;
         private IStockReportAccountingBalanceRepository _stockReportAccountingBalanceRepository;
         private ApplicationDbContext _dbContext;
+        private IStockReportBusinessRepository _stockReportBusinessRepository;
 
         public StockCrawlerService(
             ApplicationDbContext dbContext,
@@ -40,7 +41,8 @@ namespace ASPNetCore3.ServiceImpl
             IRepositoryWrapper repositoryWrapper,
             ILogger<StockCrawlerService> logger,
             IHubContext<SignalRHub> hubContext,
-            IStockReportAccountingBalanceRepository stockReportAccountingBalanceRepository)
+            IStockReportAccountingBalanceRepository stockReportAccountingBalanceRepository,
+            IStockReportBusinessRepository stockReportBusinessRepository)
         {
             _hostingEnvironment = hostingEnvironment;
             _repositoryWrapper = repositoryWrapper;
@@ -48,6 +50,8 @@ namespace ASPNetCore3.ServiceImpl
             _hubContext = hubContext;
             _stockReportAccountingBalanceRepository = stockReportAccountingBalanceRepository;
             _dbContext = dbContext;
+            _stockReportBusinessRepository = stockReportBusinessRepository;
+
             //var chromeOptions = new ChromeOptions();
             //chromeOptions.AddUserProfilePreference("download.default_directory", @"D:\Workspace\test");
             //chromeOptions.AddUserProfilePreference("intl.accept_languages", "nl");
@@ -713,6 +717,129 @@ namespace ASPNetCore3.ServiceImpl
         public Task CrawlerCompanyInfor(string code, ChromeDriver driver)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task CrawlerReportBusiness()
+        {
+            var stocks = _repositoryWrapper.StockMainInformation.GetDBSet().AsQueryable().Select(x => x.Code).ToList();
+            using (var driver = new ChromeDriver())
+            {
+                foreach (var stock in stocks)
+                {
+                    await CrawlerReportBusiness(stock, driver);
+                }
+
+                driver.Quit();
+                driver.Close();
+            }
+        }
+
+        public async Task CrawlerReportBusiness(string code, ChromeDriver driver)
+        {
+            var url = "https://dstock.vndirect.com.vn/bao-cao-ket-qua-kinh-doanh/" + code;
+            var parsingText = "";
+            var index = 0;
+            try
+            {
+                await _hubContext.Clients.All.SendAsync("ReceiveMessage", $"==========Lấy dữ liệu báo cáo kinh doanh của mã {code}...");
+                driver.Navigate().GoToUrl(url);
+                Thread.Sleep(3000);
+                IJavaScriptExecutor js = (IJavaScriptExecutor)driver; ;
+                js.ExecuteScript("" +
+                    "if (document.getElementById('___reactour') != null)" +
+                    "   return document.getElementById('___reactour').remove();" +
+                    "else" +
+                    "   return;");
+                await _hubContext.Clients.All.SendAsync("ReceiveMessage", $"             Load web...");
+                var configFilePath = Path.Combine(_hostingEnvironment.WebRootPath, "crawler", "StockReportAccountingBalance.json");
+                var configuration = JObject.Parse(File.ReadAllText(configFilePath));
+                var reportDetailTblXPath = "//*[@id='sub-menu-content']/div/div/div/div[2]/div/div[2]/div/table";
+                var reportDetailTbl = driver.FindElement(By.XPath(reportDetailTblXPath));
+                var reportDetailTHead = reportDetailTbl.FindElement(By.TagName("thead")).FindElement(By.TagName("tr"));
+                if (reportDetailTHead != null)
+                {
+                    var theadCells = reportDetailTHead.FindElements(By.TagName("th")).ToList();
+                    var trow = reportDetailTbl.FindElement(By.TagName("tbody")).FindElements(By.TagName("tr"));
+                    var stopwatch = Stopwatch.StartNew();
+                    for (var i = 1; i < theadCells.Count; i++)
+                    {
+                        var time = theadCells[i].Text;
+                        var quarter = time.Substring(1, 1);
+                        var year = time.Substring(3, 4);
+                        await _hubContext.Clients.All.SendAsync("ReceiveMessage", $"             crawl dữ liệu quý {quarter} năm {year}...");
+                        var record = await _stockReportBusinessRepository.GetByCodeOnTime(code, quarter, year);
+                        if (record == null)
+                            record = new StockReportBusiness {
+                                Code = code,
+                                Quarter = quarter,
+                                Year = year,
+                            };
+
+                        var cell = reportDetailTbl.FindElement(By.TagName("tbody")).FindElements(By.TagName("td")); ;
+                        var trows = reportDetailTbl.FindElement(By.TagName("tbody")).FindElements(By.TagName("tr"));
+                        foreach (var row in trows)
+                        {
+                            var span = row.TryFindElement(By.ClassName("report-finance__name-icon"));
+                            if (span == null) continue;
+                            if (span.Text == "+")
+                                row.Click();
+
+                            index++;
+                        }
+                        var dataRows = reportDetailTbl.FindElement(By.TagName("tbody")).FindElements(By.TagName("tr"));
+
+                        //+ Tài sản ngắn hạn
+                        record.TongDoanhThuHoatDongKinhDoanh = dataRows[0].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        //  - Tiền và các khoản tương đương tiền
+                        record.CacKhoanGiamTruDoanhThu = dataRows[1].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.DoanhThuThuan = dataRows[2].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.GiaVonHangBan = dataRows[3].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        //  - Các khoản đầu tư tài chính ngắn hạn
+                        record.LoiNhuanGop = dataRows[4].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.DoanhThuHoatDongTaiChinh = dataRows[5].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.ChiPhiTaiChinh = dataRows[6].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.ChiPhiTaiChinh_ChiPhiLaiVay = dataRows[7].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        //  - Các khoản phải thu ngắn hạn
+                        record.LoiNhuanHoacLoTrongCongTyLienKet = dataRows[8].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.ChiPhiBanHang = dataRows[9].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.ChiPhiQuanLyDoanhNghiep = dataRows[10].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.LoiNhuanThuanTuHoatDongKinhDoanh = dataRows[11].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.ThuNhapKhac = dataRows[12].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.ChiPhiKhac = dataRows[13].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.LoiNhuanKhac = dataRows[14].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.LoiNhuanHoacLoTrongCongTyLienKetTruoc2015 = dataRows[15].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.TongLoiNhuanKeToanTruocThue = dataRows[16].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        //  - Hàng tồn kho
+                        record.ChiPhiThueTNDN = dataRows[17].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.ChiPhiThueTNDN_HienHanh = dataRows[18].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.ChiPhiThueTNDN_HoanLai = dataRows[19].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+                        //  - Tài sản ngắn hạn khác
+                        record.LoiNhuanSauThueTNDN = dataRows[20].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.LoiIchCoDongThieuSo = dataRows[21].FindElements(By.TagName("td"))[i].Text.ToFloat();
+                        record.LoiNhuanSauThueCuaCongTyMe = dataRows[22].FindElements(By.TagName("td"))[i].Text.ToFloat();
+
+
+                        await _stockReportBusinessRepository.SaveAsync(record);
+                        await _dbContext.SaveChangesAsync();
+                    }
+                    stopwatch.Stop();
+                    await _hubContext.Clients.All.SendAsync("ReceiveMessage", $"==========Thời gian thực hiện {stopwatch.Elapsed.TotalSeconds}s");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"CrawlerReportBusiness - fail on crawler report business {code}              {parsingText}", ex);
+                await _hubContext.Clients.All.SendAsync("ReceiveMessage", $"CrawlerReportBusiness - fail on crawler report accounting balance {code}              {parsingText}");
+                await _hubContext.Clients.All.SendAsync("ReceiveMessage", $"             {ex.Message}");
+                _logger.LogError(ex.Message);
+                _logger.LogError(ex.StackTrace);
+            }
         }
     }
 }
