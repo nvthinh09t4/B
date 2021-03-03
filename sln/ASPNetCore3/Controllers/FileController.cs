@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 
 namespace ASPNetCore3.Controllers
 {
-    [Authorize]
     public class FileController : Controller
     {
         public FileController(IGoogleDriveAPI driveAPI, 
