@@ -25,6 +25,7 @@ namespace Infrastructure.Data
             await base.SaveChangesAsync(cancellationToken);
             return true;
         }
+        public DbSet<Book> Book { get; set; }
 
         public DbSet<FileStorage> FileStorage { get; set; }
         public DbSet<CategoryType> CategoryType { get; set; }

@@ -1,4 +1,5 @@
-﻿using ASPNetCore3.Models;
+﻿using ASPNetCore3.Helper;
+using ASPNetCore3.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -18,8 +19,10 @@ namespace ASPNetCore3.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var model = new EmptyViewModel();
+            var test = await this.ViewToStringAsync("Index", model);
             //return Redirect("Stock/Index");
             return View();
         }
