@@ -79,6 +79,7 @@ namespace ASPNetCore3
             services.AddSwaggerGen();
 
             services.AddTransient<SeedData>();
+            services.AddTransient<IViewRenderService, ViewRenderService>();
 
             services.Configure<MailConfig>(Configuration.GetSection("MailConfig"));
             services.Configure<ExternalLogin>(Configuration.GetSection("ExternalLogins"));

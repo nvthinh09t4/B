@@ -1,4 +1,5 @@
 ﻿using ASPNetCore3.Helper;
+using ASPNetCore3.IServices;
 using ASPNetCore3.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -13,16 +14,18 @@ namespace ASPNetCore3.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IViewRenderService _viewRenderService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IViewRenderService viewRenderService)
         {
             _logger = logger;
+            _viewRenderService = viewRenderService;
         }
 
         public async Task<IActionResult> Index()
         {
             var model = new EmptyViewModel();
-            var test = await this.ViewToStringAsync("Index", model);
+            var test = await _viewRenderService.RenderToStringAsync("Home/Index", model);
             //return Redirect("Stock/Index");
             return View();
         }
