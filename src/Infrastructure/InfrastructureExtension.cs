@@ -10,6 +10,7 @@ namespace Infrastructure
     public static class InfrastructureExtension
     {
         public static void AddInfrastructureServices(this IServiceCollection services) {
+            services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<IFileStorageRepository, FileStorageRepository>();
             services.AddScoped<IFileCategoryRepository, FileCategoryRepository>();
             services.AddScoped<ICategoryTypeRepository, CategoryTypeRepository>();

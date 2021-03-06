@@ -43,8 +43,10 @@ namespace ASPNetCore3.ServiceImpl
 
                 using (SmtpClient smtp = new SmtpClient(_mailConfig.Domain, _mailConfig.Port))
                 {
+                    smtp.UseDefaultCredentials = true;
                     smtp.Credentials = new NetworkCredential(_mailConfig.Email, _mailConfig.Password);
                     smtp.EnableSsl = true;
+                    
                     await smtp.SendMailAsync(mail);
                 }
             }

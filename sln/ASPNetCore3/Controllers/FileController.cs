@@ -2,6 +2,7 @@
 using Domain;
 using Domain.Interfaces;
 using ExternalAPIs.Contracts;
+using Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -15,7 +16,6 @@ using System.Threading.Tasks;
 
 namespace ASPNetCore3.Controllers
 {
-    [Authorize]
     public class FileController : Controller
     {
         public FileController(IGoogleDriveAPI driveAPI, 
@@ -23,7 +23,8 @@ namespace ASPNetCore3.Controllers
             UserManager<ApplicationUser> userManager,
             IFileStorageRepository fileStorageRepository,
             ICategoryRepository categoryRepository,
-            IFileCategoryRepository fileCategoryRepository)
+            IFileCategoryRepository fileCategoryRepository,
+            ApplicationDbContext dbContext)
         {
             _driveAPI = driveAPI;
             _hostingEnvironment = hostingEnvironment;
@@ -31,6 +32,7 @@ namespace ASPNetCore3.Controllers
             _fileStorageRepository = fileStorageRepository;
             _categoryRepository = categoryRepository;
             _fileCategoryRepository = fileCategoryRepository;
+            _dbContext = dbContext;
         }
 
         public IGoogleDriveAPI _driveAPI { get; }
@@ -40,6 +42,7 @@ namespace ASPNetCore3.Controllers
         private IFileStorageRepository _fileStorageRepository;
         private ICategoryRepository _categoryRepository;
         private IFileCategoryRepository _fileCategoryRepository;
+        private ApplicationDbContext _dbContext;
 
         public async Task<IActionResult> Index(long? categoryId)
         {
@@ -115,7 +118,7 @@ namespace ASPNetCore3.Controllers
                     }
 
                     await _fileStorageRepository.CreateAsync(fileStorage);
-                    
+                    await _dbContext.SaveChangesAsync();
 
                     //await _fileCategoryRepository.Create(fileCategories);
                 }

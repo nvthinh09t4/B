@@ -1,0 +1,29 @@
+﻿<div class="col-md-12 card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3 col-sm-12 card" id="divUnReadBook" style="margin:10px;">Un read</div>
+            <div class="col-md-5 col-sm-12 card" id="divReadingBook" style="margin: 10px;">Reading</div>
+            <div class="col-md-3 col-sm-12 card" id="divReadBook" style="margin: 10px;">Read</div>
+        </div>
+      
+    </div>
+</div>
+@section Scripts {
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "Book/GetBooks",
+            data: {
+                readingStatus: 0,
+                pageSize: 10,
+                pageIndex: 1
+            },
+            dataType: "text",
+            success: function (msg) {
+                console.log(msg);
+            }
+        })
+    });
+</script>
+}
