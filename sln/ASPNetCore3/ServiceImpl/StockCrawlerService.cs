@@ -58,6 +58,22 @@ namespace ASPNetCore3.ServiceImpl
             //chromeOptions.AddUserProfilePreference("disable-popup-blocking", "true");
 
         }
+
+        private string GetStringAfterSplit(string input, string splitText, int position)
+        {
+            try
+            {
+                var splitString = input.Split(splitText);
+                return splitString[position];
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"GetStringAfterSplit has exception {ex.Message}", ex);
+                _logger.LogError($"Stack trace: {ex.StackTrace}");
+                _logger.LogError($"Inner Exception: {ex.InnerException}");
+            }
+            return "";
+        }
         public List<string> GetStockList()
         {
 

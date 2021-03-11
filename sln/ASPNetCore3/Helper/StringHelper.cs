@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,6 +14,15 @@ namespace ASPNetCore3.Helper
             if (string.IsNullOrEmpty(input) || input == "-") return defaultValue;
             var output = defaultValue;
             if (float.TryParse(input, out output))
+                return output;
+            return defaultValue;
+        }
+
+        public static long ToLong(this string input, long defaultValue = 0, NumberStyles numberStyles = NumberStyles.AllowThousands)
+        {
+            if (string.IsNullOrEmpty(input) || input == "-") return defaultValue;
+            var output = defaultValue;
+            if (long.TryParse(input, numberStyles, new CultureInfo("en-us"), out output))
                 return output;
             return defaultValue;
         }
