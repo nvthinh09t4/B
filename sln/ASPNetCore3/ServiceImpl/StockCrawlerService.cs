@@ -153,7 +153,7 @@ namespace ASPNetCore3.ServiceImpl
                     var name = tableCells[1].Text.Split("\r")[0];
                     var code = tableCells[1].Text.Split("\n")[1];
 
-                    if (groups.Count > 0 && !groups.Contains(code)) continue;
+                    if (groups != null && groups.Count > 0 && !groups.Contains(code)) continue;
 
                     var stockGroup = _repositoryWrapper.StockGroup.GetDBSet().FirstOrDefault(x => x.Code.ToLower() == code.ToLower());
                     if (stockGroup == null)
